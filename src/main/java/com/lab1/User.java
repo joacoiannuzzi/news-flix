@@ -1,9 +1,10 @@
 package com.lab1;
 
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table
 public class User {
 
     @Id
@@ -11,18 +12,20 @@ public class User {
     @Column
     private int id;
 
-    @Column(name = "first_name")
+    @Column
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column
     private String lastName;
 
-    @Column(name = "email")
+    @Column
     private String email;
 
-    @Column(name = "subscription")
+    @Column
     private boolean subscription;
 
+    public User() { // for hibernate
+    }
 
     public User(String firstName, String lastName, String email, boolean subscription) {
         this.firstName = firstName;
