@@ -7,7 +7,7 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:mem:com.lab1.db</property>
+        <property name="connection.url">jdbc:hsqldb:file:db/hibernate</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"/>
 
@@ -24,10 +24,12 @@
         <!--        <property name="current_session_context_class">thread</property>-->
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Names the annotated entity class -->
         <mapping class="com.lab1.User"/>
+
+
     </session-factory>
 
 </hibernate-configuration>
