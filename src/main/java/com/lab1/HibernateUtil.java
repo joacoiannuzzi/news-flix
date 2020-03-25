@@ -57,7 +57,7 @@ public class HibernateUtil {
         session.beginTransaction();
 
         // save the student objects
-        User user1 = new User("jbjkuiui", "Fred", "petefred@gmail.com", true);
+        User user1 = new User("pete", "Fred", "petefred@gmail.com", true);
         User user2 = new User("George", "Hans", "georgehans@gmail.com", true);
 
         session.save(user1);
