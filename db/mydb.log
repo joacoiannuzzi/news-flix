@@ -1,0 +1,33 @@
+/*C2*/SET SCHEMA PUBLIC
+drop table Article if exists
+drop table User if exists
+create table Article (id bigint not null, DATE timestamp, GRADE integer, TEXT varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table User (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+INSERT INTO USER VALUES(1,'johnjohnson@gmail.com','John',NULL,'Johnson',NULL)
+COMMIT
+DISCONNECT
+/*C3*/SET SCHEMA PUBLIC
+drop table Article if exists
+drop table User if exists
+create table Article (id bigint not null, DATE timestamp, GRADE integer, TEXT varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table User (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+INSERT INTO USER VALUES(1,'johnjohnson@gmail.com','John',NULL,'Johnson',NULL)
+COMMIT
+DISCONNECT
+/*C4*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C5*/SET SCHEMA PUBLIC
+drop table ARTICLEABSTRACT
+/*C6*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+drop table Article if exists
+drop table User if exists
+create table Article (id bigint not null, DATE timestamp, GRADE integer, TEXT varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table User (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+INSERT INTO ARTICLE VALUES(1,'2020-03-25 17:23:56.260000',10,'THIS IS SOME TEXT','TITLE','http://THISURL.com')
+COMMIT
+DISCONNECT
+/*C5*/DISCONNECT
+/*C8*/SET SCHEMA PUBLIC
+DISCONNECT
