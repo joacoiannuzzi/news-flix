@@ -26,6 +26,11 @@ public class Article{
     private int grade;
     @Column(name="DATE")
     private LocalDateTime date;
+    @Column(name="MAINWORD")
+    private String mainword;
+
+    public void setMainWord(String mainword){this.mainword=mainword;}
+    public String getMainWord(){return mainword;}
     
     public Long getId() {
         return id;

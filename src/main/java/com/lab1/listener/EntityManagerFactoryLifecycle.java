@@ -16,7 +16,7 @@ public class EntityManagerFactoryLifecycle implements ServletContextListener {
 
   @Override
   public void contextInitialized(ServletContextEvent sce) {
-    emf = Persistence.createEntityManagerFactory("resources unit");
+    emf = Persistence.createEntityManagerFactory("listener_unit");
     EntityManagers.setFactory(emf);
   }
 

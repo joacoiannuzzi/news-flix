@@ -16,16 +16,10 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
 public class ArticleTest {
-    private EntityManagerFactory managerFactory;
-
-    @After
-    public void tearDown() throws Exception {
-        managerFactory.close();
-    }
 
     @Before
     public void setUp() {
-        managerFactory = Persistence.createEntityManagerFactory("test");
+        EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("test");
         EntityManagers.setFactory(managerFactory);
     }
 
@@ -37,6 +31,7 @@ public class ArticleTest {
         article.setText("THIS IS SOME TEXT");
         article.setUrl("http://THISURL.com");
         article.setGrade(10);
+        article.setMainWord("MAINWORD");
         article.setDate();
 
 
@@ -48,6 +43,7 @@ public class ArticleTest {
         assertThat(persistedArticle.get().getTitle(), is("TITLE"));
         assertThat(persistedArticle.get().getText(), is("THIS IS SOME TEXT"));
         assertThat(persistedArticle.get().getUrl(), is("http://THISURL.com"));
+        assertThat(persistedArticle.get().getMainWord(), is("MAINWORD"));
         assertThat(persistedArticle.get().getGrade(), is(10));
 
         Optional<Article> byEmail = Articles.findByUrl(persistedArticle.get().getUrl());

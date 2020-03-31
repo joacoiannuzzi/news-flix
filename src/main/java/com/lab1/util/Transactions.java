@@ -14,6 +14,7 @@ public class Transactions {
     final EntityTransaction tx = currentEntityManager().getTransaction();
 
     try {
+
       tx.begin();
 
       R r = s.get();

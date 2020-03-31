@@ -18,9 +18,10 @@ import static org.junit.Assert.assertThat;
 public class UsersTest {
   private EntityManagerFactory managerFactory;
 
+
   @After
-  public void tearDown() throws Exception {
-    managerFactory.close();
+  public void close(){
+    managerFactory.close(); //Make sure it only closes once, or when running multiple tests = fail.
   }
 
   @Before

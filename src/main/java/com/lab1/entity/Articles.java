@@ -19,6 +19,14 @@ public class Articles {
         );
     }
 
+    public static Optional<Article> findByMainWord(String mainword){
+        return tx(() -> LangUtils.<Article>checkedList(currentEntityManager()
+                .createQuery("SELECT art FROM Article art WHERE art.mainword LIKE :mainword")
+                .setParameter("mainword", mainword).getResultList()).stream()
+                .findFirst()
+        );
+    }
+
     public static Optional<Article> findByUrl(String url){
         return tx(() -> LangUtils.<Article>checkedList(currentEntityManager()
                 .createQuery("SELECT art FROM Article art WHERE art.url LIKE :url")
@@ -32,7 +40,7 @@ public class Articles {
                 checkedList(currentEntityManager().createQuery("SELECT art FROM Article art").getResultList())
         );
     }
-    public static Article persist(Article article) {
+    public static Article persist(Article article) { //TODO Remove duplicate make interface?
         final EntityTransaction tx = currentEntityManager().getTransaction();
 
         try {
@@ -47,4 +55,6 @@ public class Articles {
             throw e;
         }
     }
+
+
 }
