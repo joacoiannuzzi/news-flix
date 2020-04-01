@@ -1,8 +1,8 @@
 package com.lab1.service;
 
-import com.lab1.model.User;
 import com.google.gson.Gson;
 import com.lab1.entity.Users;
+import com.lab1.model.User;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,19 +16,19 @@ import java.util.List;
 public class UserServlet extends HttpServlet {
 
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    final List<User> users = Users.listAll();
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        final List<User> users = Users.listAll();
 
-    resp.setContentType("application/json");
-    resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
 
-    final Gson gson = new Gson();
-    String json = gson.toJson(users);
-    PrintWriter out = resp.getWriter();
-    out.print(json);
-    out.flush();
-  }
+        final Gson gson = new Gson();
+        String json = gson.toJson(users);
+        PrintWriter out = resp.getWriter();
+        out.print(json);
+        out.flush();
+    }
 
 }
 

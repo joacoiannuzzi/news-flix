@@ -15,17 +15,17 @@ import static java.lang.String.join;
 public class JspSample extends HttpServlet {
 
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-    final String param1 = join(", ", notNull(req.getParameterValues("param1"), EMPTY_ARRAY));
-    final String param2 = join(", ", notNull(req.getParameterValues("param2"), EMPTY_ARRAY));
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        final String param1 = join(", ", notNull(req.getParameterValues("param1"), EMPTY_ARRAY));
+        final String param2 = join(", ", notNull(req.getParameterValues("param2"), EMPTY_ARRAY));
 
-    req.setAttribute("param1", notEmpty(param1, "None"));
-    req.setAttribute("param2", notEmpty(param2, "None"));
+        req.setAttribute("param1", notEmpty(param1, "None"));
+        req.setAttribute("param2", notEmpty(param2, "None"));
 
-    final RequestDispatcher view = req.getRequestDispatcher("index.jsp");
-    view.forward(req, resp);
-  }
+        final RequestDispatcher view = req.getRequestDispatcher("index.jsp");
+        view.forward(req, resp);
+    }
 
 }
 

@@ -11,12 +11,12 @@ import java.io.IOException;
 @WebServlet("/logout.do")
 public class Logout extends HttpServlet {
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    req.getSession().invalidate();
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().invalidate();
 
-    final RequestDispatcher view = req.getRequestDispatcher("/login.html");
+        final RequestDispatcher view = req.getRequestDispatcher("/login.html");
 
-    view.forward(req, resp);
-  }
+        view.forward(req, resp);
+    }
 }

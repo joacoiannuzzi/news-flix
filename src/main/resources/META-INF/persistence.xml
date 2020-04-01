@@ -4,10 +4,10 @@
              version="2.0">
 
     <persistence-unit name="resources unit">
-
         <description>
             Persistence unit for Main Unit
         </description>
+
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>com.lab1.model.User</class>
