@@ -12,18 +12,18 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class EntityManagerFactoryLifecycle implements ServletContextListener {
 
-  private static EntityManagerFactory emf;
+    private static EntityManagerFactory emf;
 
-  @Override
-  public void contextInitialized(ServletContextEvent sce) {
-    emf = Persistence.createEntityManagerFactory("listener_unit");
-    EntityManagers.setFactory(emf);
-  }
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        emf = Persistence.createEntityManagerFactory("listener_unit");
+        EntityManagers.setFactory(emf);
+    }
 
-  @Override
-  public void contextDestroyed(ServletContextEvent sce) {
-    Servlets.setEntityManagerFactory(sce.getServletContext(), null);
-    emf.close();
-  }
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        Servlets.setEntityManagerFactory(sce.getServletContext(), null);
+        emf.close();
+    }
 
 }

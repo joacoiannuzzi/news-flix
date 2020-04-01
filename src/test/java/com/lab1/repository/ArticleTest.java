@@ -3,7 +3,6 @@ package com.lab1.repository;
 import com.lab1.entity.Articles;
 import com.lab1.model.Article;
 import com.lab1.util.EntityManagers;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +24,7 @@ public class ArticleTest {
 
     @Test
     public void createArticle() {
-        final Article article=new Article();
+        final Article article = new Article();
 
         article.setTitle("TITLE");
         article.setText("THIS IS SOME TEXT");

@@ -10,19 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.lab1.util.Servlets.getEntityManagerFactory;
-
 @WebFilter(urlPatterns = "/*")
 public class CloseEntityManagerFilter extends HttpFilter {
 
-  @Override
-  protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-    try {
-      super.doFilter(req, res, chain);
+    @Override
+    protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+        try {
+            super.doFilter(req, res, chain);
 
-    } finally {
-      EntityManagers.close();
+        } finally {
+            EntityManagers.close();
+        }
     }
-  }
 
 }
