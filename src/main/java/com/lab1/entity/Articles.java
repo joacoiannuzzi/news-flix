@@ -13,9 +13,9 @@ import static com.lab1.util.Transactions.tx;
 
 public class Articles {
 
-    public static Optional<Article> findById(Long id) {
+    public static Optional<Article> findByUrl(String url) {
         return tx(() ->
-                Optional.of(currentEntityManager().find(Article.class, id))
+                Optional.of(currentEntityManager().find(Article.class, url))
         );
     }
 
@@ -27,13 +27,13 @@ public class Articles {
         );
     }
 
-    public static Optional<Article> findByUrl(String url) {
-        return tx(() -> LangUtils.<Article>checkedList(currentEntityManager()
-                .createQuery("SELECT art FROM Article art WHERE art.url LIKE :url")
-                .setParameter("url", url).getResultList()).stream()
-                .findFirst()
-        );
-    }
+//    public static Optional<Article> findByUrl(String url) {
+//        return tx(() -> LangUtils.<Article>checkedList(currentEntityManager()
+//                .createQuery("SELECT art FROM Article art WHERE art.url LIKE :url")
+//                .setParameter("url", url).getResultList()).stream()
+//                .findFirst()
+//        );
+//    }
 
     public static List<Article> listAll() {
         return tx(() ->

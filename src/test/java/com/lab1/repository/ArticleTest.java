@@ -11,7 +11,6 @@ import javax.persistence.Persistence;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
 public class ArticleTest {
@@ -32,14 +31,13 @@ public class ArticleTest {
         article.setMainWord("MAINWORD");
         article.setDate();
 
+        Articles.persist(article);
 
-        assertThat(Articles.persist(article).getId(), greaterThan(0L));
-
-        final Optional<Article> persistedArticle = Articles.findById(article.getId());
+        final Optional<Article> persistedArticle = Articles.findByUrl(article.getUrl());
 
         assertThat(persistedArticle.isPresent(), is(true));
-        assertThat(persistedArticle.get().getTitle(), is("TITLE"));
         assertThat(persistedArticle.get().getUrl(), is("http://THISURL.com"));
+        assertThat(persistedArticle.get().getTitle(), is("TITLE"));
         assertThat(persistedArticle.get().getMainWord(), is("MAINWORD"));
         assertThat(persistedArticle.get().getGrade(), is(10));
 

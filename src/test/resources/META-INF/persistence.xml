@@ -12,6 +12,7 @@
 
         <class>com.lab1.model.User</class>
         <class>com.lab1.model.Article</class>
+        <class>com.lab1.model.Favorite</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>

@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USER", indexes = @Index(name = "EMAIL", columnList = "EMAIL", unique = true))
+@Table(name = "user", indexes = @Index(name = "email", columnList = "email", unique = true))
 public class User {
 
     @Id
@@ -14,19 +14,19 @@ public class User {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @Column(name = "FIRST_NAME")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "IS_ACTIVE")
+    @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     private String password;
 
 

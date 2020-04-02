@@ -2,36 +2,31 @@ package com.lab1.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "article")
 public class Article {
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    private Long id;
-
-    @Column(name = "TITLE")
-    private String title;
-
-    @Column(name = "URL")
+    @Column(name = "url")
     private String url;
 
-    @Column(name = "GRADE")
+    @Column(name = "title")
+    private String title;
+
+
+    @Column(name = "grade")
     private int grade;
 
-    @Column(name = "DATE")
+    @Column(name = "date")
     private LocalDateTime date;
 
-    @Column(name = "MAINWORD")
+    @Column(name = "main_word")
     private String mainword;
 
-    @Column
+    @Column(name = "picture")
     private String picture;
 
 
@@ -42,10 +37,6 @@ public class Article {
 
     public String getMainWord() {
         return mainword;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitle() {
