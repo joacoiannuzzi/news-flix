@@ -3,14 +3,16 @@ package com.lab1.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-//@Table(name = "USER", indexes = @Index(name = "EMAIL", columnList = "EMAIL", unique = true))
+@Table(name = "USER", indexes = @Index(name = "EMAIL", columnList = "EMAIL", unique = true))
 public class User {
+
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    private Long id;
 
     @Column(name = "FIRST_NAME")
     private String firstName;
@@ -23,11 +25,6 @@ public class User {
 
     @Column(name = "IS_ACTIVE")
     private Boolean isActive;
-
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    private Long id;
 
     @Column(name = "PASSWORD")
     private String password;
@@ -61,9 +58,6 @@ public class User {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Boolean getActive() {
         return isActive;

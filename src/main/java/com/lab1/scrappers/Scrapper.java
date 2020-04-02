@@ -9,7 +9,7 @@ import com.lab1.model.Article;
 
 import java.util.List;
 
-public class scrapper {
+public class Scrapper {
     public static void main(String[] args) {
 
         String baseUrl = "https://www.lanacion.com.ar";

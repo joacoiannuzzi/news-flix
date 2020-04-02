@@ -18,16 +18,23 @@ public class Article {
 
     @Column(name = "TITLE")
     private String title;
-    @Column(name = "TEXT")
-    private String text;
+
     @Column(name = "URL")
     private String url;
+
     @Column(name = "GRADE")
     private int grade;
+
     @Column(name = "DATE")
     private LocalDateTime date;
+
     @Column(name = "MAINWORD")
     private String mainword;
+
+    @Column
+    private String picture;
+
+
 
     public void setMainWord(String mainword) {
         this.mainword = mainword;
@@ -47,14 +54,6 @@ public class Article {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public String getUrl() {
@@ -81,5 +80,11 @@ public class Article {
         date = LocalDateTime.now();
     }
 
+    public String getPicture() {
+        return picture;
+    }
 
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 }

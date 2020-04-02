@@ -12,6 +12,7 @@ import static com.lab1.util.LangUtils.checkedList;
 import static com.lab1.util.Transactions.tx;
 
 public class Articles {
+
     public static Optional<Article> findById(Long id) {
         return tx(() ->
                 Optional.of(currentEntityManager().find(Article.class, id))

@@ -34,7 +34,7 @@ public class UsersTest {
     public void createUser() {
         final User user = new User();
 
-        user.setEmail("johnjohnson@gmail.com");
+        user.setEmail("a@gmail.com");
         user.setFirstName("John");
         user.setLastName("Johnson");
 
@@ -43,7 +43,7 @@ public class UsersTest {
         final Optional<User> persistedUser = Users.findById(user.getId());
 
         assertThat(persistedUser.isPresent(), is(true));
-        assertThat(persistedUser.get().getEmail(), is("johnjohnson@gmail.com"));
+        assertThat(persistedUser.get().getEmail(), is("a@gmail.com"));
         assertThat(persistedUser.get().getFirstName(), is("John"));
         assertThat(persistedUser.get().getLastName(), is("Johnson"));
 

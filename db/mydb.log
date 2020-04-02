@@ -1,2 +1,109 @@
+/*C4*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C6*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO USER VALUES(1,'johnjohnson@gmail.com','John',NULL,'Johnson',NULL)
+COMMIT
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO USER VALUES(1,'a@gmail.com','John',NULL,'Johnson',NULL)
+COMMIT
+DISCONNECT
+/*C8*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO USER VALUES(1,'a@gmail.com','John',NULL,'Johnson',NULL)
+COMMIT
+DISCONNECT
+/*C9*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO USER VALUES(1,'a@gmail.com','John',NULL,'Johnson',NULL)
+COMMIT
+DISCONNECT
+/*C10*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO ARTICLE VALUES(1,'2020-04-02 15:06:42.192278',10,'MAINWORD',NULL,'TITLE','http://THISURL.com')
+COMMIT
+DISCONNECT
 /*C5*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C3*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C11*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO ARTICLE VALUES(1,'2020-04-02 15:21:53.983817',10,'MAINWORD',NULL,'TITLE','http://THISURL.com')
+COMMIT
+DISCONNECT
+/*C12*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO ARTICLE VALUES(1,'2020-04-02 15:25:53.276556',10,'MAINWORD',NULL,'TITLE','http://THISURL.com')
+COMMIT
+DISCONNECT
+/*C13*/SET SCHEMA PUBLIC
+alter table USER drop constraint EMAIL
+alter table USER add constraint EMAIL unique (EMAIL)
+DISCONNECT
+/*C14*/SET SCHEMA PUBLIC
+alter table USER drop constraint EMAIL
+alter table USER add constraint EMAIL unique (EMAIL)
+DISCONNECT
+/*C15*/SET SCHEMA PUBLIC
+alter table USER drop constraint EMAIL
+alter table USER add constraint EMAIL unique (EMAIL)
+DISCONNECT
+/*C16*/SET SCHEMA PUBLIC
+alter table USER drop constraint EMAIL
+alter table USER add constraint EMAIL unique (EMAIL)
+DISCONNECT
+/*C17*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C18*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO USER VALUES(1,'a@gmail.com','John',NULL,'Johnson',NULL)
+COMMIT
+DISCONNECT
+/*C19*/SET SCHEMA PUBLIC
+drop table if exists Article CASCADE 
+drop table if exists USER CASCADE 
+create table Article (id bigint not null, DATE timestamp, GRADE integer, MAINWORD varchar(255), picture varchar(255), TITLE varchar(255), URL varchar(255), primary key (id))
+create table USER (id bigint not null, EMAIL varchar(255), FIRST_NAME varchar(255), IS_ACTIVE boolean, LAST_NAME varchar(255), PASSWORD varchar(255), primary key (id))
+alter table USER add constraint EMAIL unique (EMAIL)
+INSERT INTO USER VALUES(1,'a@gmail.com','John',NULL,'Johnson',NULL)
+COMMIT
+DISCONNECT
+/*C20*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C21*/SET SCHEMA PUBLIC
 DISCONNECT

@@ -27,7 +27,6 @@ public class ArticleTest {
         final Article article = new Article();
 
         article.setTitle("TITLE");
-        article.setText("THIS IS SOME TEXT");
         article.setUrl("http://THISURL.com");
         article.setGrade(10);
         article.setMainWord("MAINWORD");
@@ -40,7 +39,6 @@ public class ArticleTest {
 
         assertThat(persistedArticle.isPresent(), is(true));
         assertThat(persistedArticle.get().getTitle(), is("TITLE"));
-        assertThat(persistedArticle.get().getText(), is("THIS IS SOME TEXT"));
         assertThat(persistedArticle.get().getUrl(), is("http://THISURL.com"));
         assertThat(persistedArticle.get().getMainWord(), is("MAINWORD"));
         assertThat(persistedArticle.get().getGrade(), is(10));
