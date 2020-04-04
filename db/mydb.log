@@ -1,145 +1,16 @@
-/*C33*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists user CASCADE 
-create table article (id bigint not null, date timestamp, grade integer, mainword varchar(255), picture varchar(255), title varchar(255), url varchar(255), primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-INSERT INTO ARTICLE VALUES(1,'2020-04-02 16:34:41.804347',10,'MAINWORD',NULL,'TITLE','http://THISURL.com')
-COMMIT
+/*C13*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C35*/SET SCHEMA PUBLIC
+/*C14*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C34*/SET SCHEMA PUBLIC
+/*C15*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C36*/SET SCHEMA PUBLIC
+/*C16*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C37*/SET SCHEMA PUBLIC
+/*C17*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C38*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C39*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C40*/SET SCHEMA PUBLIC
+/*C18*/SET SCHEMA PUBLIC
 set schema PUBLIC
-drop table ADDRESS
-/*C41*/SET SCHEMA PUBLIC
+alter table ARTICLE alter column PICTURE rename to IMAGE
+/*C19*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C40*/drop table ARTICLE
-/*C42*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C40*/drop table USER
-/*C43*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C44*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C40*/DISCONNECT
-/*C45*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C46*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C47*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists favorite CASCADE 
-drop table if exists user CASCADE 
-create table article (id bigint not null, date timestamp, grade integer, main_word varchar(255), picture varchar(255), title varchar(255), url varchar(255), primary key (id))
-create table favorite (id bigint not null, primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-INSERT INTO USER VALUES(1,'a@gmail.com','John',NULL,'Johnson',NULL)
-COMMIT
-DISCONNECT
-/*C48*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C49*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C50*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C51*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C52*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists favorite CASCADE 
-drop table if exists user CASCADE 
-create table article (url varchar(255) not null, date timestamp, grade integer, main_word varchar(255), picture varchar(255), title varchar(255), primary key (url))
-create table favorite (id bigint not null, primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-DISCONNECT
-/*C53*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C54*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists favorite CASCADE 
-drop table if exists user CASCADE 
-create table article (url varchar(255) not null, date timestamp, grade integer, main_word varchar(255), picture varchar(255), title varchar(255), primary key (url))
-create table favorite (id bigint not null, primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-DISCONNECT
-/*C55*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C56*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C57*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists favorite CASCADE 
-drop table if exists user CASCADE 
-create table article (url varchar(255) not null, date timestamp, grade integer, main_word varchar(255), picture varchar(255), title varchar(255), primary key (url))
-create table favorite (id bigint not null, primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-DISCONNECT
-/*C58*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C59*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists favorite CASCADE 
-drop table if exists user CASCADE 
-create table article (url varchar(255) not null, date timestamp, grade integer, main_word varchar(255), picture varchar(255), title varchar(255), primary key (url))
-create table favorite (id bigint not null, primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-INSERT INTO ARTICLE VALUES('http://THISURL.com','2020-04-02 16:51:47.284062',10,'MAINWORD',NULL,'TITLE')
-COMMIT
-DISCONNECT
-/*C60*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C62*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C63*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C64*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists favorite CASCADE 
-drop table if exists user CASCADE 
-create table article (url varchar(255) not null, date timestamp, grade integer, main_word varchar(255), picture varchar(255), title varchar(255), primary key (url))
-create table favorite (id bigint not null, primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-INSERT INTO ARTICLE VALUES('http://THISURL.com','2020-04-02 16:53:30.736560',10,'MAINWORD',NULL,'TITLE')
-COMMIT
-DISCONNECT
-/*C65*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists favorite CASCADE 
-drop table if exists user CASCADE 
-create table article (url varchar(255) not null, date timestamp, grade integer, main_word varchar(255), picture varchar(255), title varchar(255), primary key (url))
-create table favorite (id bigint not null, primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-INSERT INTO ARTICLE VALUES('http://THISURL.com','2020-04-02 16:53:42.302988',10,'MAINWORD',NULL,'TITLE')
-COMMIT
-DISCONNECT
-/*C66*/SET SCHEMA PUBLIC
-drop table if exists article CASCADE 
-drop table if exists favorite CASCADE 
-drop table if exists user CASCADE 
-create table article (url varchar(255) not null, date timestamp, grade integer, main_word varchar(255), picture varchar(255), title varchar(255), primary key (url))
-create table favorite (id bigint not null, primary key (id))
-create table user (id bigint not null, email varchar(255), first_name varchar(255), is_active boolean, last_name varchar(255), password varchar(255), primary key (id))
-alter table user add constraint email unique (email)
-INSERT INTO USER VALUES(1,'a@gmail.com','John',NULL,'Johnson',NULL)
-COMMIT
-DISCONNECT
-/*C61*/SET SCHEMA PUBLIC
-DISCONNECT
+/*C18*/DISCONNECT

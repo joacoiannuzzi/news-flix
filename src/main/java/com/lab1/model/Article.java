@@ -1,7 +1,5 @@
 package com.lab1.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -16,7 +14,6 @@ public class Article {
     @Column(name = "title")
     private String title;
 
-
     @Column(name = "grade")
     private int grade;
 
@@ -24,19 +21,19 @@ public class Article {
     private LocalDateTime date;
 
     @Column(name = "main_word")
-    private String mainword;
+    private String main_word;
 
-    @Column(name = "picture")
-    private String picture;
+    @Column(name = "image")
+    private String image;
 
 
 
     public void setMainWord(String mainword) {
-        this.mainword = mainword;
+        this.main_word = mainword;
     }
 
     public String getMainWord() {
-        return mainword;
+        return main_word;
     }
 
     public String getTitle() {
@@ -71,11 +68,11 @@ public class Article {
         date = LocalDateTime.now();
     }
 
-    public String getPicture() {
-        return picture;
+    public String getImage() {
+        return image;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setImage(String picture) {
+        this.image = picture;
     }
 }

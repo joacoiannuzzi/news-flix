@@ -4,24 +4,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.*;
-import com.gargoylesoftware.htmlunit.javascript.SilentJavaScriptErrorListener;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.gargoylesoftware.htmlunit.html.HtmlImage;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.lab1.model.Article;
 
 import java.io.IOException;
 import java.util.List;
 
-public class InfobaeScraper {
+public class InfobaeScraper extends AbstractScraper{
 
     // WORKING FINE!
 
-    public static void main(String[] args) {
-        scrap();
-    }
-
     public final static String baseUrl = "https://www.infobae.com";
 
-    public static void scrap() {
+    @Override
+    public void scrap() {
 
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.getOptions().setJavaScriptEnabled(false);
@@ -48,19 +47,9 @@ public class InfobaeScraper {
                 String url = anchor.getHrefAttribute();
                 String title = anchor.asText();
                 String picture = htmlImage == null ? "" : htmlImage.asXml();
-                
-                Article article = new Article();
-                article.setTitle(title);
-                article.setUrl(baseUrl + url);
-                article.setMainWord("");
-                article.setDate();
-                article.setPicture(picture);
-                article.setGrade(
-                        //if( contains h1 VERY IMPORTANT else 5..)
-                        10
-                );
+
+                Article article = createAndPersistArticle(baseUrl + url, "", title, picture);
 //
-////                Articles.persist(article);
 
                 // this is temp, webClient have to put them in database
                 ObjectMapper mapper = new ObjectMapper();
@@ -74,4 +63,5 @@ public class InfobaeScraper {
         }
 
     }
+
 }
