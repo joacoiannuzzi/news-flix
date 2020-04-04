@@ -9,16 +9,12 @@ import com.lab1.model.Article;
 import java.io.IOException;
 import java.util.List;
 
-public class WebScrape {
+public class LaNacionScraper {
 
-    public static void main(String[] args) {
+    public final static String baseUrl = "https://www.lanacion.com.ar";
 
-//        EntityManagerFactory managerFactory;
-//        managerFactory = Persistence.createEntityManagerFactory("test");
-//        EntityManagers.setFactory(managerFactory);
+    public static void scrap() {
 
-
-        final String baseUrl = "https://www.lanacion.com.ar";
         WebClient client = new WebClient(BrowserVersion.CHROME);
         client.getOptions().setCssEnabled(false);
         client.getOptions().setJavaScriptEnabled(false);
@@ -31,7 +27,6 @@ public class WebScrape {
 
         try {
             HtmlPage page = client.getPage(baseUrl);
-            page.executeJavaScript("window.scrollBy(0,3000)");
 
             final List<HtmlArticle> articles = page.getByXPath("//article[div[@class='com-description']]");
 
@@ -46,7 +41,7 @@ public class WebScrape {
 
                 String url = anchor.getHrefAttribute();
                 String mainWord = emphasis == null ? "" : emphasis.asText();
-                String title = text.replaceFirst(mainWord, "").trim();
+                String title = text.startsWith(mainWord) && !mainWord.equals("") ? text.replaceFirst(mainWord, "").trim() : text;
                 String picture = htmlPicture == null ? "" : htmlPicture.asXml();
 
                 Article article = new Article();
@@ -55,9 +50,14 @@ public class WebScrape {
                 article.setMainWord(mainWord);
                 article.setDate();
                 article.setPicture(picture);
+                article.setGrade(
+                        //if( contains h1 VERY IMPORTANT else 5..)
+                        10
+                );
 
 //                Articles.persist(article);
 
+                // this is temp, we have to put them in database
                 ObjectMapper mapper = new ObjectMapper();
                 String jsonString = mapper.writeValueAsString(article);
 
@@ -71,6 +71,5 @@ public class WebScrape {
             e.printStackTrace();
         }
 
-//        managerFactory.close();
     }
 }

@@ -141,3 +141,5 @@ alter table user add constraint email unique (email)
 INSERT INTO USER VALUES(1,'a@gmail.com','John',NULL,'Johnson',NULL)
 COMMIT
 DISCONNECT
+/*C61*/SET SCHEMA PUBLIC
+DISCONNECT
