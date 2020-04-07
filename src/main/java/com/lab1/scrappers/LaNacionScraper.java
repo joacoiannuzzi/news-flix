@@ -2,11 +2,14 @@ package com.lab1.scrappers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.lab1.model.Article;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class LaNacionScraper extends AbstractScraper {
@@ -23,48 +26,41 @@ public class LaNacionScraper extends AbstractScraper {
     @Override
     public void scrap() {
 
-        WebClient client = new WebClient(BrowserVersion.CHROME);
-        client.getOptions().setCssEnabled(false);
-        client.getOptions().setJavaScriptEnabled(false);
-        client.getCurrentWindow().setInnerHeight(Integer.MAX_VALUE);
+        WebClient webClient = new WebClient(BrowserVersion.CHROME);
+        webClient.getOptions().setJavaScriptEnabled(false);
+        webClient.getOptions().setCssEnabled(false);
+        webClient.getOptions().setUseInsecureSSL(true);
+        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+        webClient.getCookieManager().setCookiesEnabled(false);
+        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+        webClient.getOptions().setThrowExceptionOnScriptError(false);
 
-
-        // //div[@id='anexo' and div[@class='titulo']]   another type of article that does not have com-description, is inside <article>
+        // sintax xpath
+        // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
         try {
-            HtmlPage page = client.getPage(baseUrl);
+            HtmlPage page = webClient.getPage(baseUrl);
 
-            final List<HtmlArticle> articles = page.getByXPath("//article[div[@class='com-description']]");
+            final List<HtmlDivision> htmlArticles = page.getByXPath("//article[div[@class='com-description']]");
+            for (HtmlDivision htmlArticle : htmlArticles) {
 
-            for (HtmlArticle htmlArticle : articles) {
-
-                final HtmlDivision com_description = htmlArticle.getFirstByXPath("div[@class='com-description']");
-                final HtmlAnchor anchor = com_description.getFirstByXPath("h1[@class='com-title']/a | h2[@class='com-title']/a");
-                final HtmlEmphasis emphasis = anchor.getFirstByXPath("em[@class='com-volanta']"); // can be null
-                final HtmlSource htmlPicture = htmlArticle.getFirstByXPath("div[@class='com-media']/a/picture/source[@media='(min-width: 75.000em)']");
-
-                String text = anchor.getVisibleText();
-
+                final HtmlAnchor anchor = htmlArticle.getFirstByXPath("");
+                final HtmlImage htmlImage = htmlArticle.getFirstByXPath("");
                 String url = anchor.getHrefAttribute();
-                String mainWord = emphasis == null ? "" : emphasis.asText();
-                String title = text.startsWith(mainWord) && !mainWord.equals("") ? text.replaceFirst(mainWord, "").trim() : text;
-                String picture = htmlPicture == null ? "" : htmlPicture.getAttribute("srcset");
 
-                Article article = createAndPersistArticle(baseUrl + url, mainWord, title, picture);
 
-//                Articles.persist(article);
+                String title = anchor.asText();
+                String picture = htmlImage == null ? "" : htmlImage.asXml();
+                calendar.set(2020, Calendar.MARCH,3,23,5);
 
-                // this is temp, we have to put them in database
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonString = mapper.writeValueAsString(article);
+                createAndPersistArticle(baseUrl+url,title,"tofigureout",picture,10);
 
-                System.out.println(jsonString);
             }
 
+        }
 
-            // todo: only shows few results, need a way to scroll down page
 
-        } catch (IOException e) {
+         catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Calendar;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -29,7 +30,10 @@ public class ArticleTest {
         article.setUrl("http://THISURL.com");
         article.setGrade(10);
         article.setMainWord("MAINWORD");
-        article.setDate();
+        article.setImage("http://imageurl.com");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2020,Calendar.MARCH,3,4,2);
+        article.setDate(calendar);
 
         Articles.persist(article);
 
@@ -40,6 +44,8 @@ public class ArticleTest {
         assertThat(persistedArticle.get().getTitle(), is("TITLE"));
         assertThat(persistedArticle.get().getMainWord(), is("MAINWORD"));
         assertThat(persistedArticle.get().getGrade(), is(10));
+        assertThat(persistedArticle.get().getDate(),is(calendar));
+        assertThat(persistedArticle.get().getImage(),is("http://imageurl.com"));
 
         Optional<Article> byEmail = Articles.findByUrl(persistedArticle.get().getUrl());
         System.out.println(byEmail);

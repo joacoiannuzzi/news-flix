@@ -1,6 +1,6 @@
 package com.lab1.scrappers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -8,16 +8,18 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.lab1.model.Article;
 
+import java.time.*;
 import java.io.IOException;
+
+import java.util.Calendar;
 import java.util.List;
 
 public class InfobaeScraper extends AbstractScraper{
 
     // WORKING FINE!
 
-    public final static String baseUrl = "https://www.infobae.com";
+    private final static String baseUrl = "https://www.infobae.com";
 
     @Override
     public void scrap() {
@@ -37,26 +39,25 @@ public class InfobaeScraper extends AbstractScraper{
         try {
             HtmlPage page = webClient.getPage(baseUrl);
 
-            final List<HtmlDivision> articles = page.getByXPath("//div[@class='no-skin flex-item flex-stack text-align-left equalize-height-target' and (div[@class='headline huge normal-style '] or div[@class='headline normal normal-style '] or div[@class='headline xx-huge normal-style '])] | //div[@class='no-skin flex-item flex-stack text-align-center equalize-height-target' and (div[@class='headline huge normal-style '] or div[@class='headline normal normal-style '] or div[@class='headline xx-huge normal-style '])]");
-
-            for (HtmlDivision htmlArticle : articles) {
+            final List<HtmlDivision> htmlArticles = page.getByXPath("//div[@class='no-skin flex-item flex-stack text-align-left equalize-height-target' and (div[@class='headline huge normal-style '] or div[@class='headline normal normal-style '] or div[@class='headline xx-huge normal-style '])] | //div[@class='no-skin flex-item flex-stack text-align-center equalize-height-target' and (div[@class='headline huge normal-style '] or div[@class='headline normal normal-style '] or div[@class='headline xx-huge normal-style '])]");
+            for (HtmlDivision htmlArticle : htmlArticles) {
 
                 final HtmlAnchor anchor = htmlArticle.getFirstByXPath("div[@class='headline huge normal-style ']/a | div[@class='headline normal normal-style ']/a | div[@class='headline xx-huge normal-style ']/a");
                 final HtmlImage htmlImage = htmlArticle.getFirstByXPath("div[@class='art art-low art-normal art-full-width text-align-left no-art-separator']//img | div[@class='art art-below-headline art-normal art-full-width text-align-left no-art-separator']//img");
 
                 String url = anchor.getHrefAttribute();
+
+                if (url.charAt(0)=='h') url=url.substring(23,url.length()-1); //todas deberian empezar con /, si no es asi empieza con https://infobae.com/ es un hack feo pero funciona
                 String title = anchor.asText();
                 String picture = htmlImage == null ? "" : htmlImage.asXml();
+                calendar.set(2020,Calendar.MARCH,23,23,12);
 
-                Article article = createAndPersistArticle(baseUrl + url, "", title, picture);
-//
+                createAndPersistArticle(baseUrl+url,title,"tofigureout",picture,10);
 
-                // this is temp, webClient have to put them in database
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonString = mapper.writeValueAsString(article);
-
-                System.out.println(jsonString);
             }
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();

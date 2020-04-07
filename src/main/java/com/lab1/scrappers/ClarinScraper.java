@@ -15,7 +15,7 @@ public class ClarinScraper extends AbstractScraper{
     // sintax xpath
     // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
-    public final static String baseUrl = "https://www.clarin.com/";
+    private final static String baseUrl = "https://www.clarin.com/";
 
     @Override
     public void scrap() {

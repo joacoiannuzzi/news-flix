@@ -1,6 +1,5 @@
 package com.lab1.entity;
 
-import com.lab1.model.Article;
 import com.lab1.model.User;
 import com.lab1.util.LangUtils;
 

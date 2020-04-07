@@ -2,28 +2,29 @@ package com.lab1.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 
 @Entity
-@Table(name = "article")
+@Table(name = "ARTICLE")
 public class Article {
 
     @Id
-    @Column(name = "url")
+    @Column(name = "URL")
     private String url;
 
-    @Column(name = "title")
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "grade")
+    @Column(name = "GRADE")
     private int grade;
 
-    @Column(name = "date")
-    private LocalDateTime date;
+    @Column(name = "DATE")
+    private Calendar date;
 
-    @Column(name = "main_word")
+    @Column(name = "MAINWORD")
     private String main_word;
 
-    @Column(name = "image")
+    @Column(name = "imageURL")
     private String image;
 
 
@@ -60,12 +61,12 @@ public class Article {
         this.grade = grade;
     }
 
-    public LocalDateTime getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate() {
-        date = LocalDateTime.now();
+    public void setDate(Calendar date) {
+        this.date=date;
     }
 
     public String getImage() {
@@ -75,4 +76,5 @@ public class Article {
     public void setImage(String picture) {
         this.image = picture;
     }
+
 }

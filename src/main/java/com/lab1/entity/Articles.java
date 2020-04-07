@@ -21,7 +21,7 @@ public class Articles {
 
     public static Optional<Article> findByMainWord(String mainword) {
         return tx(() -> LangUtils.<Article>checkedList(currentEntityManager()
-                .createQuery("SELECT art FROM Article art WHERE art.mainword LIKE :mainword")
+                .createQuery("SELECT art FROM Article art WHERE art.main_word LIKE :mainword")
                 .setParameter("mainword", mainword).getResultList()).stream()
                 .findFirst()
         );
@@ -41,7 +41,7 @@ public class Articles {
         );
     }
 
-    public static Article persist(Article article) { //TODO Remove duplicate make interface?
+    public static Article persist(Article article) {
         final EntityTransaction tx = currentEntityManager().getTransaction();
 
         try {

@@ -15,19 +15,16 @@ public class ScrollTest {
         webClient.getOptions().setCssEnabled(false);
 
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(true);
-        webClient.getOptions().setThrowExceptionOnScriptError(true);
+        webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getOptions().setRedirectEnabled(false);
         webClient.getOptions().setAppletEnabled(false);
-        webClient.getOptions().setJavaScriptEnabled(true);
+        webClient.getOptions().setJavaScriptEnabled(false);
         webClient.getOptions().setPopupBlockerEnabled(true);
         webClient.getOptions().setPrintContentOnFailingStatusCode(true);
-        webClient.getOptions().setUseInsecureSSL(true);
+        //webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
         HtmlPage page = webClient.getPage("https://www.lanacion.com.ar");
 
-        String javaScriptCode = "window.scrollBy(0,3000);";
-        ScriptResult result = page.executeJavaScript(javaScriptCode);
-        result.getJavaScriptResult();
-        System.out.println("result: " + result);
+        System.out.println("result: " + page.toString());
     }
 }
