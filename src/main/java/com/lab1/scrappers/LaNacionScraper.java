@@ -1,10 +1,10 @@
 package com.lab1.scrappers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
-import com.gargoylesoftware.htmlunit.WebClient;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.*;
+import com.gargoylesoftware.htmlunit.javascript.host.URL;
 import com.lab1.model.Article;
 
 import java.io.IOException;
@@ -21,7 +21,9 @@ public class LaNacionScraper extends AbstractScraper {
     // sintax xpath
     // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
-    public final static String baseUrl = "https://www.lanacion.com.ar/";
+    //private final static String baseUrl = "https://www.lanacion.com.ar/?utm_source=navigation&datamodule=tema_1;tema_2;tema_3;tema_4;tema_5;tema_6;tema_7;tema_8;tema_9;tema_10;tema_11;tema_12;tema_13;tema_14;tema_15;tema_16";
+    private final static String baseUrl = "https://www.lanacion.com.ar/?utm_source=navigation&datamodule=tema_1";
+
 
     @Override
     public void scrap() {
@@ -29,9 +31,7 @@ public class LaNacionScraper extends AbstractScraper {
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.getOptions().setJavaScriptEnabled(false);
         webClient.getOptions().setCssEnabled(false);
-        webClient.getOptions().setUseInsecureSSL(true);
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        webClient.getCookieManager().setCookiesEnabled(false);
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());
         webClient.getOptions().setThrowExceptionOnScriptError(false);
 
@@ -39,23 +39,29 @@ public class LaNacionScraper extends AbstractScraper {
         // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
         try {
-            HtmlPage page = webClient.getPage(baseUrl);
-
-            final List<HtmlDivision> htmlArticles = page.getByXPath("//article[div[@class='com-description']]");
-            for (HtmlDivision htmlArticle : htmlArticles) {
-
-                final HtmlAnchor anchor = htmlArticle.getFirstByXPath("");
-                final HtmlImage htmlImage = htmlArticle.getFirstByXPath("");
-                String url = anchor.getHrefAttribute();
+            UnexpectedPage page = webClient.getPage(baseUrl);
+            String result = page.getWebResponse().getContentAsString();
+            String[] split = result.split("<section[^>]*[^>]*>[^~]*?</section>"); //Nos divide en secciones x temas, tendremos un arreglo de 16
 
 
-                String title = anchor.asText();
-                String picture = htmlImage == null ? "" : htmlImage.asXml();
-                calendar.set(2020, Calendar.MARCH,3,23,5);
 
-                createAndPersistArticle(baseUrl+url,title,"tofigureout",picture,10);
 
-            }
+//            final List<HtmlDivision> htmlArticles = (HtmlPage) split[0];
+//            for (HtmlDivision htmlArticle : htmlArticles) {
+//
+//                final HtmlAnchor anchor = htmlArticle.getFirstByXPath("");
+//                final HtmlImage htmlImage = htmlArticle.getFirstByXPath("");
+//                String url = anchor.getHrefAttribute();
+//
+//
+//                String title = anchor.asText();
+//                String picture = htmlImage == null ? "" : htmlImage.asXml();
+//
+//                calendar.set(2020, Calendar.MARCH,3,23,5); // We have to figure out how to extract from articles.
+//
+//                createAndPersistArticle(baseUrl+url,title,"tofigureout",picture,10);
+//
+//            }
 
         }
 
