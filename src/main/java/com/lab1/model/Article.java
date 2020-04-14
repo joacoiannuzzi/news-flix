@@ -1,7 +1,6 @@
 package com.lab1.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 
 @Entity
@@ -12,29 +11,46 @@ public class Article {
     @Column(name = "URL")
     private String url;
 
+    @Column(name = "DIARIO")
+    private String diario;
+
     @Column(name = "TITLE")
     private String title;
-
-    @Column(name = "GRADE")
-    private int grade;
 
     @Column(name = "DATE")
     private Calendar date;
 
-    @Column(name = "MAINWORD")
-    private String main_word;
+    @Column(name = "CATEGORY")
+    private String category;
 
-    @Column(name = "imageURL")
+    @Column(name = "IMAGE")
     private String image;
 
+    @Column(name = "BODY", length = 50000)
+    private String body;
 
-
-    public void setMainWord(String mainword) {
-        this.main_word = mainword;
+    public String getBody(){
+        return body;
     }
 
-    public String getMainWord() {
-        return main_word;
+    public void setBody(String body){
+        this.body=body;
+    }
+
+    public void setDiarioName(String diarioName){
+        this.diario = diarioName;
+    }
+
+    public String getDiarioName(){
+        return diario;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public String getTitle() {
@@ -51,14 +67,6 @@ public class Article {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
     }
 
     public Calendar getDate() {

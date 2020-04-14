@@ -28,8 +28,7 @@ public class ArticleTest {
 
         article.setTitle("TITLE");
         article.setUrl("http://THISURL.com");
-        article.setGrade(10);
-        article.setMainWord("MAINWORD");
+        article.setCategory("MAINWORD");
         article.setImage("http://imageurl.com");
         Calendar calendar = Calendar.getInstance();
         calendar.set(2020,Calendar.MARCH,3,4,2);
@@ -42,8 +41,7 @@ public class ArticleTest {
         assertThat(persistedArticle.isPresent(), is(true));
         assertThat(persistedArticle.get().getUrl(), is("http://THISURL.com"));
         assertThat(persistedArticle.get().getTitle(), is("TITLE"));
-        assertThat(persistedArticle.get().getMainWord(), is("MAINWORD"));
-        assertThat(persistedArticle.get().getGrade(), is(10));
+        assertThat(persistedArticle.get().getCategory(), is("MAINWORD"));
         assertThat(persistedArticle.get().getDate(),is(calendar));
         assertThat(persistedArticle.get().getImage(),is("http://imageurl.com"));
 
