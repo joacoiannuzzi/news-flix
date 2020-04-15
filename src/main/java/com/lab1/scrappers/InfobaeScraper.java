@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
-public class InfobaeScraper extends AbstractScraper{
+public class InfobaeScraper extends AbstractScraper {
 
     // WORKING FINE!
 
@@ -47,7 +47,8 @@ public class InfobaeScraper extends AbstractScraper{
 
                 String url = anchor.getHrefAttribute();
 
-                if (url.charAt(0)=='h') url=url.substring(23,url.length()-1); //todas deberian empezar con /, si no es asi empieza con https://infobae.com/ es un hack feo pero funciona
+                if (url.charAt(0) == 'h')
+                    url = url.substring(23, url.length() - 1); //todas deberian empezar con /, si no es asi empieza con https://infobae.com/ es un hack feo pero funciona
                 String title = anchor.asText();
                 String picture = htmlImage == null ? "" : htmlImage.asXml();
 
@@ -55,8 +56,6 @@ public class InfobaeScraper extends AbstractScraper{
                 //createAndPersistArticle(baseUrl+url,title,"tofigureout",picture,10);
 
             }
-
-
 
 
         } catch (IOException e) {

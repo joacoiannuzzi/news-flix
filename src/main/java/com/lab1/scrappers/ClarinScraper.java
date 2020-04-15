@@ -6,44 +6,39 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlArticle;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ClarinScraper extends AbstractScraper{
+public class ClarinScraper extends AbstractScraper {
 
     // sintax xpath
     // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
-    private final static String baseUrl = "https://www.clarin.com/";
+    private final static String baseUrl = "https://www.clarin.com";
 
     @Override
     public void scrap() {
 
-        WebClient webClient = new WebClient(BrowserVersion.CHROME);
-        webClient.getOptions().setJavaScriptEnabled(true);
-        webClient.getOptions().setCssEnabled(false);
-        webClient.getOptions().setUseInsecureSSL(true);
-        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        webClient.getCookieManager().setCookiesEnabled(true);
-        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
-        webClient.getOptions().setThrowExceptionOnScriptError(false);
-
         try {
-            HtmlPage page = webClient.getPage(baseUrl);
+            Document document = Jsoup.connect(baseUrl).get();
+            Element page = document.select("div.on-demand").first();
+            String _url = page.attr("data-src");
+            Document doc = Jsoup.connect(baseUrl + _url).get();
+            Element div = doc.select("div").first();
+            String s = Jsoup.parse(div.toString()).toString();
+            System.out.println(s);
+//            for (Element article : articles) {
 
-            final List<HtmlArticle> articles = page.getByXPath("//article");
+//                System.out.println(article.toString());
 
-            for (HtmlArticle htmlArticle : articles) {
+//                final HtmlAnchor div_mt = element.getFirstByXPath("//@class[.='mt '] | //@class[.='mt']");
 
-                System.out.println(htmlArticle.asXml());
-
-                final HtmlAnchor div_mt = htmlArticle.getFirstByXPath("//@class[.='mt '] | //@class[.='mt']");
-
-                System.out.println();
-                System.out.println(div_mt.asXml());
-
-            }
+//            }
 
 
         } catch (IOException e) {
