@@ -10,7 +10,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.InvalidClassException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ public class LaNacionScraper extends AbstractScraper {
     // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
     private final static String searchURL = "https://www.lanacion.com.ar/?utm_source=navigation&datamodule=tema_1;tema_2;tema_3;tema_4;tema_5;tema_6;tema_7;tema_8;tema_9;tema_10;tema_11;tema_12;tema_13;tema_14;tema_15;tema_16";
-    //    private final static String searchURL = "https://www.lanacion.com.ar/?utm_source=navigation&datamodule=tema_1;tema_2";
     private final static String baseURL = "https://www.lanacion.com.ar";
     private final static Pattern pattern = Pattern.compile("<section[^>]*[^>]*>[^~]*?</section>");
     private final List<Document> documentsList = new ArrayList<>();
@@ -41,9 +39,6 @@ public class LaNacionScraper extends AbstractScraper {
         webClient.getCookieManager().setCookiesEnabled(true);
         webClient.getOptions().setThrowExceptionOnScriptError(false);
 
-//        // sintax xpath
-//        // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
-//
         try {
             UnexpectedPage page = webClient.getPage(searchURL); //Hago de esta manera en vez de xmlpath xq la nacion tiene el searchurl que lo hace mas facil.
             String result = StringEscapeUtils.unescapeJava(page.getWebResponse().getContentAsString()); //Unescape or everything goes wild.
@@ -75,10 +70,11 @@ public class LaNacionScraper extends AbstractScraper {
 
                         for (HtmlElement htmlItem : htmlbodytexts) {
                             final HtmlElement fecha = htmlItem.getFirstByXPath("//div[@class='barra']//section[@class='fecha']");
-                            //System.out.println(fecha.asText());
-                            //13 de abril de 2020  • 18:53
+                            Calendar cal = Calendar.getInstance();
+
                             SimpleDateFormat sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy'  • 'hh:mm", new Locale("es", "ES"));
                             try {
+
                                 cal.setTime(sdf.parse(fecha.asText()));
                             } catch (ParseException e) {
                                 e.printStackTrace();
@@ -93,11 +89,9 @@ public class LaNacionScraper extends AbstractScraper {
                                 body = body.concat(bodyelems.asText() + "\n");
 
                             }
-//                            System.out.println(title);
-//                            System.out.println("\n" + body + "\n");
 
+                            if (body.length()>5) createAndPersistArticle(baseURL + articleURL, title, category, baseURL + imageURL, body, cal, "LaNacion");
 
-                            createAndPersistArticle(baseURL + articleURL, title, category, baseURL + imageURL, body, this.cal, "LaNacion");
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

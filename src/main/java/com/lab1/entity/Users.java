@@ -13,7 +13,7 @@ import static com.lab1.util.Transactions.tx;
 
 public class Users {
 
-  public static Optional<User> findById(Long id){
+  public static Optional<User>email(String id){
     return tx(() ->
       Optional.of(currentEntityManager().find(User.class, id))
     );

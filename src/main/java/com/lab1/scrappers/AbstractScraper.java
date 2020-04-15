@@ -7,7 +7,6 @@ import javax.persistence.EntityExistsException;
 import java.util.Calendar;
 
 public abstract class AbstractScraper {
-    Calendar cal = Calendar.getInstance();
 
     public abstract void scrap();
 

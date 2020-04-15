@@ -13,6 +13,8 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class UsersTest {
@@ -38,9 +40,9 @@ public class UsersTest {
         user.setFirstName("John");
         user.setLastName("Johnson");
 
-        assertThat(Users.persist(user).getId(), greaterThan(0L));
+        assertFalse(Users.persist(user).getEmail().isEmpty());
 
-        final Optional<User> persistedUser = Users.findById(user.getId());
+        final Optional<User> persistedUser = Users.findByEmail(user.getEmail());
 
         assertThat(persistedUser.isPresent(), is(true));
         assertThat(persistedUser.get().getEmail(), is("a@gmail.com"));
