@@ -49,7 +49,6 @@ public class LaNacionScraper extends AbstractScraper {
                 documentsList.add(Jsoup.parse(matcher.group(0)));
             }
 
-
             for (Document doc : documentsList) {
 
                 Elements elements = doc.select("article");
@@ -90,7 +89,8 @@ public class LaNacionScraper extends AbstractScraper {
 
                             }
 
-                            if (body.length()>5) createAndPersistArticle(baseURL + articleURL, title, category, baseURL + imageURL, body, cal, "LaNacion");
+                            if (body.length() > 5)
+                                createAndPersistArticle(baseURL + articleURL, title, category, baseURL + imageURL, body, cal, "LaNacion");
 
                         }
                     } catch (IOException e) {

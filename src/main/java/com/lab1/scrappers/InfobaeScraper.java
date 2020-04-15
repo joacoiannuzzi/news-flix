@@ -4,20 +4,18 @@ package com.lab1.scrappers;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlDivision;
-import com.gargoylesoftware.htmlunit.html.HtmlImage;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.io.IOException;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class InfobaeScraper extends AbstractScraper {
-
-    // WORKING FINE!
 
     private final static String baseUrl = "https://www.infobae.com";
 
@@ -27,11 +25,7 @@ public class InfobaeScraper extends AbstractScraper {
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.getOptions().setJavaScriptEnabled(false);
         webClient.getOptions().setCssEnabled(false);
-        webClient.getOptions().setUseInsecureSSL(true);
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        webClient.getCookieManager().setCookiesEnabled(true);
-        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
-        webClient.getOptions().setThrowExceptionOnScriptError(false);
 
         // sintax xpath
         // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
@@ -50,10 +44,43 @@ public class InfobaeScraper extends AbstractScraper {
                 if (url.charAt(0) == 'h')
                     url = url.substring(23, url.length() - 1); //todas deberian empezar con /, si no es asi empieza con https://infobae.com/ es un hack feo pero funciona
                 String title = anchor.asText();
-                String picture = htmlImage == null ? "" : htmlImage.asXml();
+                String image = htmlImage == null ? "" : htmlImage.getAttribute("data-original");
+                String category = url.substring(1, url.substring(1).indexOf("/") + 1);
+
+                HtmlPage art = webClient.getPage(baseUrl + url);
+
+                final HtmlElement date = art.getFirstByXPath("//span[@class='byline-date']");
+
+                //13 de abril de 2020
+
+                Calendar cal = Calendar.getInstance();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy", new Locale("es", "ES"));
+                try {
+                    cal.setTime(sdf.parse(date.asText()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e) {
+                    System.out.println("Article: " + title + " with url: " + url +
+                            " doesn't have date so it wasn't persisted");
+                    continue;
+                }
+
+                HtmlElement htmlItem = art.getFirstByXPath("//div[@id='article-content']");
+                final List<HtmlElement> bodytags = htmlItem.getByXPath("//div[@class='row pb-content-type-text']");
+
+                String body = "";
+
+                for (HtmlElement bodyelems : bodytags) {
+
+                    body = body.concat(bodyelems.asText() + "\n");
+
+                }
+//                System.out.println(title);
+//                System.out.println("\n" + body + "\n");
 
 
-                //createAndPersistArticle(baseUrl+url,title,"tofigureout",picture,10);
+                createAndPersistArticle(baseUrl + url, title, category, image, body, cal, "Infobae");
 
             }
 

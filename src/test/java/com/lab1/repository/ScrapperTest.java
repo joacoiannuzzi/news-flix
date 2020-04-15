@@ -39,4 +39,11 @@ public class ScrapperTest {
 //        clarinScraper.scrap();
 //    }
 
+    @Test
+    public void createInfobaeScrapper() {
+        final InfobaeScraper infobaeScraper = new InfobaeScraper();
+
+        infobaeScraper.scrap();
+    }
+
 }
