@@ -32,12 +32,12 @@ public class ScrapperTest {
 
         laNacionScraper.scrap();
     }
-//    @Test
-//    public void createClarinScrapper() {
-//        final ClarinScraper clarinScraper = new ClarinScraper();
-//
-//        clarinScraper.scrap();
-//    }
+    @Test
+    public void createClarinScrapper() {
+        final ClarinScraper clarinScraper = new ClarinScraper();
+
+        clarinScraper.scrap();
+    }
 
     @Test
     public void createInfobaeScrapper() {
