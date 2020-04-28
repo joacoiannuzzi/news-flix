@@ -22,7 +22,6 @@ public class ClarinScraper extends AbstractScraper {
     // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
     private final static String[] baseUrl = {"https://www.clarin.com/rss/lo-ultimo/", "https://www.clarin.com/rss/politica/", "https://www.clarin.com/rss/economia/", "https://www.clarin.com/rss/sociedad/", "https://www.clarin.com/rss/policiales/", "https://www.clarin.com/rss/cultura/", "https://www.clarin.com/rss/espectaculos/", "https://www.clarin.com/rss/deportes/", "https://www.clarin.com/rss/mundo/", "https://www.clarin.com/rss/tecnologia/", "https://www.clarin.com/rss/buena-vida/"};
-//    private final static String[] baseUrl = {"https://www.clarin.com/rss/lo-ultimo/"};
 
     @Override
     public void scrap() {
@@ -38,13 +37,14 @@ public class ClarinScraper extends AbstractScraper {
 
             for (String baseUrlCurrent : baseUrl) {
                 XmlPage page = webClient.getPage(baseUrlCurrent);
-
                 Document doc = Jsoup.parse(page.getWebResponse().getContentAsString(), "", Parser.xmlParser());
 
                 Elements elements = doc.select("item");
 
                 for (Element element : elements) {
                     try {
+
+//                        System.out.println(element.toString() + "\n");
 
                         String title = element.select("title").first().text();
                         String url = element.select("link").first().text();
@@ -78,8 +78,12 @@ public class ClarinScraper extends AbstractScraper {
                             body = body.concat(bodyelems.text() + "\n");
 
                         }
+                        try {
+                            createAndPersistArticle(url, title, category, image, body, cal, "Clarin");
+                        } catch (Exception e) {
+                            System.out.println("Repeated Article, or some other error.");
+                        }
 
-                        createAndPersistArticle(url, title, category, image, body, cal, "Clarin");
                     } catch (NullPointerException e) {
                         System.out.println("There was a null pointer with an article so it wasn't persisted");
                     }

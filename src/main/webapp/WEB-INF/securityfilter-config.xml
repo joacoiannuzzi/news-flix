@@ -28,6 +28,6 @@
 
 
     <!-- this is a Catalina realm that will be adapted to the securityfilter by the realm defined above -->
-    <realm className="com.lab1.service.UserRealm" />
+    <realm className="com.lab1.service.UserRealm"/>
 
 </securityfilter-config>

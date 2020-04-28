@@ -21,10 +21,10 @@ public class ScrapperTest {
         EntityManagers.setFactory(managerFactory);
     }
 
-    @After
-    public void close() {
-        managerFactory.close(); //Make sure it only closes once, or when running multiple tests = fail.
-    }
+//    @After
+//    public void close() {
+//        managerFactory.close(); //Make sure it only closes once, or when running multiple tests = fail.
+//    }
 
     @Test
     public void createLaNacionScrapper() {

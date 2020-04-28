@@ -79,7 +79,7 @@ public class InfobaeScraper extends AbstractScraper {
 
                 try {
                     createAndPersistArticle(baseUrl + url, title, category, image, body, cal, "Infobae");
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Repeated Article, or some other error.");
                 }
 
