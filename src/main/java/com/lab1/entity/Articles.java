@@ -19,21 +19,13 @@ public class Articles {
         );
     }
 
-    public static Optional<Article> findByMainWord(String mainword) {
+    public static Optional<Article> findByCategory(String category) {
         return tx(() -> LangUtils.<Article>checkedList(currentEntityManager()
-                .createQuery("SELECT art FROM Article art WHERE art.main_word LIKE :mainword")
-                .setParameter("mainword", mainword).getResultList()).stream()
+                .createQuery("SELECT art FROM Article art WHERE art.category LIKE :mainword")
+                .setParameter("mainword", category).getResultList()).stream()
                 .findFirst()
         );
     }
-
-//    public static Optional<Article> findByUrl(String url) {
-//        return tx(() -> LangUtils.<Article>checkedList(currentEntityManager()
-//                .createQuery("SELECT art FROM Article art WHERE art.url LIKE :url")
-//                .setParameter("url", url).getResultList()).stream()
-//                .findFirst()
-//        );
-//    }
 
     public static List<Article> listAll() {
         return tx(() ->

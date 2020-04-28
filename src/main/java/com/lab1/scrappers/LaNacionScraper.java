@@ -54,12 +54,14 @@ public class LaNacionScraper extends AbstractScraper {
                 Elements elements = doc.select("article");
 
                 for (Element link : elements) {
-                    Elements divs = link.select("div"); //Tenemos los divs  //com-media y com-description
 
-                    String articleURL = divs.get(0).select("a").first().attr("href");// href
-                    String imageURL = divs.get(0).select("source").first().attr("srcset");// href
-                    String title = divs.get(0).select("a").first().attr("title");//Title ref que tambien estaria en div.get(1)
-                    String category = articleURL.substring(1, articleURL.substring(1).indexOf("/") + 1);
+                    try {
+                        Elements divs = link.select("div"); //Tenemos los divs  //com-media y com-description
+
+                        String articleURL = divs.get(0).select("a").first().attr("href");// href
+                        String imageURL = divs.get(0).select("source").first().attr("srcset");// href
+                        String title = divs.get(0).select("a").first().attr("title");//Title ref que tambien estaria en div.get(1)
+                        String category = articleURL.substring(1, articleURL.substring(1).indexOf("/") + 1);
 
                     //Now scrap the article
                     try {
@@ -68,15 +70,16 @@ public class LaNacionScraper extends AbstractScraper {
                         List<HtmlElement> htmlbodytexts = articlePage.getByXPath("//div[@id='wrapper']/main[@id='item-nota']/article[@id='nota']/section[@id='cuerpo']");
 
                         for (HtmlElement htmlItem : htmlbodytexts) {
-                            final HtmlElement fecha = htmlItem.getFirstByXPath("//div[@class='barra']//section[@class='fecha']");
+                            final HtmlElement fecha = htmlItem.getFirstByXPath("//section[@class='fecha']");
                             Calendar cal = Calendar.getInstance();
 
-                            SimpleDateFormat sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy'  • 'hh:mm", new Locale("es", "ES"));
+                            SimpleDateFormat sdf;
+                            sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy'  • 'hh:mm", new Locale("es", "ES"));
                             try {
 
                                 cal.setTime(sdf.parse(fecha.asText()));
                             } catch (ParseException e) {
-                                e.printStackTrace();
+                                System.out.println("Date with incompatible type");
                             }
 
                             final List<HtmlElement> bodytags = htmlItem.getByXPath("//section[@id='cuerpo']//p");
@@ -94,16 +97,19 @@ public class LaNacionScraper extends AbstractScraper {
 
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println("invalid article type");
                     }
 
-
+                    }catch (NullPointerException n){
+                        System.out.println("Invalid main element type");
+                    }
                 }
+
 
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("invalid scrap type");
         }
 
     }

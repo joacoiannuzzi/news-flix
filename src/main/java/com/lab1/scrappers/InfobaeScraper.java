@@ -76,11 +76,12 @@ public class InfobaeScraper extends AbstractScraper {
                     body = body.concat(bodyelems.asText() + "\n");
 
                 }
-//                System.out.println(title);
-//                System.out.println("\n" + body + "\n");
 
-
-                createAndPersistArticle(baseUrl + url, title, category, image, body, cal, "Infobae");
+                try {
+                    createAndPersistArticle(baseUrl + url, title, category, image, body, cal, "Infobae");
+                }catch (Exception e){
+                    System.out.println("Repeated Article, or some other error.");
+                }
 
             }
 
