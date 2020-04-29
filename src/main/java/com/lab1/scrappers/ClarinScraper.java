@@ -37,16 +37,16 @@ public class ClarinScraper extends AbstractScraper {
 
             for (String baseUrlCurrent : baseUrl) {
                 XmlPage page = webClient.getPage(baseUrlCurrent);
-
-                Document doc = Jsoup.parse(page.getWebResponse().getContentAsString());
+                Document doc = Jsoup.parse(page.getWebResponse().getContentAsString(), "", Parser.xmlParser());
 
                 Elements elements = doc.select("item");
 
                 for (Element element : elements) {
                     try {
 
+//                        System.out.println(element.toString() + "\n");
+
                         String title = element.select("title").first().text();
-                        title=title.substring(9,title.indexOf("]"));
                         String url = element.select("link").first().text();
                         String image = element.select("enclosure").first().attr("url");
                         String s = url.replaceFirst("http://www.clarin.com/", "");
@@ -59,10 +59,11 @@ public class ClarinScraper extends AbstractScraper {
                         Calendar cal = Calendar.getInstance();
 
                         SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy hh:mm:ss", new Locale("en", "EN"));
-                        try{
+                        try {
+
                             cal.setTime(sdf.parse(date));
                         } catch (ParseException e) {
-                            System.out.println("Invalid Date format");
+                            e.printStackTrace();
                         }
 
                         Document articleDocument = Jsoup.connect(url).get();
@@ -77,12 +78,12 @@ public class ClarinScraper extends AbstractScraper {
                             body = body.concat(bodyelems.text() + "\n");
 
                         }
-
                         try {
                             createAndPersistArticle(url, title, category, image, body, cal, "Clarin");
-                        } catch (Exception e){
-                            System.out.println("Repeated article");
+                        } catch (Exception e) {
+                            System.out.println("Repeated Article, or some other error.");
                         }
+
                     } catch (NullPointerException e) {
                         System.out.println("There was a null pointer with an article so it wasn't persisted");
                     }
@@ -91,7 +92,7 @@ public class ClarinScraper extends AbstractScraper {
 
 
         } catch (IOException e) {
-            System.out.println("Connection failed, maybe too many requests.");
+            e.printStackTrace();
         }
     }
 }
