@@ -16,7 +16,7 @@
 
     <filter-mapping>
         <filter-name>Security Filter</filter-name>
-        <url-pattern>/secure/*</url-pattern>
+        <url-pattern>/j_security_check</url-pattern>
     </filter-mapping>
 
 

@@ -24,7 +24,7 @@ public class LaNacionScraper extends AbstractScraper {
     // sintax xpath
     // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
-    private final static String searchURL = "https://www.lanacion.com.ar/?utm_source=navigation&datamodule=tema_1;tema_2;tema_3;tema_4;tema_5;tema_6;tema_7;tema_8;tema_9;tema_10;tema_11;tema_12;tema_13;tema_14;tema_15;tema_16";
+    private final static String searchURL = "https://www.lanacion.com.ar/?utm_source=navigation&datamodule=tema_1;tema_2;tema_3;tema_4;tema_5;tema_6;tema_7;tema_8;tema_9;tema_10;tema_11;tema_12;tema_13;tema_14;tema_15;tema_16;tema_17;tema_18";
     private final static String baseURL = "https://www.lanacion.com.ar";
     private final static Pattern pattern = Pattern.compile("<section[^>]*[^>]*>[^~]*?</section>");
     private final List<Document> documentsList = new ArrayList<>();

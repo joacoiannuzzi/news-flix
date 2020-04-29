@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido</title>
+</head>
+<body>
+
+<h1>Hoy</h1>
+<div>
+    <h3>Articulos de hoy</h3>
+
+    <label for="diario">Selecciona un Diario</label>
+
+    <select id="diario" onchange="loadArticles(this.value);">
+        <option value="LaNacion">La Nacion</option>
+        <option value="Infobae">Infobae</option>
+        <option value="Clarin">Clarin</option>
+    </select>
+    <ul id="article"></ul>
+
+    <ul id="mainbody"></ul>
+</div>
+
+<script>
+    function loadArticles(sel) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+
+                let articles = JSON.parse(this.response);
+
+                let root = document.getElementById("article");
+                for (const art of articles) {
+                    var p = document.createElement("p");
+                    var li = document.createElement("li");
+                    p.appendChild(document.createTextNode(art.title));
+                    li.appendChild(document.createTextNode(art.body));
+                    root.appendChild(p);
+                    root.appendChild(li);
+                }
+            }
+        };
+        xhttp.open("GET", "/secure/articles",true);
+        xhttp.send(sel);
+
+
+    }
+
+</script>
+</body>
+</html>

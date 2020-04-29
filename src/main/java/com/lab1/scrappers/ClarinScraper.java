@@ -22,7 +22,6 @@ public class ClarinScraper extends AbstractScraper {
     // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
     private final static String[] baseUrl = {"https://www.clarin.com/rss/lo-ultimo/", "https://www.clarin.com/rss/politica/", "https://www.clarin.com/rss/economia/", "https://www.clarin.com/rss/sociedad/", "https://www.clarin.com/rss/policiales/", "https://www.clarin.com/rss/cultura/", "https://www.clarin.com/rss/espectaculos/", "https://www.clarin.com/rss/deportes/", "https://www.clarin.com/rss/mundo/", "https://www.clarin.com/rss/tecnologia/", "https://www.clarin.com/rss/buena-vida/"};
-//    private final static String[] baseUrl = {"https://www.clarin.com/rss/lo-ultimo/"};
 
     @Override
     public void scrap() {
@@ -39,7 +38,7 @@ public class ClarinScraper extends AbstractScraper {
             for (String baseUrlCurrent : baseUrl) {
                 XmlPage page = webClient.getPage(baseUrlCurrent);
 
-                Document doc = Jsoup.parse(page.getWebResponse().getContentAsString(), "", Parser.xmlParser());
+                Document doc = Jsoup.parse(page.getWebResponse().getContentAsString());
 
                 Elements elements = doc.select("item");
 
@@ -47,6 +46,7 @@ public class ClarinScraper extends AbstractScraper {
                     try {
 
                         String title = element.select("title").first().text();
+                        title=title.substring(9,title.indexOf("]"));
                         String url = element.select("link").first().text();
                         String image = element.select("enclosure").first().attr("url");
                         String s = url.replaceFirst("http://www.clarin.com/", "");
@@ -59,11 +59,10 @@ public class ClarinScraper extends AbstractScraper {
                         Calendar cal = Calendar.getInstance();
 
                         SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy hh:mm:ss", new Locale("en", "EN"));
-                        try {
-
+                        try{
                             cal.setTime(sdf.parse(date));
                         } catch (ParseException e) {
-                            e.printStackTrace();
+                            System.out.println("Invalid Date format");
                         }
 
                         Document articleDocument = Jsoup.connect(url).get();
@@ -79,7 +78,11 @@ public class ClarinScraper extends AbstractScraper {
 
                         }
 
-                        createAndPersistArticle(url, title, category, image, body, cal, "Clarin");
+                        try {
+                            createAndPersistArticle(url, title, category, image, body, cal, "Clarin");
+                        } catch (Exception e){
+                            System.out.println("Repeated article");
+                        }
                     } catch (NullPointerException e) {
                         System.out.println("There was a null pointer with an article so it wasn't persisted");
                     }
@@ -88,7 +91,7 @@ public class ClarinScraper extends AbstractScraper {
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Connection failed, maybe too many requests.");
         }
     }
 }

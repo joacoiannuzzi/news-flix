@@ -27,6 +27,19 @@ public class Articles {
         );
     }
 
+    public static List<Article> findByCurrentDay(){
+        return tx(() ->
+                checkedList(currentEntityManager().createQuery("SELECT art FROM Article art WHERE art.date = current_date").getResultList())
+        );
+    }
+
+
+    public static List<Article> findByDiario(String d){
+        return tx(() ->
+                checkedList(currentEntityManager().createQuery("SELECT art FROM Article art WHERE art.diario = '" + d + "'").getResultList())
+        );
+    }
+
     public static List<Article> listAll() {
         return tx(() ->
                 checkedList(currentEntityManager().createQuery("SELECT art FROM Article art").getResultList())
