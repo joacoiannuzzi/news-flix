@@ -9,10 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.*;
 
 import static com.lab1.entity.Articles.*;
 
@@ -23,9 +24,22 @@ public class Articles extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        Map<String,String[]> map = req.getParameterMap();
+        Set s = map.entrySet();
+        Iterator it = s.iterator();
+        String diario;
+        String[] diario1;
 
-        final List<Article> articles = listAll();
+        while(it.hasNext()) {
 
+            Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>) it.next();
+            diario = entry.getKey();
+            diario1 = entry.getValue();
+
+
+
+
+        final List<Article> articles = findByDiario(diario);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
@@ -35,7 +49,8 @@ public class Articles extends HttpServlet {
         out.print(json);
         out.flush();
 
-    }
+    }        }
+
 
 }
 

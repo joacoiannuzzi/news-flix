@@ -24,6 +24,9 @@ public class articleMatcherRunner {
                      if (!list.get(i).getDiarioName().equals(list.get(j).getDiarioName()))
                             if (!list.get(i).getDiarioName().equals(list.get(j).getDiarioName())) { //Distintos Diarios.
 
+                                //A:B
+                                //B:A
+
 
                                 double score = Similarity(list.get(i).getTitle() , list.get(j).getTitle());
 
