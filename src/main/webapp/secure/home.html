@@ -73,7 +73,7 @@
     // Attach a submit handler to the form
     $("#diario").change(function (event) {
 
-        $('ul').empty();
+        $('#article').empty();
 
         // Stop form from submitting normally
         event.preventDefault();
@@ -88,14 +88,15 @@
             data: diario,
             dataType: "text",
             success: function (response) {
-                //if request if made successfully then the response represent the data
+//if request if made successfully then the response represent the data
 
                 let articles = JSON.parse(response);
 
                 let root = document.getElementById("article");
-                for (const art of articles) {
+                for (art of articles) {
                     let card = document.createElement("div");
                     card.classList.add("card")
+
                     let img = document.createElement("img");
                     img.src = art.image
                     img.classList.add("card-img-top")

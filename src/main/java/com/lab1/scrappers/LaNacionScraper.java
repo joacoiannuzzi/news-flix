@@ -93,7 +93,7 @@ public class LaNacionScraper extends AbstractScraper {
                                 }
                                 try {
                                     if (body.length() > 5)
-                                        createAndPersistArticle(baseURL + articleURL, title, category, baseURL + imageURL, body, cal, "LaNacion");
+                                        createAndPersistArticle(baseURL + articleURL, title, category, "http:" + imageURL, body, cal, "LaNacion");
                                 } catch (Exception e) {
                                     System.out.println("Repeated Article, or some other error.");
                                 }
