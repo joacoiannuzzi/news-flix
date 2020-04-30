@@ -32,9 +32,9 @@ public class ScrapperTest {
 
     @Test
     public void multiScrapper(){
-//        final LaNacionScraper laNacionScraper = new LaNacionScraper();
-//
-//        laNacionScraper.scrap();
+        final LaNacionScraper laNacionScraper = new LaNacionScraper();
+
+        laNacionScraper.scrap();
 
         final ClarinScraper clarinScraper = new ClarinScraper();
 

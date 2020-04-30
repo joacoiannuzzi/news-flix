@@ -19,6 +19,7 @@ import static com.lab1.entity.Articles.*;
 
 @WebServlet(name = "articleServlet",urlPatterns = "/secure/articles")
 public class Articles extends HttpServlet {
+
     private final Gson gson = new Gson();
 
     @Override

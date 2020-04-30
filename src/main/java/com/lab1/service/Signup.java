@@ -40,7 +40,7 @@ public class Signup extends HttpServlet {
             e.printStackTrace();
         }
 
-        final RequestDispatcher view = req.getRequestDispatcher("login.html");
+        final RequestDispatcher view = req.getRequestDispatcher("/login.html");
 
         view.forward(req, resp);
     }

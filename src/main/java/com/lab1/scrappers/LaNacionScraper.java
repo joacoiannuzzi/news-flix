@@ -63,44 +63,46 @@ public class LaNacionScraper extends AbstractScraper {
                         String title = divs.get(0).select("a").first().attr("title");//Title ref que tambien estaria en div.get(1)
                         String category = articleURL.substring(1, articleURL.substring(1).indexOf("/") + 1);
 
-                    //Now scrap the article
-                    try {
-                        HtmlPage articlePage = webClient.getPage(baseURL + articleURL);
+                        //Now scrap the article
+                        try {
+                            HtmlPage articlePage = webClient.getPage(baseURL + articleURL);
 
-                        List<HtmlElement> htmlbodytexts = articlePage.getByXPath("//div[@id='wrapper']/main[@id='item-nota']/article[@id='nota']/section[@id='cuerpo']");
+                            List<HtmlElement> htmlbodytexts = articlePage.getByXPath("//div[@id='wrapper']/main[@id='item-nota']/article[@id='nota']/section[@id='cuerpo']");
 
-                        for (HtmlElement htmlItem : htmlbodytexts) {
-                            final HtmlElement fecha = htmlItem.getFirstByXPath("//section[@class='fecha']");
-                            Calendar cal = Calendar.getInstance();
+                            for (HtmlElement htmlItem : htmlbodytexts) {
+                                final HtmlElement fecha = htmlItem.getFirstByXPath("//section[@class='fecha']");
+                                Calendar cal = Calendar.getInstance();
 
-                            SimpleDateFormat sdf;
-                            sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy'  • 'hh:mm", new Locale("es", "ES"));
-                            try {
+                                SimpleDateFormat sdf;
+                                sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy'  • 'hh:mm", new Locale("es", "ES"));
+                                try {
 
-                                cal.setTime(sdf.parse(fecha.asText()));
-                            } catch (ParseException e) {
-                                System.out.println("Date with incompatible type");
+                                    cal.setTime(sdf.parse(fecha.asText()));
+                                } catch (ParseException e) {
+                                    System.out.println("Date with incompatible type");
+                                }
+
+                                final List<HtmlElement> bodytags = htmlItem.getByXPath("//section[@id='cuerpo']//p");
+
+                                String body = "";
+
+                                for (HtmlElement bodyelems : bodytags) {
+
+                                    body = body.concat(bodyelems.asText() + "\n");
+
+                                }
+                                try {
+                                    if (body.length() > 5)
+                                        createAndPersistArticle(baseURL + articleURL, title, category, baseURL + imageURL, body, cal, "LaNacion");
+                                } catch (Exception e) {
+                                    System.out.println("Repeated Article, or some other error.");
+                                }
                             }
-
-                            final List<HtmlElement> bodytags = htmlItem.getByXPath("//section[@id='cuerpo']//p");
-
-                            String body = "";
-
-                            for (HtmlElement bodyelems : bodytags) {
-
-                                body = body.concat(bodyelems.asText() + "\n");
-
-                            }
-
-                            if (body.length() > 5)
-                                createAndPersistArticle(baseURL + articleURL, title, category, baseURL + imageURL, body, cal, "LaNacion");
-
+                        } catch (IOException e) {
+                            System.out.println("invalid article type");
                         }
-                    } catch (IOException e) {
-                        System.out.println("invalid article type");
-                    }
 
-                    }catch (NullPointerException n){
+                    } catch (NullPointerException n) {
                         System.out.println("Invalid main element type");
                     }
                 }
