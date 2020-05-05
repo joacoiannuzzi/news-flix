@@ -25,9 +25,6 @@ public class InfobaeScraper extends AbstractScraper {
         webClient.getOptions().setCssEnabled(false);
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
 
-        // sintax xpath
-        // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
-
         try {
             HtmlPage page = webClient.getPage(baseUrl);
 
@@ -45,40 +42,44 @@ public class InfobaeScraper extends AbstractScraper {
                 String image = htmlImage == null ? "" : htmlImage.getAttribute("data-original");
                 String category = url.substring(1, url.substring(1).indexOf("/") + 1);
 
-                HtmlPage art = webClient.getPage(baseUrl + url);
-
-                final HtmlElement date = art.getFirstByXPath("//span[@class='byline-date']");
-
-                //13 de abril de 2020
-
-                Calendar cal = Calendar.getInstance();
-
-                SimpleDateFormat sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy", new Locale("es", "ES"));
                 try {
-                    cal.setTime(sdf.parse(date.asText()));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                } catch (NullPointerException e) {
-                    System.out.println("Article doesn't have date so it wasn't persisted");
-                    continue;
-                }
+                    HtmlPage art = webClient.getPage(baseUrl + url);
 
-                HtmlElement htmlItem = art.getFirstByXPath("//div[@id='article-content']");
-                final List<HtmlElement> bodytags = htmlItem.getByXPath("//div[@class='row pb-content-type-text']");
+                    final HtmlElement date = art.getFirstByXPath("//span[@class='byline-date']");
 
-                String body = "";
+                    //13 de abril de 2020
 
-                for (HtmlElement bodyelems : bodytags) {
+                    Calendar cal = Calendar.getInstance();
 
-                    body = body.concat(bodyelems.asText() + "\n\n");
+                    SimpleDateFormat sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy", new Locale("es", "ES"));
+                    try {
+                        cal.setTime(sdf.parse(date.asText()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    } catch (NullPointerException e) {
+                        System.out.println("Article doesn't have date so it wasn't persisted");
+                        continue;
+                    }
 
-                }
+                    HtmlElement htmlItem = art.getFirstByXPath("//div[@id='article-content']");
+                    final List<HtmlElement> bodytags = htmlItem.getByXPath("//div[@class='row pb-content-type-text']");
 
-                try {
-                    articles.add(new Article(baseUrl + url, title, fixCategory(category), image, body, cal, "Infobae"));
+                    String body = "";
 
+                    for (HtmlElement bodyelems : bodytags) {
+
+                        body = body.concat(bodyelems.asText() + "\n\n");
+
+                    }
+
+                    try {
+                        articles.add(new Article(baseUrl + url, title, fixCategory(category), image, body, cal, "Infobae"));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("some error with infobae article");
                 }
 
             }

@@ -36,10 +36,10 @@ public class UserController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
         User result = userRepository.save(user);
-        return ResponseEntity.created(new URI("/api/user" + result.getEmail())).body(result);
+        return ResponseEntity.created(new URI("/api/user" + result.getId())).body(result);
 
     }
 

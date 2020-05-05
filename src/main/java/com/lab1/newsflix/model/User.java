@@ -30,6 +30,8 @@ public class User {
 
     private String password;
 
+
+
     public String getEmail() {
         return email;
     }

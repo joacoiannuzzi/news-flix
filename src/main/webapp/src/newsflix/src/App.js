@@ -4,6 +4,7 @@ import Home from "./pages/Home"
 import Category from "./pages/Category"
 import Newspaper from "./pages/Newspaper";
 import Article from "./pages/Article";
+import SignUp from "./pages/SignUp";
 
 class App extends Component {
     state = {};
@@ -16,6 +17,7 @@ class App extends Component {
                     <Route path='/categories/:name' exact={true} component={Category}/>
                     <Route path='/newspapers/:name' exact={true} component={Newspaper}/>
                     <Route path='/articles/:id' exact={true} component={Article}/>
+                    <Route path='/signup' exact={true} component={SignUp}/>
                 </Switch>
             </Router>
         );

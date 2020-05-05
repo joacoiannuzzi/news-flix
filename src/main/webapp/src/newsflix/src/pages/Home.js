@@ -33,6 +33,7 @@ class Home extends Component {
         return (
             <div>
                 <AppNav/>
+                <h1>Lo ultimo</h1>
                 <ArticleCArdColumns articles={articles}/>
             </div>
         );
