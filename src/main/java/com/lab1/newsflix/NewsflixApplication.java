@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication()
 @EntityScan("com.lab1.newsflix.model")
-@EnableJpaRepositories("com.lab1.newsflix.repository")
 public class NewsflixApplication {
 
     public static void main(String[] args) {

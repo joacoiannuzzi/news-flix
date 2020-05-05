@@ -5,6 +5,7 @@ import com.lab1.newsflix.model.Article;
 import com.lab1.newsflix.repository.ArticleRepository;
 import com.lab1.newsflix.scrappers.AbstractScraper;
 import com.lab1.newsflix.scrappers.ClarinScraper;
+import com.lab1.newsflix.matcher.ArticleMatcherRunner;
 import com.lab1.newsflix.scrappers.InfobaeScraper;
 import com.lab1.newsflix.scrappers.LaNacionScraper;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,7 @@ public class LoadArticles {
                 }
                 });
                 articles.clear();
+
             });
         };
     }

@@ -1,11 +1,13 @@
 import React, {Component, useEffect, useState} from "react";
 import AppNav from "../components/AppNav";
 import {Container} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 function Article({match}) {
 
     useEffect(() => {
         fetchItems()
+        fetchSimilarArts()
     }, []);
 
     const [item, setItems] = useState([]);
@@ -15,6 +17,22 @@ function Article({match}) {
         const items = await data.json();
         setItems(items)
     };
+
+    const fetchSimilarArts = async () =>{
+
+        const form = {id:match.params.id,newspaper:"Clarin"};
+        const data = await fetch("/api/articles/similar",{
+            method: 'get',
+            mode: 'no-cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(form)
+        });
+
+
+    };
     return (
 
         <>
@@ -23,10 +41,16 @@ function Article({match}) {
                 <h1>
                     {item.title}
                 </h1>
+
+                <h4>
+                    {item.date}
+                </h4>
                 <p>
                     {item.body}
 
                 </p>
+
+                <button className="btn btn-primary" type="submit">Button</button>
             </Container>
         </>
     );

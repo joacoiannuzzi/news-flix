@@ -16,17 +16,17 @@ class SignUp extends Component {
     }
 
     handleChange = event => {
-        const isCheckbox = event.target.type === 'checkbox'
+        const isCheckbox = event.target.type === 'checkbox';
         this.setState({
             [event.target.name]: isCheckbox ?
                 event.target.checked :
                 event.target.value
         })
-    }
+    };
 
     handleSubmit = async event => {
-        event.preventDefault()
-        const user = this.state
+        event.preventDefault();
+        const user = this.state;
 
         let response = await fetch("/api/users/save", {
             method: 'post',
@@ -38,7 +38,7 @@ class SignUp extends Component {
             body: JSON.stringify(user)
         });
         console.log(response)
-    }
+    };
 
     render() {
         return <>

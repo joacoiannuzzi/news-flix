@@ -1,6 +1,7 @@
 package com.lab1.newsflix.controller;
 
 
+import com.lab1.newsflix.matcher.ArticleMatcherRunner;
 import com.lab1.newsflix.model.Article;
 import com.lab1.newsflix.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,13 @@ public class ArticleController {
     @GetMapping("/categories")
     Collection<Object> getCategories() {
         return articleService.getCategories();
+    }
+
+
+    @GetMapping("/articles/similar")
+    Article findSimilar(@RequestBody Form form) {
+
+        return ArticleMatcherRunner.findMostSimilar(form.getId(), form.getNewspaper(), articleService.findAll());
     }
 
 }

@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
 
-@NoArgsConstructor
 @Entity
 @Data
 @Table(name = "article")
@@ -34,6 +33,9 @@ public class Article {
     private Calendar date;
 
     private String newspaper;
+
+    public Article() {
+    }
 
     public Article(String url, String title, String category, String image, String body, Calendar date, String newspaper) {
         this.url = url;
@@ -95,6 +97,10 @@ public class Article {
 
     public String getNewspaper() {
         return newspaper;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setNewspaper(String newspaper) {

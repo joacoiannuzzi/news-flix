@@ -8,17 +8,17 @@ import org.simmetrics.tokenizers.Tokenizers;
 
 import static org.simmetrics.builders.StringMetricBuilder.with;
 
-public class articleMatcherService {
+public class ArticleMatcherService {
 
-    public static double Similarity(String a, String b){
+    public static double similarity(String a, String b) {
         StringMetric service =
                 with(new CosineSimilarity<>())
-                .simplify(Simplifiers.toLowerCase())
-                .simplify(Simplifiers.removeNonWord())
-                .tokenize(Tokenizers.whitespace())
-                .tokenize(Tokenizers.qGram(3))
-                .build();
+                        .simplify(Simplifiers.toLowerCase())
+                        .simplify(Simplifiers.removeNonWord())
+                        .tokenize(Tokenizers.whitespace())
+                        .tokenize(Tokenizers.qGram(3))
+                        .build();
 
-        return service.compare(a,b);
+        return service.compare(a, b);
     }
 }

@@ -2,60 +2,57 @@ package com.lab1.newsflix.matcher;
 
 
 import com.lab1.newsflix.model.Article;
+import com.lab1.newsflix.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static com.lab1.newsflix.matcher.articleMatcherService.Similarity;
-
-
-public class articleMatcherRunner {
-
-    private List<MatcherClass> result = new ArrayList<>();
-
-    public List<MatcherClass> serviceRun() {
-
-        try {
-//            List<Article> list = listAll(); //Inside try, since this might throw error if cant get tx.
-
-            List<Article> list = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                for (int j = 1; j < list.size(); j++) {
-                     if (!list.get(i).getNewspaper().equals(list.get(j).getNewspaper()))
-                            if (!list.get(i).getNewspaper().equals(list.get(j).getNewspaper())) { //Distintos Diarios.
-
-                                //A:B
-                                //B:A
+import static com.lab1.newsflix.matcher.ArticleMatcherService.similarity;
 
 
-                                double score = Similarity(list.get(i).getTitle() , list.get(j).getTitle());
+public class ArticleMatcherRunner {
 
 
-                                    result.add(new MatcherClass(list.get(i).getUrl(), list.get(j).getUrl(), score));
+    public static Article findMostSimilar(Long id, String diarioABuscar, Collection<Article> articles) {
 
 
 
-                            }
+        //Tenemos un id del articulo a comparar y un String del diario a buscar la mas similar y todos los articulos
 
-                }
+        Optional<Article> byId = articles.stream().filter(article -> article.getId().equals(id)).findFirst();
+        if (byId.isPresent()) {
 
-            }
+            Article artDelId = byId.get();
 
-            for (int i = 0; i < result.size(); i++) {
-                for (int j = 1; j < result.size(); j++) {
-                    if(result.get(i).getUrl1().equals(result.get(j).getUrl1())){
-                        if (result.get(i).getScore() < result.get(j).getScore()){
-                            result.remove(i);
-                        }
-                    }
+
+            articles = articles.stream().filter(article -> article.getNewspaper().equals(diarioABuscar)).collect(Collectors.toList());
+
+            double max = 0;
+            Long idOfMax = 0L;
+            for (Article temp : articles) {
+                double score = similarity(artDelId.getBody(), temp.getBody());
+
+                if (score > max) {
+                    max = score;
+                    idOfMax = temp.getId();
                 }
             }
 
+            System.out.println("Max Score = " + max);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            //Ya esta presente este id porque esta en el respository.
+            Long finalIdOfMax = idOfMax;
+            return articles.stream().filter(article -> article.getId().equals(finalIdOfMax)).findFirst().get();
+
+        } else {
+
+            throw new RuntimeException("No article found for title.");
         }
-        return result;
+
     }
 }
 
