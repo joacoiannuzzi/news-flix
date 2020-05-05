@@ -21,6 +21,10 @@ build/
 *.ipr
 out/
 
+.floo
+.flooignore
+
+db.mv.db
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
