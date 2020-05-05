@@ -28,7 +28,7 @@ class Home extends Component {
         const {isLoading, articles} = this.state;
 
         if (isLoading)
-            return (<div>Loading....</div>);
+            return (<div style={{width: "50%", margin: "0px auto"}}>Loading...</div>);
 
         return (
             <div>

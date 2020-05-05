@@ -6,8 +6,8 @@ import Button from "react-bootstrap/Button";
 function Article({match}) {
 
     useEffect(() => {
-        fetchItems()
-        fetchSimilarArts()
+        fetchItems();
+
     }, []);
 
     const [item, setItems] = useState([]);
@@ -18,23 +18,22 @@ function Article({match}) {
         setItems(items)
     };
 
-    const fetchSimilarArts = async () =>{
-
-        const form = {id:match.params.id,newspaper:"Clarin"};
-        const data = await fetch("/api/articles/similar",{
-            method: 'post',
-            mode: 'no-cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(form)
-        });
-
-        console.log(data);
-
-
+    const requestOptions = {
+        method: 'Get',
+        mode: 'no-cors',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json',
+        },
     };
+
+    const fetchSimilar = async() => {
+        fetch("/api/articles/similar?id="+match.params.id+"&newspaper=La Nacion", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+
     return (
 
         <>
@@ -52,7 +51,7 @@ function Article({match}) {
 
                 </p>
 
-                <button className="btn btn-primary" onClick={fetchSimilarArts} type="submit">Button</button>
+                <Button onClick={() => fetchSimilar()}>fetch</Button>
             </Container>
         </>
     );

@@ -60,9 +60,9 @@ public class ArticleController {
 
 
     @GetMapping("/articles/similar")
-    Article findSimilar(@RequestBody Form form) {
+    Article findSimilar(@RequestParam Long id, @RequestParam String newspaper) {
 
-        return ArticleMatcherRunner.findMostSimilar(form.getId(), form.getNewspaper(), articleService.findAll());
+        return ArticleMatcherRunner.findMostSimilar(id, newspaper, articleService.findAll());
     }
 
 }
