@@ -22,7 +22,7 @@ function Article({match}) {
 
         const form = {id:match.params.id,newspaper:"Clarin"};
         const data = await fetch("/api/articles/similar",{
-            method: 'get',
+            method: 'post',
             mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
@@ -30,6 +30,8 @@ function Article({match}) {
             },
             body: JSON.stringify(form)
         });
+
+        console.log(data);
 
 
     };
@@ -50,7 +52,7 @@ function Article({match}) {
 
                 </p>
 
-                <button className="btn btn-primary" type="submit">Button</button>
+                <button className="btn btn-primary" onClick={fetchSimilarArts} type="submit">Button</button>
             </Container>
         </>
     );
