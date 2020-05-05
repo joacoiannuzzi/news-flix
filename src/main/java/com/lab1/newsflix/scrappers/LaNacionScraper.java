@@ -4,7 +4,6 @@ package com.lab1.newsflix.scrappers;
 import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.lab1.newsflix.model.Article;
-import com.lab1.newsflix.repository.ArticleRepository;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,6 +30,8 @@ public class LaNacionScraper extends AbstractScraper {
     private final static Pattern pattern = Pattern.compile("<section[^>]*[^>]*>[^~]*?</section>");
     private final List<Document> documentsList = new ArrayList<>();
 
+//    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ArticleServiceConfig.class);
+//    ArticleService articleService = context.getBean(ArticleService.class);
 
     @Override
     public void scrap(List<Article> articles) {
@@ -91,12 +92,12 @@ public class LaNacionScraper extends AbstractScraper {
 
                                 for (HtmlElement bodyelems : bodytags) {
 
-                                    body = body.concat(bodyelems.asText() + "\n");
+                                    body = body.concat(bodyelems.asText() + "\n\n");
 
                                 }
                                 try {
                                     if (body.length() > 5)
-                                        articles.add(new Article(baseURL + articleURL, title, category, "http:" + imageURL, body, cal, "LaNacion"));
+                                        articles.add(new Article(baseURL + articleURL, title, fixCategory(category), "http:" + imageURL, body, cal, "La Nacion"));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     System.out.println("Repeated Article, or some other error.");

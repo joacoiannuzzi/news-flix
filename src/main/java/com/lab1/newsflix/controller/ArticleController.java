@@ -2,7 +2,7 @@ package com.lab1.newsflix.controller;
 
 
 import com.lab1.newsflix.model.Article;
-import com.lab1.newsflix.repository.ArticleRepository;
+import com.lab1.newsflix.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,58 +17,44 @@ import java.util.Optional;
 public class ArticleController {
 
     @Autowired
-    private ArticleRepository articleRepository;
+    private ArticleService articleService;
 
     @GetMapping("/articles")
-    Collection<Article> categories() {
-        return articleRepository.findAll();
+    Collection<Article> getAllArticles() {
+        return articleService.findAll();
+    }
+
+    @GetMapping("/articles/latest")
+    Collection<Article> getLatestArticles() {
+        return articleService.getLatestArticles();
     }
 
     //article/2
     @GetMapping("/article/{id}")
     ResponseEntity<?> getArticle(@PathVariable Long id) {
-        Optional<Article> article = articleRepository.findById(id);
+        Optional<Article> article = articleService.findById(id);
         return article.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/newspaper/{newspaper}")
     Collection<Article> getNewspaper(@PathVariable String newspaper) {
-        return articleRepository.findByNewspaper(newspaper);
+        return articleService.findByNewspaper(newspaper);
     }
 
     @GetMapping("/newspapers")
     Collection<Object> getNewspapers() {
-        return articleRepository.getNewspapers();
+        return articleService.getNewspapers();
     }
 
     @GetMapping("/category/{category}")
     Collection<Article> getByCategory(@PathVariable String category) {
-        return articleRepository.findByCategory(category);
+        return articleService.findByCategory(category);
     }
 
     @GetMapping("/categories")
     Collection<Object> getCategories() {
-        return articleRepository.getCategories();
+        return articleService.getCategories();
     }
 
-//    @PostMapping("/find-new-articles")
-//    ResponseEntity<Article> findNewArticles() throws URISyntaxException {
-//        Article result = articleService.save(article);
-//        return ResponseEntity.created(new URI("/api/article" + result.getUrl())).body(result);
-//
-//    }
-//
-//    @PutMapping("/article/{id}")
-//    ResponseEntity<Article> updateArticle(@Valid @RequestBody Article article) {
-//        Article result = articleService.save(article);
-//        return ResponseEntity.ok().body(result);
-//    }
-//
-//
-//    @DeleteMapping("/article/{id}")
-//    ResponseEntity<?> deleteArticle(@PathVariable String id) {
-//        articleService.deleteById(id);
-//        return ResponseEntity.ok().build();
-//    }
 }

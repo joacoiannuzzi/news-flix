@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import AppNav from "../components/AppNav";
-import {Card, CardColumns} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import ArticleCArdColumns from "../components/ArticleCardColumns";
 
 class Home extends Component {
 
@@ -14,8 +13,7 @@ class Home extends Component {
     }
 
     async componentDidMount() {
-
-        const response = await fetch('/api/articles', {
+        const response = await fetch('/api/articles/latest', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -24,52 +22,18 @@ class Home extends Component {
         });
         const body = await response.json();
         this.setState({articles: body, isLoading: false});
-
     }
 
     render() {
-
         const {isLoading, articles} = this.state;
 
         if (isLoading)
             return (<div>Loading....</div>);
 
-
-        let cards = articles.map(article => {
-                if (article.image != null && article.image !== "" && article.image !== undefined)
-                    return (
-                        <Card>
-                            <Link to={"/articles/" + article.id}>
-                                <Card.Img top width="100%" src={article.image}/>
-                                <Card.Body>
-                                    <Card.Title>
-                                        {article.title}
-                                    </Card.Title>
-                                </Card.Body>
-                            </Link>
-                        </Card>
-                    );
-                return (
-                    <Card>
-                        <Link to={"/articles/" + article.id}>
-                            <Card.Body>
-                                <Card.Title>
-                                    {article.title}
-                                </Card.Title>
-                            </Card.Body>
-                        </Link>
-                    </Card>
-                )
-            }
-        );
-
-
         return (
             <div>
                 <AppNav/>
-                <CardColumns className="mx-3 mt-2">
-                    {cards}
-                </CardColumns>
+                <ArticleCArdColumns articles={articles}/>
             </div>
         );
     }

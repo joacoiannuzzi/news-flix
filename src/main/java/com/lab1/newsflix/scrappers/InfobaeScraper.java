@@ -5,7 +5,6 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.lab1.newsflix.model.Article;
-import com.lab1.newsflix.repository.ArticleRepository;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -71,12 +70,12 @@ public class InfobaeScraper extends AbstractScraper {
 
                 for (HtmlElement bodyelems : bodytags) {
 
-                    body = body.concat(bodyelems.asText() + "\n");
+                    body = body.concat(bodyelems.asText() + "\n\n");
 
                 }
 
                 try {
-                    articles.add(new Article(baseUrl + url, title, category, image, body, cal, "Infobae"));
+                    articles.add(new Article(baseUrl + url, title, fixCategory(category), image, body, cal, "Infobae"));
 
                 } catch (Exception e) {
                     e.printStackTrace();

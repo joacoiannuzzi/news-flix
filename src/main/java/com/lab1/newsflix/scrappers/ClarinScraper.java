@@ -4,7 +4,6 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import com.lab1.newsflix.model.Article;
-import com.lab1.newsflix.repository.ArticleRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -79,11 +78,11 @@ public class ClarinScraper extends AbstractScraper {
 
                         for (Element bodyelems : bodytags) {
 
-                            body = body.concat(bodyelems.text() + "\n");
+                            body = body.concat(bodyelems.text() + "\n\n");
 
                         }
                         try {
-                            articles.add(new Article(url, title, category, image, body, cal, "Clarin"));
+                            articles.add(new Article(url, title, fixCategory(category), image, body, cal, "Clarin"));
 
                         } catch (Exception e) {
                             e.printStackTrace();
