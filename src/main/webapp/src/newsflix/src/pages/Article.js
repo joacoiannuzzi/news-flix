@@ -1,9 +1,8 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {Component} from "react";
 import AppNav from "../components/AppNav";
-import {Card, CardDeck, Col, Container, Row} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import ArticleCardColumns from "../components/ArticleCardColumns";
+import {Col, Container, Image, Row} from "react-bootstrap";
 import ArticleCards from "../components/ArticleCards";
+import * as Arrays from "util";
 
 class Article extends Component {
 
@@ -51,22 +50,27 @@ class Article extends Component {
                 <AppNav/>
                 <Container className="mt-4">
                     <Row>
-                        <Col xs={9}>
+                        <Col xs={8}>
                             <h1 className="">
                                 {article.title}
                             </h1>
                             <h4 className="mt-4">
                                 {article.date}
                             </h4>
+                            <Image fluid src={article.image}/>
                             <p className="text-justify mt-4">
                                 {article.body}
 
                             </p>
                         </Col>
-                        <Col xs={3}>
-                            <h2 className="mb-4">Articulos similares de otros diarios</h2>
-                            <ArticleCards articles={similarArticles}/>
-                        </Col>
+                        {Arrays.isArray(similarArticles) && similarArticles.length ?
+                            <Col xs={{span: 3, offset: 1}}>
+                                <h2 className="mb-4">Articulos similares de otros diarios</h2>
+                                <ArticleCards className="mb-4" articles={similarArticles}/>
+                            </Col> :
+                            <></>
+
+                        }
                     </Row>
                 </Container>
             </>

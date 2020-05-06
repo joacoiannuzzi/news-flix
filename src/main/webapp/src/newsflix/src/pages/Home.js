@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import AppNav from "../components/AppNav";
 import ArticleCardColumns from "../components/ArticleCardColumns";
+import {Container} from "react-bootstrap";
 
 class Home extends Component {
 
@@ -33,8 +34,10 @@ class Home extends Component {
         return (
             <div>
                 <AppNav/>
-                <h1>Lo ultimo</h1>
-                <ArticleCardColumns articles={articles}/>
+                <Container>
+                    <h1>Lo ultimo</h1>
+                    <ArticleCardColumns articles={articles}/>
+                </Container>
             </div>
         );
     }

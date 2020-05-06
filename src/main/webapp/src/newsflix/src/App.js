@@ -17,7 +17,7 @@ class App extends Component {
                     <Route path='/' exact={true} component={Home}/>
                     <Route path='/categories/:name' exact={true} component={Category}/>
                     <Route path='/newspapers/:name' exact={true} component={Newspaper}/>
-                    <Route path='/articles/:id' exact={true} component={Article}/>
+                    <Route path='/articles/:id' exact component={Article}/>
                     <Route path='/login' exact={true} component={Login}/>
                     <Route path='/signup' exact={true} component={SignUp}/>
                 </Switch>

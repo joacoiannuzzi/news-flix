@@ -14,7 +14,7 @@ public abstract class AbstractScraper {
     public abstract void scrap(List<Article> articles);
 
     public String fixCategory(String raw) {
-        String s = raw.replaceAll("-", " ").replaceAll("[^a-zA-Z\\s]", "").trim().replaceAll("[a-zA-Z][a-zA-Z]\\s", "").trim();
+        String s = raw.replaceAll("-", " ").replaceAll("[^a-zA-Z\\s]", "").trim();
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 

@@ -2,13 +2,18 @@ package com.lab1.newsflix.matcher;
 
 
 import com.lab1.newsflix.model.Article;
+import org.simmetrics.StringMetric;
+import org.simmetrics.metrics.CosineSimilarity;
+import org.simmetrics.metrics.SmithWaterman;
+import org.simmetrics.simplifiers.Simplifiers;
+import org.simmetrics.tokenizers.Tokenizers;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.lab1.newsflix.matcher.ArticleMatcherService.similarity;
+import static org.simmetrics.builders.StringMetricBuilder.with;
 
 public class ArticleMatcherRunner {
 
@@ -32,16 +37,33 @@ public class ArticleMatcherRunner {
 
             articleStream.forEach(article -> {
                         double score = similarity(articleToCompare.getBody(), article.getBody());
-                        if (score >= 0.6 && score > max.get()) {
+                        if (score > max.get()) {
                             max.set(score);
                             articleMax.set(article);
                         }
                     }
             );
-            if (articleMax.get() != null)
+//            score >= 0.5 &&
+            if (articleMax.get() != null) {
                 result.add(articleMax.get());
+                System.out.println(max);
+            }
         }
         return result;
+    }
+
+    public static double similarity(String a, String b) {
+        StringMetric service =
+                with(new CosineSimilarity<>())
+                        .simplify(Simplifiers.toLowerCase())
+                        .simplify(Simplifiers.removeNonWord())
+                        .simplify(Simplifiers.removeDiacritics())
+                        .tokenize(Tokenizers.whitespace())
+                        .tokenize(Tokenizers.qGram(2))
+                        .build();
+
+        return service.compare(a, b);
+
     }
 }
 

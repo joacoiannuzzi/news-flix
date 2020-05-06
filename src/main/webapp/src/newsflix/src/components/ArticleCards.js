@@ -8,7 +8,7 @@ function ArticleCards(props) {
 
     return articles.map(article => {
             return (
-                <Card>
+                <Card className={props.className} key={article.id}>
                     <Link to={`/articles/${article.id}`}>
                         {article.image != null && article.image !== "" && article.image !== undefined ?
                             <Card.Img top width="100%" src={article.image}/> :
