@@ -1,5 +1,6 @@
 package com.lab1.newsflix.service;
 
+import com.lab1.newsflix.model.Article;
 import com.lab1.newsflix.model.CustomUserDetails;
 import com.lab1.newsflix.model.User;
 import com.lab1.newsflix.repository.UserRepository;
@@ -16,6 +17,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByEmail(email);

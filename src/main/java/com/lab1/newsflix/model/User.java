@@ -17,7 +17,7 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private int isActive;
+    private boolean isActive;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id" , referencedColumnName = "id"))
     private Set<Role> role;
@@ -33,6 +33,7 @@ public class User {
         this.role = user.getRole();
         this.id = user.getId();
     }
+
 
     public long getId() {
         return id;
@@ -74,11 +75,11 @@ public class User {
         this.password = password;
     }
 
-    public int getIsActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(int isActive) {
+    public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
 

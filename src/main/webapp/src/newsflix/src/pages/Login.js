@@ -34,12 +34,14 @@ class Login extends Component {
         };
 
         const response = async() => {
-            fetch("/api/user/create?firstName=" + this.state.firstName + "&lastName=" + this.state.lastName + "&email=" + this.state.email + "&password=" + this.state.password, requestOptions)
+            fetch("/api/login"+this.state.email + "&password=" + this.state.password, requestOptions)
                 .then(response => response.text())
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
         };
-    }
+
+        response()
+    };
 
     render() {
         return <>
