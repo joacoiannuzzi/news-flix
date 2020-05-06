@@ -30,7 +30,6 @@ class SignUp extends Component {
 
         let response = await fetch("/api/user/create", {
             method: 'post',
-            mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
                 'Content-type': 'application/json',
@@ -38,6 +37,7 @@ class SignUp extends Component {
             body: JSON.stringify(user)
         });
         console.log(response)
+        this.props.history.push("/login")
     };
 
     render() {
@@ -49,24 +49,24 @@ class SignUp extends Component {
 
                     <Form.Group controlId="firstName">
                         <Form.Label>Nombre</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="firstName" type="text" placeholder="Nombre"/>
+                        <Form.Control onChange={this.handleChange} name="firstName" type="text" placeholder="Nombre" required/>
                     </Form.Group>
 
                     <Form.Group controlId="lastName">
                         <Form.Label>Apellido</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="lastName" type="text" placeholder="Apellido"/>
+                        <Form.Control onChange={this.handleChange} name="lastName" type="text" placeholder="Apellido" required/>
                     </Form.Group>
 
                     <Form.Group controlId="email">
                         <Form.Label>Correo electronico</Form.Label>
                         <Form.Control onChange={this.handleChange} name="email" type="email"
-                                      placeholder="Correo electronico"/>
+                                      placeholder="Correo electronico" required/>
                     </Form.Group>
 
                     <Form.Group controlId="password">
                         <Form.Label>Contraseña</Form.Label>
                         <Form.Control onChange={this.handleChange} name="password" type="password"
-                                      placeholder="Contraseña"/>
+                                      placeholder="Contraseña" required/>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">

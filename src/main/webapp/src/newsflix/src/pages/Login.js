@@ -35,9 +35,7 @@ class Login extends Component {
 
         const response = async() => {
             fetch("/api/login"+this.state.email + "&password=" + this.state.password, requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
+                .then(response => this.props.history.push("/"))
         };
 
         response()
@@ -53,13 +51,13 @@ class Login extends Component {
                     <Form.Group controlId="email">
                         <Form.Label>Correo electronico</Form.Label>
                         <Form.Control onChange={this.handleChange} name="email" type="email"
-                                      placeholder="Correo electronico"/>
+                                      placeholder="Correo electronico" required/>
                     </Form.Group>
 
                     <Form.Group controlId="password">
                         <Form.Label>Contraseña</Form.Label>
                         <Form.Control onChange={this.handleChange} name="password" type="password"
-                                      placeholder="Contraseña"/>
+                                      placeholder="Contraseña" required/>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">

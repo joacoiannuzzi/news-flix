@@ -33,7 +33,7 @@ public class UserController {
     private UserRepository userRepository;
 
 
-    @RequestMapping("/signup")
+    @RequestMapping("/user/create")
     ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
         user.setIsActive(true);
         User result = userRepository.save(user);
