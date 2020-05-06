@@ -1,58 +1,61 @@
 package com.lab1.newsflix.controller;
 
 
+import com.lab1.newsflix.model.Role;
 import com.lab1.newsflix.model.User;
-import com.lab1.newsflix.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
-        super();
-        this.userRepository = userRepository;
+    @RequestMapping("/login")
+    public ModelAndView loginPage(){
+        ModelAndView model = new ModelAndView();
+        model.setViewName("index");
+        System.out.println("--->"+SecurityContextHolder.getContext().getAuthentication().getName());
+        return model;
     }
 
-    @GetMapping("/users")
-    Collection<User> categories() {
-        return userRepository.findAll();
+    @RequestMapping(value = "/secured/loginSuccess", method = RequestMethod.POST)
+    public User loginSuccess(){
+
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
+        User user = new User();
+        Set<Role> roles = new HashSet<Role>();
+        user.setEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        roles.addAll((Collection<? extends Role>) SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        user.setRole(roles);
+        user.setIsActive(1);
+
+        return user;
     }
 
-    @GetMapping("/user/{id}")
-    ResponseEntity<?> getUser(@PathVariable String id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.map(response -> ResponseEntity.ok().body(response))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @RequestMapping("/secured/home")
+    public String homePage(){
+        return "home";
     }
 
-    @PostMapping("/users")
-    ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
-        User result = userRepository.save(user);
-        return ResponseEntity.created(new URI("/api/user" + result.getId())).body(result);
-
+    @PreAuthorize("hasAnyRole('USER')")
+    @RequestMapping("/secured/user")
+    public String userPage(){
+        return "user page";
     }
 
-    @PutMapping("/user/{id}")
-    ResponseEntity<User> updateUser(@Valid @RequestBody User user) {
-        User result = userRepository.save(user);
-        return ResponseEntity.ok().body(result);
-    }
-
-
-    @DeleteMapping("/user/{id}")
-    ResponseEntity<?> deleteUser(@PathVariable String id) {
-        userRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    @RequestMapping("/noLogin")
+    public String noLogin(){
+        return "user page";
     }
 }

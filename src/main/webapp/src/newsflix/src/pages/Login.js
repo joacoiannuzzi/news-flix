@@ -2,16 +2,13 @@ import React, {Component} from "react";
 import {Container, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
-class SignUp extends Component {
+class Login extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            firstName: '',
-            lastName: '',
             email: '',
             password: '',
-            isActive: true
         }
     }
 
@@ -26,36 +23,30 @@ class SignUp extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
-        const user = this.state;
 
-        let response = await fetch("/api/user/create", {
-            method: 'post',
+        const requestOptions = {
+            method: 'Post',
             mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify(user)
-        });
-        console.log(response)
-    };
+        };
+
+        const response = async() => {
+            fetch("/api/user/create?firstName=" + this.state.firstName + "&lastName=" + this.state.lastName + "&email=" + this.state.email + "&password=" + this.state.password, requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        };
+    }
 
     render() {
         return <>
-            <h1 className="display-4 text-center">Registrate</h1>
+            <h1 className="display-4 text-center">Inicia sesión</h1>
 
             <Container>
                 <Form onSubmit={this.handleSubmit}>
-
-                    <Form.Group controlId="firstName">
-                        <Form.Label>Nombre</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="firstName" type="text" placeholder="Nombre"/>
-                    </Form.Group>
-
-                    <Form.Group controlId="lastName">
-                        <Form.Label>Apellido</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="lastName" type="text" placeholder="Apellido"/>
-                    </Form.Group>
 
                     <Form.Group controlId="email">
                         <Form.Label>Correo electronico</Form.Label>

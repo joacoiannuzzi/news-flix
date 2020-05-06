@@ -6,42 +6,40 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Data
-@Table(name = "user")
 public class User {
 
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @Column(unique = true)
-    private String email;
-
+    @Id @GeneratedValue	(strategy=GenerationType.AUTO)
+    private long id;
     private String firstName;
-
     private String lastName;
-
-    private boolean isActive;
-
+    private String email;
     private String password;
+    private int isActive;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id" , referencedColumnName = "id"))
+    private Set<Role> role;
 
+    public User(){}
 
+    public User(User user){
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.isActive = user.getIsActive();
+        this.role = user.getRole();
+        this.id = user.getId();
+    }
 
-    public Long getId(){
+    public long getId() {
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -60,15 +58,37 @@ public class User {
         this.lastName = lastName;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public String getEmail() {
+        return email;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public int getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
+    }
+
+    public Set<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<Role> role) {
+        this.role = role;
+    }
+
+
 }
