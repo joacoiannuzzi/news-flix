@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import AppNav from "../components/AppNav";
-import ArticleCArdColumns from "../components/ArticleCardColumns";
+import ArticleCardColumns from "../components/ArticleCardColumns";
 
 function Newspaper({match}) {
 
@@ -21,7 +21,7 @@ function Newspaper({match}) {
         <>
             <AppNav/>
             <h1>{newspaper}</h1>
-            <ArticleCArdColumns articles={item}/>
+            <ArticleCardColumns articles={item}/>
 
         </>
     );

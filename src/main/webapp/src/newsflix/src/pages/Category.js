@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import AppNav from "../components/AppNav";
-import ArticleCArdColumns from "../components/ArticleCardColumns";
+import ArticleCardColumns from "../components/ArticleCardColumns";
 
 function Category({match}) {
 
@@ -22,7 +22,7 @@ function Category({match}) {
         <>
             <AppNav/>
             <h1>{category}</h1>
-            <ArticleCArdColumns articles={item}/>
+            <ArticleCardColumns articles={item}/>
         </>
     );
 

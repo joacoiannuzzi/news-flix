@@ -14,16 +14,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.lab1.newsflix.repository.UserRepository;
 
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
-@EnableJpaRepositories(basePackageClasses= UserRepository.class)
+@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(getPasswordEncoder());
@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     }
 
-    private PasswordEncoder getPasswordEncoder(){
+    private PasswordEncoder getPasswordEncoder() {
         return new PasswordEncoder() {
 
             @Override

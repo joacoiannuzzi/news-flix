@@ -1,60 +1,77 @@
 import React, {Component, useEffect, useState} from "react";
 import AppNav from "../components/AppNav";
-import {Container} from "react-bootstrap";
+import {Card, CardDeck, Col, Container, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import ArticleCardColumns from "../components/ArticleCardColumns";
+import ArticleCards from "../components/ArticleCards";
 
-function Article({match}) {
+class Article extends Component {
 
-    useEffect(() => {
-        fetchItems();
-
-    }, []);
-
-    const [item, setItems] = useState([]);
-
-    const fetchItems = async () => {
-        const data = await fetch("/api/article/" + match.params.id);
-        const items = await data.json();
-        setItems(items)
-    };
-
-    const requestOptions = {
-        method: 'Get',
-        mode: 'no-cors',
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json',
-        },
-    };
-
-    const fetchSimilar = async() => {
-        fetch("/api/articles/similar?id="+match.params.id+"&newspaper=La Nacion", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+    constructor(props) {
+        super(props);
+        this.state = {
+            article: {},
+            similarArticles: []
+        }
     }
 
-    return (
+    async componentDidMount() {
+        const response = await fetch(`/api/article/${this.props.match.params.id}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        const body = await response.json();
+        this.setState({article: body});
 
-        <>
-            <AppNav/>
-            <Container>
-                <h1>
-                    {item.title}
-                </h1>
+        const response2 = await fetch(`/api/articles/similar/${this.props.match.params.id}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        const body2 = await response2.json();
+        this.setState({similarArticles: body2, isLoading: false});
 
-                <h4>
-                    {item.date}
-                </h4>
-                <p>
-                    {item.body}
 
-                </p>
+    }
 
-                <Button onClick={() => fetchSimilar()}>fetch</Button>
-            </Container>
-        </>
-    );
+    render() {
+
+        const {isLoading, article, similarArticles} = this.state;
+
+        if (isLoading)
+            return (<div style={{width: "50%", margin: "0px auto"}}>Loading...</div>);
+
+        return (
+            <>
+                <AppNav/>
+                <Container className="mt-4">
+                    <Row>
+                        <Col xs={9}>
+                            <h1 className="">
+                                {article.title}
+                            </h1>
+                            <h4 className="mt-4">
+                                {article.date}
+                            </h4>
+                            <p className="text-justify mt-4">
+                                {article.body}
+
+                            </p>
+                        </Col>
+                        <Col xs={3}>
+                            <h2 className="mb-4">Articulos similares de otros diarios</h2>
+                            <ArticleCards articles={similarArticles}/>
+                        </Col>
+                    </Row>
+                </Container>
+            </>
+        )
+    }
 
 }
 

@@ -12,20 +12,25 @@ import java.util.Set;
 @Entity
 public class User {
 
-    @Id @GeneratedValue	(strategy=GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String email;
     private String password;
     private boolean isActive;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id" , referencedColumnName = "id"))
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<Role> role;
 
-    public User(){}
+    public User() {
+    }
 
-    public User(User user){
+    public User(User user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();

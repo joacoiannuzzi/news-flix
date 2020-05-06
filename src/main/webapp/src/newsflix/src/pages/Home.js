@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import AppNav from "../components/AppNav";
-import ArticleCArdColumns from "../components/ArticleCardColumns";
+import ArticleCardColumns from "../components/ArticleCardColumns";
 
 class Home extends Component {
 
@@ -34,7 +34,7 @@ class Home extends Component {
             <div>
                 <AppNav/>
                 <h1>Lo ultimo</h1>
-                <ArticleCArdColumns articles={articles}/>
+                <ArticleCardColumns articles={articles}/>
             </div>
         );
     }

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 import java.util.Optional;
 
 @RestController
@@ -59,10 +59,10 @@ public class ArticleController {
     }
 
 
-    @GetMapping("/articles/similar")
-    Article findSimilar(@RequestParam Long id, @RequestParam String newspaper) {
-
-        return ArticleMatcherRunner.findMostSimilar(id, newspaper, articleService.findAll());
+    @GetMapping("/articles/similar/{id}")
+    Collection<Article> findSimilar(@PathVariable Long id) {
+        Optional<Article> byId = articleService.findById(id);
+        return byId.map(article -> ArticleMatcherRunner.findSimilar(article, articleService.findAll())).orElse(Collections.emptyList());
     }
 
 }
