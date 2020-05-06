@@ -27,18 +27,14 @@ import java.util.Set;
 public class UserController {
 
     @Autowired
-    private UserDetailsServiceImpl userRepository;
+    private UserRepository userRepository;
 
 
     @RequestMapping("/signup")
-    ResponseEntity<?> createUser(@Valid @RequestBody User user) throws URISyntaxException {
-
-        if(userRepository.loadUserByUsername(user.getEmail()) != null) {
-            System.out.println(userRepository.loadUserByUsername(user.getEmail()));
-            User result = userRepository.save(user);
-            return ResponseEntity.created(new URI("/api/login" + result.getId())).body(result);
-        }
-        return ResponseEntity.badRequest().body(noLogin());
+    ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
+        user.setIsActive(true);
+        User result = userRepository.save(user);
+        return ResponseEntity.created(new URI("/api/signup" + result.getId())).body(result);
     }
 
     @RequestMapping(value = "/secured/loginSuccess", method = RequestMethod.POST)
