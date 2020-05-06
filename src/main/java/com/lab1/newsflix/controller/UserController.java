@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -37,14 +40,21 @@ public class UserController {
         return ResponseEntity.created(new URI("/api/signup" + result.getId())).body(result);
     }
 
+    @RequestMapping("/login")
+    public User loginPage(@RequestBody User user){
+        Optional<User> result = userRepository.findByEmail(user.getEmail());
+        if(result.isPresent() && result.get().getPassword().equals( user.getPassword())){
+            return loginSuccess(result.get());
+        }
+
+        throw new UsernameNotFoundException("Email Not Found!!");
+
+    }
+
     @RequestMapping(value = "/secured/loginSuccess", method = RequestMethod.POST)
-    public User loginSuccess(){
+    public User loginSuccess(User user){
 
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-
-        User user = new User();
         Set<Role> roles = new HashSet<>();
-        user.setEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         roles.addAll((Collection<? extends Role>) SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         user.setRole(roles);
         user.setIsActive(true);
