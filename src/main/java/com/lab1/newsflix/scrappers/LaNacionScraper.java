@@ -1,14 +1,17 @@
 package com.lab1.newsflix.scrappers;
 
 
-import com.gargoylesoftware.htmlunit.*;
-import com.gargoylesoftware.htmlunit.html.*;
-import com.lab1.newsflix.model.Article;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.UnexpectedPage;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -20,21 +23,16 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class LaNacionScraper extends AbstractScraper {
-
-    // sintax xpath
-    // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
 
     private final static String searchURL = "https://www.lanacion.com.ar/?utm_source=navigation&datamodule=tema_1;tema_2;tema_3;tema_4;tema_5;tema_6;tema_7;tema_8;tema_9;tema_10;tema_11;tema_12;tema_13;tema_14;tema_15;tema_16;tema_17;tema_18";
     private final static String baseURL = "https://www.lanacion.com.ar";
     private final static Pattern pattern = Pattern.compile("<section[^>]*[^>]*>[^~]*?</section>");
     private final List<Document> documentsList = new ArrayList<>();
 
-//    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ArticleServiceConfig.class);
-//    ArticleService articleService = context.getBean(ArticleService.class);
-
     @Override
-    public void scrap(List<Article> articles) {
+    public void scrap() {
 
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.getOptions().setJavaScriptEnabled(false);
@@ -97,7 +95,7 @@ public class LaNacionScraper extends AbstractScraper {
                                 }
                                 try {
                                     if (body.length() > 5)
-                                        articles.add(new Article(baseURL + articleURL, title, fixCategory(category), "http:" + imageURL, body, cal, "La Nacion"));
+                                        save(baseURL + articleURL, title, category, "http:" + imageURL, body, cal, "La Nacion");
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     System.out.println("Repeated Article, or some other error.");

@@ -33,39 +33,39 @@ class Login extends Component {
             },
         };
 
-        const response = async() => {
-            fetch("/api/login"+this.state.email + "&password=" + this.state.password, requestOptions)
-                .then(response => this.props.history.push("/"))
-        };
 
-        response()
+        await fetch("/api/login" + this.state.email + "&password=" + this.state.password, requestOptions)
+            .then(response => this.props.history.push("/"))
+
+
     };
 
     render() {
-        return <>
-            <h1 className="display-4 text-center">Inicia sesión</h1>
+        return (
+            <>
+                <Container>
+                    <h1 className="display-4 text-center">Inicia sesión</h1>
+                    <Form onSubmit={this.handleSubmit}>
 
-            <Container>
-                <Form onSubmit={this.handleSubmit}>
+                        <Form.Group controlId="email">
+                            <Form.Label>Correo electronico</Form.Label>
+                            <Form.Control onChange={this.handleChange} name="email" type="email"
+                                          placeholder="Correo electronico" required/>
+                        </Form.Group>
 
-                    <Form.Group controlId="email">
-                        <Form.Label>Correo electronico</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="email" type="email"
-                                      placeholder="Correo electronico" required/>
-                    </Form.Group>
+                        <Form.Group controlId="password">
+                            <Form.Label>Contraseña</Form.Label>
+                            <Form.Control onChange={this.handleChange} name="password" type="password"
+                                          placeholder="Contraseña" required/>
+                        </Form.Group>
 
-                    <Form.Group controlId="password">
-                        <Form.Label>Contraseña</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="password" type="password"
-                                      placeholder="Contraseña" required/>
-                    </Form.Group>
-
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-            </Container>
-        </>
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
+                    </Form>
+                </Container>
+            </>
+        )
     }
 
 }

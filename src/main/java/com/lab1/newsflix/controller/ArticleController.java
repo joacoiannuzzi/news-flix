@@ -1,7 +1,7 @@
 package com.lab1.newsflix.controller;
 
 
-import com.lab1.newsflix.matcher.ArticleMatcherRunner;
+import com.lab1.newsflix.matcher.ArticleMatcher;
 import com.lab1.newsflix.model.Article;
 import com.lab1.newsflix.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,11 +58,9 @@ public class ArticleController {
         return articleService.getCategories();
     }
 
-
     @GetMapping("/articles/similar/{id}")
     Collection<Article> findSimilar(@PathVariable Long id) {
-        Optional<Article> byId = articleService.findById(id);
-        return byId.map(article -> ArticleMatcherRunner.findSimilar(article, articleService.findAll())).orElse(Collections.emptyList());
+        return articleService.findSimilar(id);
     }
 
 }

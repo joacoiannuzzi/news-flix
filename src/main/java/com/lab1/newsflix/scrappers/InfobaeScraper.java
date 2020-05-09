@@ -4,7 +4,7 @@ package com.lab1.newsflix.scrappers;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
-import com.lab1.newsflix.model.Article;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -13,12 +13,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+@Component
 public class InfobaeScraper extends AbstractScraper {
 
     private final static String baseUrl = "https://www.infobae.com";
 
     @Override
-    public void scrap(List<Article> articles) {
+    public void scrap() {
 
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.getOptions().setJavaScriptEnabled(false);
@@ -73,7 +74,7 @@ public class InfobaeScraper extends AbstractScraper {
                     }
 
                     try {
-                        articles.add(new Article(baseUrl + url, title, fixCategory(category), image, body, cal, "Infobae"));
+                        save(baseUrl + url, title, category, image, body, cal, "Infobae");
 
                     } catch (Exception e) {
                         e.printStackTrace();

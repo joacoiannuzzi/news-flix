@@ -1,5 +1,6 @@
 package com.lab1.newsflix.service;
 
+import com.lab1.newsflix.matcher.ArticleMatcher;
 import com.lab1.newsflix.model.Article;
 import com.lab1.newsflix.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class ArticleService {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    ArticleMatcher articleMatcher;
 
     public void save(Article article) {
         articleRepository.save(article);
@@ -53,7 +57,23 @@ public class ArticleService {
         return latestArticles.sorted(Comparator.comparing(Article::getDate).reversed()).collect(Collectors.toList());
     }
 
+    public Collection<Article> findSimilar(Long id) {
+        return findById(id).map(articleToCompare -> {
 
+                    // agarra todos los articulos de la base de datos y los filtra segun la fecha --> todo habria que ver como directamente pedirlos filtrados
+                    Collection<List<Article>> values = findAll().stream()
+                            .filter(article -> Math.abs(article.getDate().get(Calendar.DAY_OF_MONTH) - articleToCompare.getDate().get(Calendar.DAY_OF_MONTH)) <= 3
+                                    && Math.abs(article.getDate().get(Calendar.YEAR) - articleToCompare.getDate().get(Calendar.YEAR)) == 0
+                                    && Math.abs(article.getDate().get(Calendar.MONTH) - articleToCompare.getDate().get(Calendar.MONTH)) == 0
+                                    && !article.getNewspaper().equals(articleToCompare.getNewspaper()))
+                            .collect(Collectors.groupingBy(Article::getNewspaper)) // los separa segun newsapaper en un map
+                            .values(); // devuelve solo los articulos
+
+                    return articleMatcher.findSimilar(articleToCompare, values);
+
+                }
+        ).orElse(Collections.emptyList());
+    }
 
 
 }

@@ -3,31 +3,29 @@ package com.lab1.newsflix.scrappers;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
-import com.lab1.newsflix.model.Article;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
-
+@Component
 public class ClarinScraper extends AbstractScraper {
 
-    // sintax xpath
-    // https://www.mclibre.org/consultar/xml/lecciones/xml-xpath.html
-
-    private final static String[] baseUrl = {"https://www.clarin.com/rss/lo-ultimo/", "https://www.clarin.com/rss/politica/", "https://www.clarin.com/rss/economia/", "https://www.clarin.com/rss/sociedad/", "https://www.clarin.com/rss/policiales/", "https://www.clarin.com/rss/cultura/", "https://www.clarin.com/rss/espectaculos/", "https://www.clarin.com/rss/deportes/", "https://www.clarin.com/rss/mundo/", "https://www.clarin.com/rss/tecnologia/", "https://www.clarin.com/rss/buena-vida/"};
-
+    private final static String[] baseUrl = {"https://www.clarin.com/rss/lo-ultimo/", "https://www.clarin.com/rss/politica/", "https://www.clarin.com/rss/economia/", "https://www.clarin.com/rss/sociedad/",
+            "https://www.clarin.com/rss/policiales/", "https://www.clarin.com/rss/cultura/", "https://www.clarin.com/rss/espectaculos/", "https://www.clarin.com/rss/deportes/",
+            "https://www.clarin.com/rss/mundo/", "https://www.clarin.com/rss/tecnologia/", "https://www.clarin.com/rss/buena-vida/"
+    };
 
     @Override
-    public void scrap(List<Article> articles) {
+    public void scrap() {
 
         try {
             // Connect to the web site
@@ -82,7 +80,7 @@ public class ClarinScraper extends AbstractScraper {
 
                         }
                         try {
-                            articles.add(new Article(url, title, fixCategory(category), image, body, cal, "Clarin"));
+                            save(url, title, category, image, body, cal, "Clarin");
 
                         } catch (Exception e) {
                             e.printStackTrace();
