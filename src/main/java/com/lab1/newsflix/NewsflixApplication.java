@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication()
-@EntityScan("com.lab1.newsflix.model")
+//@EntityScan("com.lab1.newsflix.model")
 public class NewsflixApplication {
 
     public static void main(String[] args) {

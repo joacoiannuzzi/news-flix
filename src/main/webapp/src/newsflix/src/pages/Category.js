@@ -13,7 +13,7 @@ function Category({match}) {
     const [item, setItems] = useState([]);
 
     const fetchItems = async () => {
-        const data = await fetch(`/api/category/${category}`);
+        const data = await fetch(`/api/articles/categories/${category}`);
         const items = await data.json();
         setItems(items)
     };

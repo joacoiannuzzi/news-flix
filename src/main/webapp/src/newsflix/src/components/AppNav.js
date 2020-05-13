@@ -15,7 +15,7 @@ class AppNav extends Component {
 
     async componentDidMount() {
 
-        const response = await fetch('/api/categories', {
+        const response = await fetch('/api/articles/categories/all', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -29,7 +29,7 @@ class AppNav extends Component {
         }
 
 
-        const response2 = await fetch('/api/newspapers', {
+        const response2 = await fetch('/api/articles/newspapers/all', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',

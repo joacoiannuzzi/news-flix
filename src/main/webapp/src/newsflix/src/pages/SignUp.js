@@ -11,7 +11,6 @@ class SignUp extends Component {
             lastName: '',
             email: '',
             password: '',
-            isActive: true
         }
     }
 
@@ -28,7 +27,7 @@ class SignUp extends Component {
         event.preventDefault();
         const user = this.state;
 
-        let response = await fetch("/api/user/create", {
+        let response = await fetch("/api/auth/signup", {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

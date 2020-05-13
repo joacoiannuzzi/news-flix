@@ -15,7 +15,7 @@ class Article extends Component {
     }
 
     async componentDidMount() {
-        const response = await fetch(`/api/article/${this.props.match.params.id}`, {
+        const response = await fetch(`/api/articles/${this.props.match.params.id}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',

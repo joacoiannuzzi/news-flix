@@ -1,21 +1,28 @@
 package com.lab1.newsflix;
 
-
-import com.lab1.newsflix.scrappers.AbstractScraper;
+import com.lab1.newsflix.model.Role;
+import com.lab1.newsflix.model.RoleName;
+import com.lab1.newsflix.repository.RoleRepository;
+import com.lab1.newsflix.scraper.ScraperManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class LoadArticles implements CommandLineRunner {
 
     @Autowired
-    private List<AbstractScraper> scrapers;
+    private ScraperManager scraperManager;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public void run(String... args) { // este metodo se llama automaticamente cuando se inicia la aplicacion porque implenta CommandLineRunner
-        scrapers.forEach(AbstractScraper::scrap);
+        roleRepository.save(new Role(RoleName.ROLE_USER));
+        roleRepository.save(new Role(RoleName.ROLE_ADMIN));
+        scraperManager.scrap();
+
+
     }
 }

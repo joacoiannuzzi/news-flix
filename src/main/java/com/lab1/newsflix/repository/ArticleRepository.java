@@ -21,4 +21,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query(value = "select distinct newspaper from article ", nativeQuery = true)
     List<Object> getNewspapers();
 
+    Boolean existsByUrl(String url);
+
 }

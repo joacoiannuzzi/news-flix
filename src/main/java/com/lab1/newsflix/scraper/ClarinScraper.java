@@ -1,4 +1,4 @@
-package com.lab1.newsflix.scrappers;
+package com.lab1.newsflix.scraper;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;

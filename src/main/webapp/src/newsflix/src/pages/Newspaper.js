@@ -12,7 +12,7 @@ function Newspaper({match}) {
     const [item, setItems] = useState([]);
 
     const fetchItems = async () => {
-        const data = await fetch(`/api/newspaper/${newspaper}`);
+        const data = await fetch(`/api/articles/newspapers/${newspaper}`);
         const items = await data.json();
         setItems(items)
     };

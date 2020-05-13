@@ -23,19 +23,24 @@ class Login extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
+        const user = this.state
 
         const requestOptions = {
             method: 'Post',
-            mode: 'no-cors',
+            // mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
                 'Content-type': 'application/json',
             },
+            body: JSON.stringify(user)
         };
 
 
-        await fetch("/api/login" + this.state.email + "&password=" + this.state.password, requestOptions)
-            .then(response => this.props.history.push("/"))
+        await fetch("/api/auth/login", requestOptions)
+            .then(response => {
+                console.log(response)
+                this.props.history.push("/")
+            })
 
 
     };

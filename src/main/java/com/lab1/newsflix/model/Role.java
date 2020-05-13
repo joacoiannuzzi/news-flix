@@ -1,31 +1,45 @@
 package com.lab1.newsflix.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.NaturalId;
 
+import javax.persistence.*;
+
+/**
+ * Created by rajeevkumarsingh on 01/08/17.
+ */
 @Entity
+@Table(name = "roles")
 public class Role {
-
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private long id;
-    private String role;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Role(){}
+    @Enumerated(EnumType.STRING)
+    @NaturalId
+    @Column(length = 60)
+    private RoleName name;
 
-    public long getId() {
+    public Role() {
+    }
+
+    public Role(RoleName name) {
+        this.name = name;
+    }
+
+    public Long getId() {
         return id;
     }
-    public void setId(long id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
-    public String getRole() {
-        return role;
+
+    public RoleName getName() {
+        return name;
     }
-    public void setRole(String role) {
-        this.role = role;
+
+    public void setName(RoleName name) {
+        this.name = name;
     }
 
 }

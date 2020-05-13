@@ -48,6 +48,9 @@ public class ArticleService {
         return articleRepository.getCategories();
     }
 
+    public Boolean existsByUrl(String url) {
+        return articleRepository.existsByUrl(url);
+    }
     public Collection<Article> getLatestArticles() {
         Collection<Article> articles = articleRepository.findAll();
         Stream<Article> latestArticles = articles.stream().filter(article -> {
