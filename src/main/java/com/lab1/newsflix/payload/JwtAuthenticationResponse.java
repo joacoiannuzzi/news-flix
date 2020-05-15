@@ -1,8 +1,6 @@
 package com.lab1.newsflix.payload;
 
-/**
- * Created by rajeevkumarsingh on 19/08/17.
- */
+
 public class JwtAuthenticationResponse {
 
 

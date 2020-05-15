@@ -19,12 +19,13 @@ build/
 *.iws
 *.iml
 *.ipr
+
 out/
+db/
 
 .floo
 .flooignore
 
-db.mv.db
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
