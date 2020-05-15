@@ -37,6 +37,7 @@ class SignUp extends Component {
         });
         console.log(response)
         this.props.history.push("/login")
+        //TODO; make it log... etc.
     };
 
     render() {

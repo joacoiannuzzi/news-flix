@@ -21,7 +21,7 @@ build/
 *.ipr
 
 out/
-db/
+/db/
 
 .floo
 .flooignore

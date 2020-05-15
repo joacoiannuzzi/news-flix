@@ -1,5 +1,6 @@
 import React, {Component, useState} from 'react';
 import {Button, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class AppNav extends Component {
 
@@ -74,6 +75,17 @@ class AppNav extends Component {
                                 {newspapersSection}
                             </NavDropdown>
                         </Nav>
+                        <Dropdown alignRight>
+                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                    Acciones
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item href="#/profile">Mi perfil</Dropdown.Item>
+                                    <Dropdown.Item href="#/favorites">Mis Favoritos</Dropdown.Item>
+                                    <Dropdown.Item href="#/logout">Logout</Dropdown.Item>
+                                </Dropdown.Menu>
+                        </Dropdown>
+
                         <Form inline>
                             <FormControl type="text" placeholder="Search" className="mr-sm-2"/>
                             <Button variant="outline-success">Search</Button>

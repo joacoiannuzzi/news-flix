@@ -40,6 +40,7 @@ class Login extends Component {
             .then(response => {
                 console.log(response)
                 this.props.history.push("/")
+                //TODO; make it log... etc.
             })
 
 
