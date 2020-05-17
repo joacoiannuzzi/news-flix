@@ -18,7 +18,7 @@ public class ArticleService {
     private ArticleRepository articleRepository;
 
     @Autowired
-    ArticleMatcher articleMatcher;
+    private ArticleMatcher articleMatcher;
 
     public void save(Article article) {
         articleRepository.save(article);
@@ -51,13 +51,13 @@ public class ArticleService {
     public Boolean existsByUrl(String url) {
         return articleRepository.existsByUrl(url);
     }
+
     public Collection<Article> getLatestArticles() {
-        Collection<Article> articles = articleRepository.findAll();
-        Stream<Article> latestArticles = articles.stream().filter(article -> {
-            int days = (int) Duration.between(article.getDate().toInstant(), Calendar.getInstance().toInstant()).toDays();
-            return days < 2;
-        });
-        return latestArticles.sorted(Comparator.comparing(Article::getDate).reversed()).collect(Collectors.toList());
+        return articleRepository.findAll().stream()
+                .filter(article ->
+                        Duration.between(article.getDate().toInstant(), Calendar.getInstance().toInstant()).toDays() < 2)
+                .sorted(Comparator.comparing(Article::getDate).reversed())
+                .collect(Collectors.toList());
     }
 
     public Collection<Article> findSimilar(Long id) {
@@ -65,10 +65,8 @@ public class ArticleService {
 
                     // agarra todos los articulos de la base de datos y los filtra segun la fecha --> todo habria que ver como directamente pedirlos filtrados
                     Collection<List<Article>> values = findAll().stream()
-                            .filter(article -> Math.abs(article.getDate().get(Calendar.DAY_OF_MONTH) - articleToCompare.getDate().get(Calendar.DAY_OF_MONTH)) <= 3
-                                    && Math.abs(article.getDate().get(Calendar.YEAR) - articleToCompare.getDate().get(Calendar.YEAR)) == 0
-                                    && Math.abs(article.getDate().get(Calendar.MONTH) - articleToCompare.getDate().get(Calendar.MONTH)) == 0
-                                    && !article.getNewspaper().equals(articleToCompare.getNewspaper()))
+                            .filter(article -> Duration.between(articleToCompare.getDate().toInstant(), article.getDate().toInstant()).toDays() < 3
+                                            && !article.getNewspaper().equals(articleToCompare.getNewspaper()))
                             .collect(Collectors.groupingBy(Article::getNewspaper)) // los separa segun newsapaper en un map
                             .values(); // devuelve solo los articulos
 

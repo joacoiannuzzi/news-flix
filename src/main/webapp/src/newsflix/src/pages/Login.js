@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Container, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import {login} from "../util/APIUtils";
+import {ACCESS_TOKEN} from "../constants";
 
 class Login extends Component {
 
@@ -21,27 +23,16 @@ class Login extends Component {
         })
     };
 
-    handleSubmit = async event => {
+    handleSubmit = event => {
         event.preventDefault();
-        const user = this.state
-
-        const requestOptions = {
-            method: 'Post',
-            // mode: 'no-cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(user)
-        };
-
-
-        await fetch("/api/auth/login", requestOptions)
+        const loginRequest = this.state
+        login(loginRequest)
             .then(response => {
-                console.log(response)
-                this.props.history.push("/")
-                //TODO; make it log... etc.
-            })
+                localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                this.props.onLogin();
+            }).catch(error => {
+            console.log(error)
+        })
 
 
     };
@@ -51,6 +42,7 @@ class Login extends Component {
             <>
                 <Container>
                     <h1 className="display-4 text-center">Inicia sesión</h1>
+
                     <Form onSubmit={this.handleSubmit}>
 
                         <Form.Group controlId="email">

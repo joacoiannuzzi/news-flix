@@ -11,7 +11,7 @@ function ArticleCards(props) {
                 <Card className={props.className} key={article.id}>
                     <Link to={`/articles/${article.id}`}>
                         {article.image != null && article.image !== "" && article.image !== undefined ?
-                            <Card.Img top width="100%" src={article.image}/> :
+                            <Card.Img top={"true"} width="100%" src={article.image}/> :
                             <></>
                         }
                         <Card.Body>

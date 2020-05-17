@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import AppNav from "../components/AppNav";
 import ArticleCardColumns from "../components/ArticleCardColumns";
 
 function Category({match}) {
@@ -8,7 +7,7 @@ function Category({match}) {
 
     useEffect(() => {
         fetchItems()
-    }, []);
+    });
 
     const [item, setItems] = useState([]);
 
@@ -20,7 +19,6 @@ function Category({match}) {
 
     return (
         <>
-            <AppNav/>
             <h1>{category}</h1>
             <ArticleCardColumns articles={item}/>
         </>

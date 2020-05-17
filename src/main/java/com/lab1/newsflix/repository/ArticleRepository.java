@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
+//    https://attacomsian.com/blog/spring-data-jpa-query-annotation
+
     Collection<Article> findByNewspaper(String newspaper);
 
     Collection<Article> findByCategory(String category);
@@ -22,5 +24,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Object> getNewspapers();
 
     Boolean existsByUrl(String url);
+
+    Collection<Article> findAllByNewspaperIsNot(String newspaper);
 
 }

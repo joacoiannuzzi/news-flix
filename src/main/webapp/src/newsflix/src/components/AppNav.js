@@ -1,6 +1,10 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {Button, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
+import {getCategories, getNewspapers} from "../util/APIUtils";
+import {withRouter} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUser} from '@fortawesome/free-solid-svg-icons'
 
 class AppNav extends Component {
 
@@ -13,58 +17,64 @@ class AppNav extends Component {
         }
     }
 
-
-    async componentDidMount() {
-
-        const response = await fetch('/api/articles/categories/all', {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        try {
-            const body = await response.json();
-            this.setState({categories: body});
-        } catch (e) {
-        }
+    handleLogout = () => {
+        this.props.onLogout()
+    };
 
 
-        const response2 = await fetch('/api/articles/newspapers/all', {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        try {
-            const body2 = await response2.json();
-            this.setState({newspapers: body2, isLoading: false});
-        } catch (e) {
+    componentDidMount() {
 
-        }
+        getCategories()
+            .then(response => {
+                this.setState({
+                    categories: response
+                })
+            }).catch(error => {
+
+        })
+        getNewspapers()
+            .then(response => {
+                this.setState({
+                    newspapers: response
+                })
+            }).catch(error => {
+
+        })
     }
 
     render() {
+
+        if (!this.props.currentUser) {
+            return <></>
+        }
 
         const {categories, newspapers} = this.state;
 
         let newspapersSection = newspapers.map(newspaper => {
             return (
-                <NavDropdown.Item key={newspaper} href={`/newspapers/${newspaper}`}>{newspaper}</NavDropdown.Item>
+                <NavDropdown.Item key={newspaper} href={`/newspapers/${newspaper}`}>
+                    {newspaper}
+                </NavDropdown.Item>
             )
         });
 
         let categoriesSection = categories.map(category => {
             return (
-                <NavDropdown.Item key={category} href={`/categories/${category}`}>{category}</NavDropdown.Item>
+                <NavDropdown.Item key={category} href={`/categories/${category}`}>
+                    {category}
+                </NavDropdown.Item>
             )
         });
 
         return (
             <div>
                 <Navbar bg="dark" variant="dark" expand="md">
-                    <Navbar.Brand href="/">NewsFlix</Navbar.Brand>
+                    <Navbar.Brand href="/">
+                        {/*<img*/}
+                        {/*    src={'logo'}*/}
+                        {/*/>*/}
+                        NewsFlix
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
@@ -75,21 +85,24 @@ class AppNav extends Component {
                                 {newspapersSection}
                             </NavDropdown>
                         </Nav>
-                        <Dropdown alignRight>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                    Acciones
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item href="#/profile">Mi perfil</Dropdown.Item>
-                                    <Dropdown.Item href="#/favorites">Mis Favoritos</Dropdown.Item>
-                                    <Dropdown.Item href="#/logout">Logout</Dropdown.Item>
-                                </Dropdown.Menu>
-                        </Dropdown>
-
                         <Form inline>
                             <FormControl type="text" placeholder="Search" className="mr-sm-2"/>
                             <Button variant="outline-success">Search</Button>
                         </Form>
+                        <Nav>
+                            <Dropdown as={Nav.Item}>
+                                <Dropdown.Toggle as={Nav.Link}>
+                                    <FontAwesomeIcon icon={faUser} />
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item href="#/profile">Mi perfil</Dropdown.Item>
+                                    <Dropdown.Item href="#/favorites">Mis Favoritos</Dropdown.Item>
+                                    <Dropdown.Item onClick={this.handleLogout}>
+                                        Logout
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Nav>
                     </Navbar.Collapse>
                 </Navbar>
 
@@ -98,4 +111,4 @@ class AppNav extends Component {
     }
 }
 
-export default AppNav;
+export default withRouter(AppNav);

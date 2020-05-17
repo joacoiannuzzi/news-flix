@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import AppNav from "../components/AppNav";
 import {Col, Container, Image, Row} from "react-bootstrap";
 import ArticleCards from "../components/ArticleCards";
 import * as Arrays from "util";
@@ -47,7 +46,6 @@ class Article extends Component {
 
         return (
             <>
-                <AppNav/>
                 <Container className="mt-4">
                     <Row>
                         <Col xs={8}>

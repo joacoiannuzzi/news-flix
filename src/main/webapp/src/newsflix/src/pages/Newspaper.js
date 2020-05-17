@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import AppNav from "../components/AppNav";
 import ArticleCardColumns from "../components/ArticleCardColumns";
 
 function Newspaper({match}) {
@@ -7,7 +6,7 @@ function Newspaper({match}) {
     const newspaper = match.params.name;
     useEffect(() => {
         fetchItems()
-    }, []);
+    });
 
     const [item, setItems] = useState([]);
 
@@ -19,7 +18,6 @@ function Newspaper({match}) {
 
     return (
         <>
-            <AppNav/>
             <h1>{newspaper}</h1>
             <ArticleCardColumns articles={item}/>
 

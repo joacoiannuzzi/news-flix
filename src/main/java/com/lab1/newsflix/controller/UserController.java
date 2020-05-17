@@ -35,13 +35,13 @@ public class UserController {
     }
 
     @GetMapping("/checkEmailAvailability")
-    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
+    public UserIdentityAvailability checkEmailAvailability(@RequestParam String email) {
         Boolean isAvailable = !userRepository.existsByEmail(email);
         return new UserIdentityAvailability(isAvailable);
     }
 
     @GetMapping("/{id}")
-    public UserProfile getUserProfile(@PathVariable(value = "id") Long id) {
+    public UserProfile getUserProfile(@PathVariable Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
 

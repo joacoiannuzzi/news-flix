@@ -1,7 +1,6 @@
 package com.lab1.newsflix.matcher;
 
 
-
 import com.lab1.newsflix.model.Article;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.CosineSimilarity;
@@ -39,7 +38,7 @@ public class ArticleMatcher {
             for (Article article : articlesFromSpecificNewspaper) {
                 double score1 = similarity(articleToCompare.getTitle(), article.getTitle());
                 double score2 = similarity(articleToCompare.getBody(), article.getBody());
-                double score = ((score1 *0.60) + (score2 * 0.40)) /2;
+                double score = ((score1 * 0.60) + (score2 * 0.40)) / 2;
                 if (score > max) {
                     //temp1 = score1;
                     //temp2 = score2;
