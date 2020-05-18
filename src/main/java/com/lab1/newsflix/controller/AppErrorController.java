@@ -2,7 +2,6 @@ package com.lab1.newsflix.controller;
 
 
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 
-@Slf4j
 @Controller
 @RequestMapping("/error")
 @EnableConfigurationProperties({ServerProperties.class})

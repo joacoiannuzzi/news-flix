@@ -1,16 +1,11 @@
 package com.lab1.newsflix.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
 
 @Entity
-@Data
 @Table(name = "article")
 public class Article {
 

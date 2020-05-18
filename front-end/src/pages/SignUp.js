@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Container, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {checkEmailAvailability, signup} from "../util/APIUtils";
+import {signup} from "../util/APIUtils";
+import {Link} from "react-router-dom";
 
 class SignUp extends Component {
 
@@ -27,20 +28,11 @@ class SignUp extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const signupRequest = this.state;
-        let isEmailAvailable = false
-        checkEmailAvailability(signupRequest.email)
-            .then(response => {
-                if (response.available) {
-                    isEmailAvailable = true
-                }
-            }).catch(error => {
-            console.log('the email is already available')
-        })
-        if (isEmailAvailable) {
-            signup(signupRequest)
-                .then(response => this.props.history.push("/login"))
-                .catch(error => console.log(error))
-        }
+
+        signup(signupRequest)
+            .then(response => this.props.history.push("/login"))
+            .catch(error => console.log(error))
+
 
     };
 
@@ -78,6 +70,8 @@ class SignUp extends Component {
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
+
+                    <Link to={'/login'} className='ml-3'>Iniciar sesion</Link>
                 </Form>
             </Container>
         </>

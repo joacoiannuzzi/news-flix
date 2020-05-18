@@ -1,6 +1,6 @@
 import {API_BASE_URL, ACCESS_TOKEN} from '../constants';
 
-const request = (options) => {
+const request = options => {
     const headers = new Headers({
         'Content-Type': 'application/json',
     })
@@ -20,7 +20,7 @@ const request = (options) => {
                 }
                 return json;
             })
-        );
+        )
 };
 
 export function login(loginRequest) {
@@ -45,7 +45,6 @@ export function checkEmailAvailability(email) {
         method: 'GET'
     });
 }
-
 
 export function getCurrentUser() {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
@@ -72,9 +71,46 @@ export function getCategories() {
     })
 }
 
+export function getCategory(name) {
+    return request({
+        url: `${API_BASE_URL}/articles/categories/${name}`,
+        method: 'get'
+    })
+}
+
 export function getNewspapers() {
     return request({
         url: `${API_BASE_URL}/articles/newspapers/all`,
         method: 'get'
     })
 }
+
+export function getNewspaper(name) {
+    return request({
+        url: `${API_BASE_URL}/articles/newspapers/${name}`,
+        method: 'get'
+    })
+}
+
+export function getArticle(id) {
+    return request({
+        url: `${API_BASE_URL}/articles/${id}`,
+        method: 'get'
+    })
+}
+
+export function getSimilarArticles(id) {
+    return request({
+        url: `${API_BASE_URL}/articles/similar/${id}`,
+        method: 'get'
+    })
+}
+
+export function getLatestArticles() {
+    return request({
+        url: `${API_BASE_URL}/articles/latest`,
+        method: 'get'
+    })
+}
+
+

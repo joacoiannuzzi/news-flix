@@ -23,24 +23,26 @@ class App extends Component {
         }
     }
 
-    loadCurrentUser = () => {
+    loadCurrentUser = async () => {
         this.setState({
             isLoading: true
         });
-        getCurrentUser()
+        await getCurrentUser()
             .then(response => {
-                console.log(response)
+                console.log('getCurrentUser', response)
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true,
                     isLoading: false
                 });
             }).catch(error => {
-            console.log(error)
-            this.setState({
-                isLoading: false
-            });
-        });
+                console.log(error)
+                this.handleLogout()
+                this.setState({
+                    isLoading: false
+                });
+            })
+        console.log('loadCurrentUser authenticated', this.state.isAuthenticated)
     }
 
     componentDidMount() {
@@ -59,8 +61,10 @@ class App extends Component {
     };
 
     handleLogin = () => {
-        this.loadCurrentUser();
-        this.props.history.push("/");
+        this.loadCurrentUser().then(r => {
+            this.props.history.push("/");
+        });
+
     };
 
     render() {

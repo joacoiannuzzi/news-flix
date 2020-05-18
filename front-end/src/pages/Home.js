@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import ArticleCardColumns from "../components/ArticleCardColumns";
 import {Container} from "react-bootstrap";
+import LoadingIndicator from "../components/LoadingIndicator";
+import {getLatestArticles} from "../util/APIUtils";
 
 class Home extends Component {
 
@@ -12,23 +14,18 @@ class Home extends Component {
         }
     }
 
-    async componentDidMount() {
-        const response = await fetch('/api/articles/latest', {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        const body = await response.json();
-        this.setState({articles: body, isLoading: false});
+    componentDidMount() {
+        getLatestArticles()
+            .then(response => {
+                this.setState({articles: response, isLoading: false});
+            }).catch(error => console.log(error))
     }
 
     render() {
         const {isLoading, articles} = this.state;
 
         if (isLoading)
-            return (<div style={{width: "50%", margin: "0px auto"}}>Loading...</div>);
+            return (<LoadingIndicator/>);
 
         return (
             <>

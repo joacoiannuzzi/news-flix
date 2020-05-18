@@ -9,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoadArticles implements CommandLineRunner {
+public class InitDB implements CommandLineRunner {
 
     @Autowired
     private ScraperManager scraperManager;

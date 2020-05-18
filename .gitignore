@@ -26,16 +26,9 @@ out/
 .floo
 .flooignore
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
 ### VS Code ###
 .vscode/
 
-src/main/webapp/src/newsflix/node_modules/
+front-end/node_modules/
 
 

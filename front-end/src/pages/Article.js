@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Col, Container, Image, Row} from "react-bootstrap";
 import ArticleCards from "../components/ArticleCards";
 import * as Arrays from "util";
+import LoadingIndicator from "../components/LoadingIndicator";
+import {getArticle, getSimilarArticles} from "../util/APIUtils";
 
 class Article extends Component {
 
@@ -13,28 +15,21 @@ class Article extends Component {
         }
     }
 
-    async componentDidMount() {
-        const response = await fetch(`/api/articles/${this.props.match.params.id}`, {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        const body = await response.json();
-        this.setState({article: body});
+    componentDidMount() {
+        const {id} = this.props.match.params;
 
-        const response2 = await fetch(`/api/articles/similar/${this.props.match.params.id}`, {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        const body2 = await response2.json();
-        this.setState({similarArticles: body2, isLoading: false});
+        getArticle(id)
+            .then(response => {
+                this.setState({article: response});
+            }).catch(error => console.log(error))
 
-
+        getSimilarArticles(id)
+            .then(response => {
+                this.setState({
+                    similarArticles: response,
+                    isLoading: false
+                });
+            }).catch(error => console.log(error))
     }
 
     render() {
@@ -42,7 +37,7 @@ class Article extends Component {
         const {isLoading, article, similarArticles} = this.state;
 
         if (isLoading)
-            return (<div style={{width: "50%", margin: "0px auto"}}>Loading...</div>);
+            return <LoadingIndicator/>;
 
         return (
             <>

@@ -3,6 +3,7 @@ import {Container, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {login} from "../util/APIUtils";
 import {ACCESS_TOKEN} from "../constants";
+import {Link} from "react-router-dom";
 
 class Login extends Component {
 
@@ -60,6 +61,7 @@ class Login extends Component {
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        <Link to={'/signup'} className='ml-3'>Crear una cuenta</Link>
                     </Form>
                 </Container>
             </>
