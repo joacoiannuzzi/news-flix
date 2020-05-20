@@ -13,7 +13,8 @@ class AppNav extends Component {
         this.state = {
             isLoading: true,
             categories: [],
-            newspapers: []
+            newspapers: [],
+            search: ''
         }
     }
 
@@ -21,9 +22,20 @@ class AppNav extends Component {
         this.props.onLogout()
     };
 
+    handleSearchSubmit = event => {
+        event.preventDefault()
+        const {search} = this.state
+        this.props.history.push(`/search?query=${search}`)
+    }
+
+    handleSearchChange = event => {
+        const {name, value} = event.target
+        this.setState({
+            [name]: value
+        })
+    }
 
     componentDidMount() {
-
         getCategories()
             .then(response => {
                 this.setState({
@@ -66,13 +78,11 @@ class AppNav extends Component {
         return (
             <div>
                 <Navbar bg="dark" variant="dark" expand="md">
-                    <Navbar.Brand>
-                        <Link to={'/'}>
-                            {/*<img*/}
-                            {/*    src={'logo'}*/}
-                            {/*/>*/}
-                            NewsFlix
-                        </Link>
+                    <Navbar.Brand as={Link} to={'/'}>
+                        {/*<img*/}
+                        {/*    src={'logo'}*/}
+                        {/*/>*/}
+                        NewsFlix
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse>
@@ -102,9 +112,9 @@ class AppNav extends Component {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Nav>
-                        <Form inline>
-                            <FormControl type="text" placeholder="Search" className="mr-sm-2"/>
-                            <Button variant="outline-success">Search</Button>
+                        <Form inline onSubmit={this.handleSearchSubmit}>
+                            <FormControl type="text" name='search' placeholder="Buscar" className="mr-sm-2" onChange={this.handleSearchChange}/>
+                            <Button type={"submit"} variant="outline-success">Buscar</Button>
                         </Form>
                     </Navbar.Collapse>
                 </Navbar>

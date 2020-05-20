@@ -6,7 +6,6 @@ import {
   
   
 const PrivateRoute = ({ component: Component, authenticated, ...rest }) => {
-    console.log('privateRoute authenticated', authenticated)
     return (
         <Route
             {...rest}

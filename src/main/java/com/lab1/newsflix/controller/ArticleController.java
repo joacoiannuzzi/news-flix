@@ -6,10 +6,7 @@ import com.lab1.newsflix.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -62,6 +59,11 @@ public class ArticleController {
     @GetMapping("/similar/{id}")
     Collection<Article> findSimilar(@PathVariable Long id) {
         return articleService.findSimilar(id);
+    }
+
+    @GetMapping("/query")
+    Collection<Article> queryArticles(@RequestParam String query) {
+        return articleService.queryArticles(query);
     }
 
 }

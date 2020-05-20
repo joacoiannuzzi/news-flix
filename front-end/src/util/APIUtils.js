@@ -113,4 +113,11 @@ export function getLatestArticles() {
     })
 }
 
+export function getFilteredArticles(query) {
+    return request({
+        url: `${API_BASE_URL}/articles/query?query=${query}`,
+        method: 'get'
+    })
+}
+
 

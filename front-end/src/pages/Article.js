@@ -16,11 +16,15 @@ class Article extends Component {
     }
 
     componentDidMount() {
-        const {id} = this.props.match.params;
+        this.fetchArticles();
+    }
+
+    fetchArticles = () => {
+        const {id} = this.props.match.params
 
         getArticle(id)
             .then(response => {
-                this.setState({article: response});
+                this.setState({article: response})
             }).catch(error => console.log(error))
 
         getSimilarArticles(id)
@@ -30,6 +34,15 @@ class Article extends Component {
                     isLoading: false
                 });
             }).catch(error => console.log(error))
+    };
+
+    componentDidUpdate(prevProps) {
+        const {id: newId} = this.props.match.params
+        const {id: prevId} = prevProps.match.params
+
+        if (newId !== prevId) {
+            this.fetchArticles()
+        }
     }
 
     render() {

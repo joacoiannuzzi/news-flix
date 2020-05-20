@@ -11,6 +11,8 @@ import {ACCESS_TOKEN} from "./constants";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import AppNav from "./components/AppNav";
+import LoadingIndicator from "./components/LoadingIndicator";
+import Search from "./pages/Search";
 
 class App extends Component {
 
@@ -19,7 +21,7 @@ class App extends Component {
         this.state = {
             currentUser: null,
             isAuthenticated: false,
-            isLoading: false
+            isLoading: true
         }
     }
 
@@ -29,7 +31,6 @@ class App extends Component {
         });
         await getCurrentUser()
             .then(response => {
-                console.log('getCurrentUser', response)
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true,
@@ -42,7 +43,6 @@ class App extends Component {
                     isLoading: false
                 });
             })
-        console.log('loadCurrentUser authenticated', this.state.isAuthenticated)
     }
 
     componentDidMount() {
@@ -68,20 +68,26 @@ class App extends Component {
     };
 
     render() {
+        const {isLoading, isAuthenticated, currentUser} = this.state
+
+        if (isLoading)
+            return <LoadingIndicator/>
+
         return (
             <>
                 <AppNav
-                    isAuthenticated={this.state.isAuthenticated}
-                    currentUser={this.state.currentUser}
+                    isAuthenticated={isAuthenticated}
+                    currentUser={currentUser}
                     onLogout={this.handleLogout}/>
 
                 <Switch>
-                    <PrivateRoute authenticated={this.state.isAuthenticated} path='/' exact={true} component={Home}/>
-                    <PrivateRoute authenticated={this.state.isAuthenticated} path='/categories/:name' exact={true}
+                    <PrivateRoute authenticated={isAuthenticated} path='/' exact={true} component={Home}/>
+                    <PrivateRoute authenticated={isAuthenticated} path='/search' exact={true} component={Search}/>
+                    <PrivateRoute authenticated={isAuthenticated} path='/categories/:name' exact={true}
                                   component={Category}/>
-                    <PrivateRoute authenticated={this.state.isAuthenticated} path='/newspapers/:name' exact={true}
+                    <PrivateRoute authenticated={isAuthenticated} path='/newspapers/:name' exact={true}
                                   component={Newspaper}/>
-                    <PrivateRoute authenticated={this.state.isAuthenticated} path='/articles/:id' exact
+                    <PrivateRoute authenticated={isAuthenticated} path='/articles/:id' exact
                                   component={Article}/>
                     <Route path="/login"
                            render={props => <Login onLogin={this.handleLogin} {...props} />}/>

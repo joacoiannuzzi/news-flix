@@ -77,4 +77,18 @@ public class ArticleService {
     }
 
 
+    public Collection<Article> queryArticles(String query) {
+        if (query == null) return Collections.emptyList();
+        String[] queries = query.toLowerCase().replaceAll("[^-a-zA-Z0-9\\s]", "").trim().split(" ");
+
+        return findAll().stream()
+                .filter(article -> stringContainsItemFromList(article.getTitle() + " " + article.getBody(), queries))
+                .collect(Collectors.toList());
+    }
+
+    private boolean stringContainsItemFromList(String inputStr, String[] items) {
+        return Arrays.stream(items).parallel().allMatch(inputStr.toLowerCase()::contains);
+    }
+
+
 }

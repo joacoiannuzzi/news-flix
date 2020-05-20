@@ -7,7 +7,7 @@ function Newspaper({match}) {
     const newspaper = match.params.name;
     useEffect(() => fetchItems());
 
-    const [item, setItems] = useState([]);
+    const [items, setItems] = useState([]);
 
     const fetchItems = () => {
         getNewspaper(newspaper)
@@ -19,7 +19,7 @@ function Newspaper({match}) {
     return (
         <>
             <h1>{newspaper}</h1>
-            <ArticleCardColumns articles={item}/>
+            <ArticleCardColumns articles={items}/>
 
         </>
     );
