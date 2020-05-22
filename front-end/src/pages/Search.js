@@ -29,7 +29,7 @@ class Search extends Component {
                     isLoading: false
                 });
             }).catch(error => console.log(error))
-    };
+    }
 
     getQueryParams = props => new URLSearchParams(props.location.search).get('query');
 
@@ -37,6 +37,9 @@ class Search extends Component {
         const currentQuery = this.getQueryParams(this.props)
         const prevQuery = this.getQueryParams(prevProps)
         if (currentQuery !== prevQuery) {
+            this.setState({
+                isLoading: true
+            });
             this.fetchArticles()
         }
     }

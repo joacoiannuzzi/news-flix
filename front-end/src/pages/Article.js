@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {Col, Container, Image, Row} from "react-bootstrap";
 import ArticleCards from "../components/ArticleCards";
-import * as Arrays from "util";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {getArticle, getSimilarArticles} from "../util/APIUtils";
+
 
 class Article extends Component {
 
@@ -69,7 +69,7 @@ class Article extends Component {
 
                             </p>
                         </Col>
-                        {Arrays.isArray(similarArticles) && similarArticles.length ?
+                        {similarArticles.length ?
                             <Col xs={{span: 3, offset: 1}}>
                                 <h2 className="mb-4">Articulos similares de otros diarios</h2>
                                 <ArticleCards className="mb-4" articles={similarArticles}/>

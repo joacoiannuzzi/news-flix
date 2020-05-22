@@ -5,7 +5,7 @@ import Category from "./pages/Category"
 import Newspaper from "./pages/Newspaper";
 import Article from "./pages/Article";
 import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
+import Login from "./pages/login/Login";
 import {getCurrentUser} from "./util/APIUtils";
 import {ACCESS_TOKEN} from "./constants";
 import NotFound from "./pages/NotFound";
@@ -13,6 +13,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import AppNav from "./components/AppNav";
 import LoadingIndicator from "./components/LoadingIndicator";
 import Search from "./pages/Search";
+
+import './app.css'
+
 
 class App extends Component {
 
@@ -60,9 +63,9 @@ class App extends Component {
         this.props.history.push(redirectTo);
     };
 
-    handleLogin = () => {
+    handleLogin = (redirectTo = "/") => {
         this.loadCurrentUser().then(r => {
-            this.props.history.push("/");
+            this.props.history.push(redirectTo);
         });
 
     };
@@ -87,11 +90,11 @@ class App extends Component {
                                   component={Category}/>
                     <PrivateRoute authenticated={isAuthenticated} path='/newspapers/:name' exact={true}
                                   component={Newspaper}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/articles/:id' exact
+                    <PrivateRoute authenticated={isAuthenticated} path='/articles/:id' exact={true}
                                   component={Article}/>
-                    <Route path="/login"
+                    <Route exact={true} path='/signup' component={SignUp}/>
+                    <Route exact={true} path="/login"
                            render={props => <Login onLogin={this.handleLogin} {...props} />}/>
-                    <Route path='/signup' exact={true} component={SignUp}/>
 
 
                     {/*este va al final*/}

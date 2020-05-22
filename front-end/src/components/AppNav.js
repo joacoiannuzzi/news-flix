@@ -51,6 +51,16 @@ class AppNav extends Component {
             }).catch(error => console.log(error))
     }
 
+    makeList = (list, name) => {
+        list.map(item => {
+            return (
+                <NavDropdown.Item as={Link} to={`/${name}/${item}`} key={item}>
+                    {item}
+                </NavDropdown.Item>
+            )
+        })
+    }
+
     render() {
 
         if (!this.props.isAuthenticated) {
@@ -59,29 +69,13 @@ class AppNav extends Component {
 
         const {categories, newspapers} = this.state;
 
-        let newspapersSection = newspapers.map(newspaper => {
-            return (
-                <NavDropdown.Item as={Link} to={`/newspapers/${newspaper}`} key={newspaper}>
-                    {newspaper}
-                </NavDropdown.Item>
-            )
-        });
-
-        let categoriesSection = categories.map(category => {
-            return (
-                <NavDropdown.Item as={Link} to={`/categories/${category}`} key={category}>
-                    {category}
-                </NavDropdown.Item>
-            )
-        });
+        let newspapersSection = this.makeList(newspapers, 'newspapers')
+        let categoriesSection = this.makeList(categories, 'categories')
 
         return (
             <div>
                 <Navbar bg="dark" variant="dark" expand="md">
                     <Navbar.Brand as={Link} to={'/'}>
-                        {/*<img*/}
-                        {/*    src={'logo'}*/}
-                        {/*/>*/}
                         NewsFlix
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
