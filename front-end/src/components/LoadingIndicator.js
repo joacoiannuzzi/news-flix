@@ -5,14 +5,21 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons'
 
 export default function LoadingIndicator(props) {
 
-    return <FontAwesomeIcon
-        icon={faSpinner}
-        style={{
-            fontSize: 30,
-            display: 'block',
-            textAlign: 'center',
-            marginTop: 30
+    return (
+        <div style={{
+            height: '100vh',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
         }}
-        spin
-    />
+        >
+            <FontAwesomeIcon
+                icon={faSpinner}
+                style={{
+                    fontSize: 100
+                }}
+                spin
+            />
+        </div>
+    )
 }
