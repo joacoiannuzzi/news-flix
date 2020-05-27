@@ -20,22 +20,22 @@ const MoreArticles = props => {
 const Rect = props => {
     const {articles, onClick, className} = props;
 
-    return articles.map(({id, image, newspaper, title}) => {
+    return articles.map((article) => {
             return (
-                <Card className={className} key={id}>
-                    {image != null && image !== "" && image !== undefined ?
-                        <Card.Img top={"true"} width="100%" src={image}/> :
+                <Card className={className} key={article.id}>
+                    {article.image != null && article.image !== "" && article.image !== undefined ?
+                        <Card.Img top={"true"} width="100%" src={article.image}/> :
                         <></>
                     }
                     <Card.Body>
                         <Card.Title>
-                            {title}
+                            {article.title}
                         </Card.Title>
-                        <Card.Subtitle className="text-muted mt-1 mb-2">{newspaper}</Card.Subtitle>
-                        <Link to={`/articles/${id}`}>
-                            <Button variant="outline-primary">Ver</Button>
+                        <Card.Subtitle className="text-muted mt-1 mb-2">{article.newspaper}</Card.Subtitle>
+                        <Link to={`/articles/${(article.id)}`}>
+                            <Button variant="outline-primary" onClick={() => onClick(null)}>Ver</Button>
                         </Link>
-                        <Button variant="outline-info" onClick={() => onClick(id)}>Comparar</Button>
+                        <Button variant="outline-info" onClick={() => onClick(article)}>Comparar</Button>
                     </Card.Body>
                 </Card>
             );

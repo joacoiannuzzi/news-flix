@@ -13,8 +13,9 @@ class ArticleManager extends Component {
         this.state = {
             article: {},
             similarArticles: [],
-            ArticleCompare: {}
+            ArticleCompare: null
         }
+
     }
 
     componentDidMount() {
@@ -43,15 +44,16 @@ class ArticleManager extends Component {
         const {id: prevId} = prevProps.match.params
 
         if (newId !== prevId) {
+            this.setState({
+                compareArticle: null
+            })
             this.fetchArticles()
         }
     }
 
-    handleCompare = id => {
-        const {similarArticles} = this.state;
-        const filtered = similarArticles.filter(article => article.id === id);
+    handleCompare = article => {
         this.setState({
-            compareArticle: filtered[0]
+            compareArticle: article
         })
     }
 
