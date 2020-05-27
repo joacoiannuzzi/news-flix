@@ -3,7 +3,7 @@ import {Route, Switch, withRouter} from "react-router-dom";
 import Home from "./pages/Home"
 import Category from "./pages/Category"
 import Newspaper from "./pages/Newspaper";
-import Article from "./pages/Article";
+import ArticleManager from "./pages/ArticleManager";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/login/Login";
 import {getCurrentUser} from "./util/APIUtils";
@@ -91,7 +91,7 @@ class App extends Component {
                     <PrivateRoute authenticated={isAuthenticated} path='/newspapers/:name' exact={true}
                                   component={Newspaper}/>
                     <PrivateRoute authenticated={isAuthenticated} path='/articles/:id' exact={true}
-                                  component={Article}/>
+                                  component={ArticleManager}/>
                     <Route exact={true} path='/signup' component={SignUp}/>
                     <Route exact={true} path="/login"
                            render={props => <Login onLogin={this.handleLogin} {...props} />}/>
