@@ -29,13 +29,13 @@ class Search extends Component {
                     isLoading: false
                 });
             }).catch(error => console.log(error))
-    }
+    };
 
     getQueryParams = props => new URLSearchParams(props.location.search).get('query');
 
     componentDidUpdate(prevProps) {
-        const currentQuery = this.getQueryParams(this.props)
-        const prevQuery = this.getQueryParams(prevProps)
+        const currentQuery = this.getQueryParams(this.props);
+        const prevQuery = this.getQueryParams(prevProps);
         if (currentQuery !== prevQuery) {
             this.setState({
                 isLoading: true
@@ -48,7 +48,7 @@ class Search extends Component {
         const {isLoading, articles, search} = this.state;
 
         if (isLoading)
-            return <LoadingIndicator/>
+            return <LoadingIndicator/>;
 
         return (
             <>

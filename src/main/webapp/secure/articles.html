@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="resources/css/styles.css">
+</head>
+<body>
+
+<h1>Hoy</h1>
+<div class="split left">
+    <div class="centered">
+        <h3>Articulos de hoy</h3>
+        <label for="diario">Selecciona un Diario</label>
+
+        <select id="diario">
+            <option value="LaNacion">La Nacion</option>
+            <option value="Infobae">Infobae</option>
+            <option value="Clarin">Clarin</option>
+        </select>
+        <ul id="article"></ul>
+
+        <ul id="mainbody"></ul>
+    </div>
+</div>
+
+<div class="split right">
+    <div class="centered">
+
+        <label for="diario2">Selecciona un Diario</label>
+        <select id="diario2">
+            <option value="LaNacion">La Nacion</option>
+            <option value="Infobae">Infobae</option>
+            <option value="Clarin">Clarin</option>
+        </select>
+        <ul id="article2"></ul>
+
+        <ul id="mainbody2"></ul>
+    </div>
+</div>
+
+
+<script>
+    // Attach a submit handler to the form
+    $("#diario").change(function (event) {
+
+        $('ul').empty();
+
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        // Get some values from elements on the page:
+        var diario = $("#diario").val();
+
+        //Ajax Function to send a get request
+        $.ajax({
+            type: "GET",
+            url: "/secure/articles",
+            data: diario+'1',
+            dataType: "text",
+            success: function (response) {
+                //if request if made successfully then the response represent the data
+
+                let articles = JSON.parse(response);
+
+                let root = document.getElementById("article");
+                for (const art of articles) {
+                    var p = document.createElement("p");
+                    var li = document.createElement("li");
+                    p.appendChild(document.createTextNode(art.title));
+                    li.appendChild(document.createTextNode(art.body));
+                    root.appendChild(p);
+                    root.appendChild(li);
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    // Attach a submit handler to the form
+    $("#diario2").change(function (event) {
+
+        $('ul').empty();
+
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        // Get some values from elements on the page:
+        var diario2 = $("#diario2").val();
+
+        //Ajax Function to send a get request
+        $.ajax({
+            type: "GET",
+            url: "/secure/articles",
+            data: "diario="+diario2,
+            dataType: "text",
+            success: function (response) {
+                //if request if made successfully then the response represent the data
+
+                let articles = JSON.parse(response);
+
+                let root = document.getElementById("article");
+                for (const art of articles) {
+                    var p = document.createElement("p");
+                    var li = document.createElement("li");
+                    p.appendChild(document.createTextNode(art.title));
+                    li.appendChild(document.createTextNode(art.body));
+                    root.appendChild(p);
+                    root.appendChild(li);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

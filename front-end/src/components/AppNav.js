@@ -23,17 +23,17 @@ class AppNav extends Component {
     };
 
     handleSearchSubmit = event => {
-        event.preventDefault()
-        const {search} = this.state
+        event.preventDefault();
+        const {search} = this.state;
         this.props.history.push(`/search?query=${search}`)
-    }
+    };
 
     handleSearchChange = event => {
-        const {name, value} = event.target
+        const {name, value} = event.target;
         this.setState({
             [name]: value
         })
-    }
+    };
 
     componentDidMount() {
         getCategories()
@@ -41,7 +41,7 @@ class AppNav extends Component {
                 this.setState({
                     categories: response
                 })
-            }).catch(error => console.log(error))
+            }).catch(error => console.log(error));
 
         getNewspapers()
             .then(response => {
@@ -59,7 +59,7 @@ class AppNav extends Component {
                 </NavDropdown.Item>
             )
         })
-    }
+    };
 
     render() {
 
@@ -69,8 +69,8 @@ class AppNav extends Component {
 
         const {categories, newspapers} = this.state;
 
-        let newspapersSection = this.makeList(newspapers, 'newspapers')
-        let categoriesSection = this.makeList(categories, 'categories')
+        let newspapersSection = this.makeList(newspapers, 'newspapers');
+        let categoriesSection = this.makeList(categories, 'categories');
 
         return (
             <div>
@@ -81,10 +81,10 @@ class AppNav extends Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse>
                         <Nav className="mr-auto">
-                            <NavDropdown title="Categorias">
+                            <NavDropdown title="Categorias" id = "categorias">
                                 {categoriesSection}
                             </NavDropdown>
-                            <NavDropdown title="Diarios">
+                            <NavDropdown title="Diarios" id = "titles">
                                 {newspapersSection}
                             </NavDropdown>
                         </Nav>

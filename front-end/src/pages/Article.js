@@ -20,12 +20,12 @@ class Article extends Component {
     }
 
     fetchArticles = () => {
-        const {id} = this.props.match.params
+        const {id} = this.props.match.params;
 
         getArticle(id)
             .then(response => {
                 this.setState({article: response})
-            }).catch(error => console.log(error))
+            }).catch(error => console.log(error));
 
         getSimilarArticles(id)
             .then(response => {
@@ -37,8 +37,8 @@ class Article extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const {id: newId} = this.props.match.params
-        const {id: prevId} = prevProps.match.params
+        const {id: newId} = this.props.match.params;
+        const {id: prevId} = prevProps.match.params;
 
         if (newId !== prevId) {
             this.fetchArticles()

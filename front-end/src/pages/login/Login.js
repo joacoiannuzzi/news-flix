@@ -30,7 +30,7 @@ class Login extends Component {
         if (event.target.value === "") {
             parent.classList.remove("focus");
         }
-    }
+    };
 
     handleChange = event => {
         const isCheckbox = event.target.type === 'checkbox';
@@ -43,7 +43,7 @@ class Login extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        const loginRequest = this.state
+        const loginRequest = this.state;
         login(loginRequest)
             .then(response => {
                 localStorage.setItem(ACCESS_TOKEN, response.accessToken);

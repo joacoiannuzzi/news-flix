@@ -40,13 +40,13 @@ class App extends Component {
                     isLoading: false
                 });
             }).catch(error => {
-                console.log(error)
-                this.handleLogout()
+                console.log(error);
+                this.handleLogout();
                 this.setState({
                     isLoading: false
                 });
             })
-    }
+    };
 
     componentDidMount() {
         this.loadCurrentUser();
@@ -71,10 +71,10 @@ class App extends Component {
     };
 
     render() {
-        const {isLoading, isAuthenticated, currentUser} = this.state
+        const {isLoading, isAuthenticated, currentUser} = this.state;
 
         if (isLoading)
-            return <LoadingIndicator/>
+            return <LoadingIndicator/>;
 
         return (
             <>

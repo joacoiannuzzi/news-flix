@@ -4,7 +4,7 @@ import React from "react";
 
 function ArticleCards(props) {
 
-    const articles = props.articles
+    const articles = props.articles;
 
     return articles.map(article => {
             return (

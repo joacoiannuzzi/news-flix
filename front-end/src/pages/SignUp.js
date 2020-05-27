@@ -45,13 +45,13 @@ class SignUp extends Component {
 
                     <Form.Group controlId="firstName">
                         <Form.Label>Nombre</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="firstName" type="text" placeholder="Nombre"
+                        <Form.Control onChange={this.handleChange} name="firstName" type="text" placeholder="Nombre" pattern=".{4,40}"  title="4 to 40 characters"
                                       required/>
                     </Form.Group>
 
                     <Form.Group controlId="lastName">
                         <Form.Label>Apellido</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="lastName" type="text" placeholder="Apellido"
+                        <Form.Control onChange={this.handleChange} name="lastName" type="text" placeholder="Apellido" pattern=".{4,40}"  title="4 to 40 characters"
                                       required/>
                     </Form.Group>
 
@@ -63,7 +63,7 @@ class SignUp extends Component {
 
                     <Form.Group controlId="password">
                         <Form.Label>Contraseña</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="password" type="password"
+                        <Form.Control onChange={this.handleChange} name="password" type="password" pattern=".{6,20}" title="6 to 20 characters"
                                       placeholder="Contraseña" required/>
                     </Form.Group>
 
