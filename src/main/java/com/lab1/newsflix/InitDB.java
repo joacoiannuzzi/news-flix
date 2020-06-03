@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InitDB implements CommandLineRunner {
 
-    @Autowired
-    private ScraperManager scraperManager;
+
 
     @Autowired
     private RoleRepository roleRepository;
@@ -21,7 +20,7 @@ public class InitDB implements CommandLineRunner {
     public void run(String... args) { // este metodo se llama automaticamente cuando se inicia la aplicacion porque implenta CommandLineRunner
         roleRepository.save(new Role(RoleName.ROLE_USER));
         roleRepository.save(new Role(RoleName.ROLE_ADMIN));
-        scraperManager.scrap();
+
 
 
     }

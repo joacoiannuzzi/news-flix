@@ -51,15 +51,14 @@ class AppNav extends Component {
             }).catch(error => console.log(error))
     }
 
-    makeList = (list, name) => {
-        list.map(item => {
-            return (
+    makeDropdownMenu = (list, name) => (
+        list.map(item =>
+            (
                 <NavDropdown.Item as={Link} to={`/${name}/${item}`} key={item}>
                     {item}
                 </NavDropdown.Item>
-            )
-        })
-    };
+            ))
+    );
 
     render() {
 
@@ -69,8 +68,8 @@ class AppNav extends Component {
 
         const {categories, newspapers} = this.state;
 
-        let newspapersSection = this.makeList(newspapers, 'newspapers');
-        let categoriesSection = this.makeList(categories, 'categories');
+        const newspapersSection = this.makeDropdownMenu(newspapers, 'newspapers');
+        const categoriesSection = this.makeDropdownMenu(categories, 'categories');
 
         return (
             <div>
@@ -107,7 +106,8 @@ class AppNav extends Component {
                             </Dropdown>
                         </Nav>
                         <Form inline onSubmit={this.handleSearchSubmit}>
-                            <FormControl type="text" name='search' placeholder="Buscar" className="mr-sm-2" onChange={this.handleSearchChange}/>
+                            <FormControl type="text" name='search' placeholder="Buscar" className="mr-sm-2"
+                                         onChange={this.handleSearchChange}/>
                             <Button type={"submit"} variant="outline-success">Buscar</Button>
                         </Form>
                     </Navbar.Collapse>

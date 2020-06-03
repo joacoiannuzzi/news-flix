@@ -1,18 +1,21 @@
 import React, {Component} from "react";
-import {Col, Container, Image, Row} from "react-bootstrap";
-import ArticleCards from "../components/ArticleCards";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {getArticle, getSimilarArticles} from "../util/APIUtils";
+import {Container, Row} from "react-bootstrap";
+import MoreArticles from "../components/MoreArticles";
+import Article from "../components/Article";
 
 
-class Article extends Component {
+class ArticleManager extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             article: {},
-            similarArticles: []
+            similarArticles: [],
+            ArticleCompare: null
         }
+
     }
 
     componentDidMount() {
@@ -41,41 +44,41 @@ class Article extends Component {
         const {id: prevId} = prevProps.match.params;
 
         if (newId !== prevId) {
+            this.setState({
+                compareArticle: null
+            })
             this.fetchArticles()
         }
     }
 
+    handleCompare = article => {
+        this.setState({
+            compareArticle: article
+        })
+    }
+
     render() {
 
-        const {isLoading, article, similarArticles} = this.state;
+        const {isLoading, article, similarArticles, compareArticle} = this.state;
 
         if (isLoading)
             return <LoadingIndicator/>;
 
         return (
             <>
-                <Container className="mt-4">
+                <Container>
                     <Row>
-                        <Col xs={8}>
-                            <h1 className="">
-                                {article.title}
-                            </h1>
-                            <h4 className="mt-4">
-                                {article.date}
-                            </h4>
-                            <Image fluid src={article.image}/>
-                            <p className="text-justify mt-4">
-                                {article.body}
-
-                            </p>
-                        </Col>
-                        {similarArticles.length ?
-                            <Col xs={{span: 3, offset: 1}}>
-                                <h2 className="mb-4">Articulos similares de otros diarios</h2>
-                                <ArticleCards className="mb-4" articles={similarArticles}/>
-                            </Col> :
-                            <></>
-
+                        {!compareArticle ?
+                            <>
+                                <Article {...article} xs={8}/>
+                                <MoreArticles articles={similarArticles} xs={{span: 3, offset: 1}}
+                                        onClick={this.handleCompare}
+                                />
+                            </> :
+                            <>
+                                <Article {...article}/>
+                                <Article {...compareArticle}/>
+                            </>
                         }
                     </Row>
                 </Container>
@@ -85,4 +88,4 @@ class Article extends Component {
 
 }
 
-export default Article
+export default ArticleManager
