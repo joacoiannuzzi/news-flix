@@ -92,7 +92,7 @@ class Login extends Component {
                                 </div>
                             </div>
                             <Link to="#" className='a'>¿Olvidaste tu contraseña?</Link>
-                            <input type="submit" className="button"/>
+                            <input type="submit" className="button" value={'Entrar'}/>
                             <Link to='/signup'>Registrarse</Link>
                         </form>
                     </div>

@@ -29,6 +29,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "favorites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id"))
+    private Set<Article> favorites = new HashSet<>();
+
     public User() {
     }
 
@@ -38,6 +44,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.isActive = true;
+    }
+
+    public void addFavorite(Article article) {
+        favorites.add(article);
     }
 
     public Long getId() {
@@ -94,6 +104,15 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+
+    public Set<Article> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Set<Article> favorites) {
+        this.favorites = favorites;
     }
 
 

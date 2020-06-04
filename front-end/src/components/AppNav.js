@@ -98,7 +98,7 @@ class AppNav extends Component {
                                     </Dropdown.Item>
                                     <Dropdown.Divider/>
                                     <Dropdown.Item as={Link} to="/profile">Mi perfil</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/favorites">Mis Favoritos</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/profile#favorites">Mis Favoritos</Dropdown.Item>
                                     <Dropdown.Item onClick={this.handleLogout}>
                                         Cerrar sesion
                                     </Dropdown.Item>

@@ -13,9 +13,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import AppNav from "./components/AppNav";
 import LoadingIndicator from "./components/LoadingIndicator";
 import Search from "./pages/Search";
+import Profile from "./pages/Profile";
 
 import './app.css'
-
 
 class App extends Component {
 
@@ -92,6 +92,9 @@ class App extends Component {
                                   component={Newspaper}/>
                     <PrivateRoute authenticated={isAuthenticated} path='/articles/:id' exact={true}
                                   component={ArticleManager}/>
+                    <Route exact path="/profile"
+                           render={props => <Profile authenticated={isAuthenticated} currentUser={currentUser} {...props}  />}
+                    />
                     <Route exact={true} path='/signup' component={SignUp}/>
                     <Route exact={true} path="/login"
                            render={props => <Login onLogin={this.handleLogin} {...props} />}/>

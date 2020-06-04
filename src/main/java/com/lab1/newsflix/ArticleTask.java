@@ -16,5 +16,6 @@ public class ArticleTask {
     public void execute() {
         scraperManager.scrap();
         System.out.println("finished");
+
     }
 }
