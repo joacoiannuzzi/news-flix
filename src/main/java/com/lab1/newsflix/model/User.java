@@ -46,8 +46,10 @@ public class User {
         this.isActive = true;
     }
 
-    public void addFavorite(Article article) {
-        favorites.add(article);
+    public void addOrRemoveFavorite(Article article) {
+        if (!favorites.contains(article))
+            favorites.add(article);
+        else favorites.remove(article);
     }
 
     public Long getId() {

@@ -49,6 +49,7 @@ class Login extends Component {
                 localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                 this.props.onLogin();
             }).catch(error => {
+                alert('Invalid')
             console.log(error)
         })
     };

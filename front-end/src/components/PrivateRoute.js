@@ -7,18 +7,18 @@ import {
 
 const PrivateRoute = ({component: Component, authenticated, ...rest}) => {
     return (
-        <Route
-            {...rest}
-            render={props =>
-                authenticated ?
-                    <Component {...rest} {...props} /> :
-                    (<Redirect
-                        to={{
-                            pathname: '/login',
-                            state: {from: props.location}
-                        }}
-                    />)
-            }
+        <Route {...rest}
+               render={props =>
+                   authenticated ?
+                       <Component {...rest} {...props} /> :
+                       (
+                           <Redirect to={{
+                               pathname: '/login',
+                               state: {from: props.location}
+                           }}
+                           />
+                       )
+               }
         />
     )
 }

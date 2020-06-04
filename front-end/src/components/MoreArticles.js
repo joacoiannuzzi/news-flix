@@ -32,10 +32,15 @@ const Rect = props => {
                             {article.title}
                         </Card.Title>
                         <Card.Subtitle className="text-muted mt-1 mb-2">{article.newspaper}</Card.Subtitle>
-                        <Link to={`/articles/${(article.id)}`}>
-                            <Button variant="outline-primary" onClick={() => onClick(null)}>Ver</Button>
-                        </Link>
-                        <Button variant="outline-info" onClick={() => onClick(article)}>Comparar</Button>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-evenly'
+                        }}>
+                            <Link to={`/articles/${(article.id)}`}>
+                                <Button variant="outline-primary" onClick={() => onClick(null)}>Ver</Button>
+                            </Link>
+                            <Button variant="outline-info" onClick={() => onClick(article)}>Comparar</Button>
+                        </div>
                     </Card.Body>
                 </Card>
             );

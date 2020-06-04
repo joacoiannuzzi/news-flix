@@ -31,7 +31,10 @@ class SignUp extends Component {
 
         signup(signupRequest)
             .then(response => this.props.history.push("/login"))
-            .catch(error => console.log(error))
+            .catch(error => {
+                alert('Invalid')
+                console.log(error);
+            })
 
 
     };
