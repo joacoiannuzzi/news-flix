@@ -3,11 +3,11 @@ import React from "react";
 import ArticleCards from "./ArticleCards";
 
 
-function ArticleCardColumns(props) {
+function ArticleCardColumns({articles, currentUser}) {
 
     return (
         <CardColumns className="mx-3 mt-4">
-            <ArticleCards articles={props.articles}/>
+            <ArticleCards articles={articles}/>
         </CardColumns>
     )
 }

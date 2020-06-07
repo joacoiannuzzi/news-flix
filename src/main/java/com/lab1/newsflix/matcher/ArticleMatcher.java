@@ -1,6 +1,5 @@
 package com.lab1.newsflix.matcher;
 
-
 import com.lab1.newsflix.model.Article;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.CosineSimilarity;

@@ -4,6 +4,7 @@ package com.lab1.newsflix.model;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
+import java.util.Objects;
 
 @Entity
 @Table(name = "article")
@@ -100,5 +101,18 @@ public class Article {
 
     public void setNewspaper(String newspaper) {
         this.newspaper = newspaper;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return id.equals(article.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

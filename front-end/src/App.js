@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, createContext} from 'react';
 import {Route, Switch, withRouter} from "react-router-dom";
 import Home from "./pages/Home"
 import Category from "./pages/Category"
@@ -13,14 +13,21 @@ import PrivateRoute from "./components/PrivateRoute";
 import AppNav from "./components/AppNav";
 import LoadingIndicator from "./components/LoadingIndicator";
 import Search from "./pages/Search";
+import Profile from "./pages/Profile";
 
 import './app.css'
 
+export const UserContext = createContext({
+    currentUser: {},
+    updateCurrentUser: (user) => {},
+    loadUser: () => {}
+})
 
 class App extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             currentUser: null,
             isAuthenticated: false,
@@ -70,6 +77,8 @@ class App extends Component {
 
     };
 
+    update = user => this.setState({currentUser: user});
+
     render() {
         const {isLoading, isAuthenticated, currentUser} = this.state;
 
@@ -78,28 +87,38 @@ class App extends Component {
 
         return (
             <>
-                <AppNav
-                    isAuthenticated={isAuthenticated}
-                    currentUser={currentUser}
-                    onLogout={this.handleLogout}/>
+                <UserContext.Provider value={{currentUser: currentUser, updateCurrentUser: this.update, loadUser: this.loadCurrentUser}}>
 
-                <Switch>
-                    <PrivateRoute authenticated={isAuthenticated} path='/' exact={true} component={Home}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/search' exact={true} component={Search}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/categories/:name' exact={true}
-                                  component={Category}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/newspapers/:name' exact={true}
-                                  component={Newspaper}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/articles/:id' exact={true}
-                                  component={ArticleManager}/>
-                    <Route exact={true} path='/signup' component={SignUp}/>
-                    <Route exact={true} path="/login"
-                           render={props => <Login onLogin={this.handleLogin} {...props} />}/>
+                    <AppNav
+                        isAuthenticated={isAuthenticated}
+                        currentUser={currentUser}
+                        onLogout={this.handleLogout}/>
+
+                    <Switch>
+                        <PrivateRoute authenticated={isAuthenticated} currentUser={currentUser} path='/' exact={true}
+                                      component={Home}/>
+                        <PrivateRoute authenticated={isAuthenticated} currentUser={currentUser} path='/search'
+                                      exact={true} component={Search}/>
+                        <PrivateRoute authenticated={isAuthenticated} currentUser={currentUser} path='/categories/:name'
+                                      exact={true}
+                                      component={Category}/>
+                        <PrivateRoute authenticated={isAuthenticated} currentUser={currentUser} path='/newspapers/:name'
+                                      exact={true}
+                                      component={Newspaper}/>
+                        <PrivateRoute authenticated={isAuthenticated} currentUser={currentUser} path='/articles/:id'
+                                      exact={true}
+                                      component={ArticleManager}/>
+                        <PrivateRoute authenticated={isAuthenticated} currentUser={currentUser} exact path="/profile"
+                                      component={Profile}/>
+                        <Route exact={true} path='/signup' component={SignUp}/>
+                        <Route exact={true} path="/login"
+                               render={props => <Login onLogin={this.handleLogin} {...props} />}/>
 
 
-                    {/*este va al final*/}
-                    <Route component={NotFound}/>
-                </Switch>
+                        {/*este va al final*/}
+                        <Route component={NotFound}/>
+                    </Switch>
+                </UserContext.Provider>
             </>
         )
     }
