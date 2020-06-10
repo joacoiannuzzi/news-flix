@@ -1,15 +1,18 @@
 package com.lab1.newsflix.service;
 
+import com.lab1.newsflix.exception.ResourceNotFoundException;
 import com.lab1.newsflix.matcher.ArticleMatcher;
 import com.lab1.newsflix.model.Article;
+import com.lab1.newsflix.model.User;
+import com.lab1.newsflix.payload.CommentRequest;
 import com.lab1.newsflix.repository.ArticleRepository;
+import com.lab1.newsflix.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ArticleService {
@@ -18,10 +21,13 @@ public class ArticleService {
     private ArticleRepository articleRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ArticleMatcher articleMatcher;
 
-    public void save(Article article) {
-        articleRepository.save(article);
+    public Article save(Article article) {
+        return articleRepository.save(article);
     }
 
     public Collection<Article> findAll() {
@@ -53,7 +59,7 @@ public class ArticleService {
     }
 
     public Collection<Article> getLatestArticles() {
-        return articleRepository.findAll().stream()
+        return findAll().stream()
                 .filter(article -> Duration.between(article.getDate().toInstant(), Calendar.getInstance().toInstant()).toDays() < 2)
                 .sorted(Comparator.comparing(Article::getDate).reversed())
                 .collect(Collectors.toList());
@@ -88,6 +94,19 @@ public class ArticleService {
 
     private boolean stringContainsItemFromList(String inputStr, String[] items) {
         return Arrays.stream(items).parallel().allMatch(inputStr.toLowerCase()::contains);
+    }
+
+    public Article addComment(CommentRequest commentRequest) {
+        Long articleId = commentRequest.getArticleId();
+        Article article = findById(articleId).orElseThrow(() -> new ResourceNotFoundException("Article", "id", articleId));
+
+        Long userId = commentRequest.getUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        String body = commentRequest.getBody();
+
+        article.addComment(user, body);
+        return save(article);
     }
 
 

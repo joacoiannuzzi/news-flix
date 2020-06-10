@@ -35,6 +35,13 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "article_id"))
     private Set<Article> favorites = new HashSet<>();
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Comment> comments = new HashSet<>();
+
     public User() {
     }
 
@@ -50,6 +57,15 @@ public class User {
         if (!favorites.contains(article))
             favorites.add(article);
         else favorites.remove(article);
+    }
+
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public Long getId() {
