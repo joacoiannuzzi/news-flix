@@ -64,7 +64,7 @@ class Login extends Component {
                         <img src={manReading} alt=''/>
                     </div>
                     <div className="login-content">
-                        <form onSubmit={this.handleSubmit}>
+                        <form className=".form" onSubmit={this.handleSubmit}>
                             <img src={avatar} alt=''/>
                             <h2 className="title">Bienvenido</h2>
                             <div className="input-div one">

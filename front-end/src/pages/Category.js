@@ -2,13 +2,10 @@ import React, {useEffect, useState} from "react";
 import ArticleCardColumns from "../components/ArticleCardColumns";
 import {getCategory} from "../util/APIUtils";
 
-function Category({match}) {
-
-    const category = match.params.name;
-
-    useEffect(() => fetchItems());
+function Category({match: { params: { name: category }}}) {
 
     const [item, setItems] = useState([]);
+    useEffect(() => fetchItems());
 
     const fetchItems = () => {
         getCategory(category)

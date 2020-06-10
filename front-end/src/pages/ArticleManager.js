@@ -57,6 +57,12 @@ class ArticleManager extends Component {
         })
     }
 
+    handleStopCompare = () => {
+        this.setState({
+            compareArticle: null
+        })
+    }
+
     render() {
 
         const {isLoading, article, similarArticles, compareArticle} = this.state;
@@ -72,12 +78,12 @@ class ArticleManager extends Component {
                             <>
                                 <Article {...article} xs={8}/>
                                 <MoreArticles articles={similarArticles} xs={{span: 3, offset: 1}}
-                                        onClick={this.handleCompare}
+                                              onClick={this.handleCompare}
                                 />
                             </> :
                             <>
                                 <Article {...article}/>
-                                <Article {...compareArticle}/>
+                                <Article {...compareArticle} handleStopCompare={this.handleStopCompare}/>
                             </>
                         }
                     </Row>
