@@ -17,11 +17,7 @@ import Profile from "./pages/Profile";
 
 import './app.css'
 
-export const UserContext = createContext({
-    currentUser: {},
-    updateCurrentUser: (user) => {},
-    loadUser: () => {}
-})
+export const UserContext = createContext()
 
 class App extends Component {
 
@@ -77,7 +73,7 @@ class App extends Component {
 
     };
 
-    update = user => this.setState({currentUser: user});
+    updateCurrentUser = user => this.setState({currentUser: user});
 
     render() {
         const {isLoading, isAuthenticated, currentUser} = this.state;
@@ -87,7 +83,7 @@ class App extends Component {
 
         return (
             <>
-                <UserContext.Provider value={{currentUser: currentUser, updateCurrentUser: this.update, loadUser: this.loadCurrentUser}}>
+                <UserContext.Provider value={{currentUser, updateCurrentUser: this.updateCurrentUser}}>
 
                     <AppNav
                         isAuthenticated={isAuthenticated}

@@ -4,7 +4,9 @@ package com.lab1.newsflix.model;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "article")
@@ -30,6 +32,13 @@ public class Article {
 
     private String newspaper;
 
+    @OneToMany(
+            mappedBy = "article",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Comment> comments = new HashSet<>();
+
     public Article() {
     }
 
@@ -41,6 +50,28 @@ public class Article {
         this.body = body;
         this.date = date;
         this.newspaper = newspaper;
+    }
+
+    public void addComment(User user, String body) {
+        Comment comment = new Comment(user, this, body);
+        comments.add(comment);
+        user.getComments().add(comment);
+    }
+
+    public void removeComment(Long id, User user) {
+        Comment comment = new Comment();
+        comment.setId(id);
+        comments.remove(comment);
+        user.getComments().remove(comment);
+        comment.setId(null);
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getUrl() {
