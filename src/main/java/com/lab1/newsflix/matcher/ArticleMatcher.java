@@ -28,8 +28,6 @@ public class ArticleMatcher {
         for (List<Article> articlesFromSpecificNewspaper : articles) {
 
             double max = 0L;
-            //double temp1 = 0L;
-            //double temp2 = 0L;
 
 
             Article articleMax = null;
@@ -37,19 +35,14 @@ public class ArticleMatcher {
             for (Article article : articlesFromSpecificNewspaper) {
                 double score1 = similarity(articleToCompare.getTitle(), article.getTitle());
                 double score2 = similarity(articleToCompare.getBody(), article.getBody());
-                double score = ((score1 * 0.60) + (score2 * 0.40)) / 2;
+                double score = ((score1 * 0.75) + (score2 * 0.25)) / 2;
                 if (score > max) {
-                    //temp1 = score1;
-                    //temp2 = score2;
                     max = score;
                     articleMax = article;
                 }
             }
-//            score >= 0.5 &&
             if (articleMax != null) {
                 result.add(articleMax);
-                //System.out.println("Score 1 (Title) :"+temp1);
-                //System.out.println("Score 2 (Body) :"+temp2);
                 System.out.println(max);
             }
         }

@@ -7,11 +7,11 @@ import {Container} from "react-bootstrap";
 import useGetArticles from "../components/hooks/useGetArticles";
 
 const Newspaper = () => {
-    const {name: newspaper} = useParams()
+    const {name: newspaper} = useParams();
     const {isLoading, articles} = useGetArticles(getNewspaper, newspaper);
 
     if (isLoading)
-        return <LoadingIndicator/>
+        return <LoadingIndicator/>;
 
     return (
         <>
