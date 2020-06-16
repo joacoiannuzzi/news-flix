@@ -1,11 +1,14 @@
 package com.lab1.newsflix.payload;
 
+import javax.validation.constraints.Size;
+
 public class CommentRequest {
 
     private Long userId;
 
     private Long articleId;
 
+    @Size(min = 1, max = 200)
     private String body;
 
     public Long getUserId() {

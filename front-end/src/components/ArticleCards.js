@@ -1,14 +1,14 @@
-import React, {useContext} from "react";
+import React from "react";
 import {Card} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {UserContext} from "../App";
+import {useUser} from "../App";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart, faHeartBroken} from "@fortawesome/free-solid-svg-icons";
 import {addOrRemoveFavorite} from "../util/APIUtils";
 
 const ArticleCards = ({articles, className}) => {
 
-    const {currentUser: {favorites, id: userId}, updateCurrentUser} = useContext(UserContext)
+    const {currentUser: {favorites, id: userId}, updateCurrentUser} = useUser()
 
     const handleFavorite = (articleId) => {
         addOrRemoveFavorite(userId, articleId)

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, Form, FormControl, Nav, Navbar, NavDropdown, NavLink} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
-import { getCategories, getNewspapers } from "../util/APIUtils";
-import { Link, withRouter } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import {getCategories, getNewspapers} from "../util/APIUtils";
+import {Link, withRouter} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUser} from '@fortawesome/free-solid-svg-icons'
 import useFormInput from './hooks/useFormInput';
+import {useUser} from "../App";
 
 
 const makeDropdownMenu = (list, name) => (
@@ -18,32 +19,27 @@ const makeDropdownMenu = (list, name) => (
     )
 )
 
+const useSection = callback => {
+    const [section, setSection] = useState([])
+    useEffect(
+        () => {
+            callback()
+                .then(response => {
+                    setSection(response)
+                })
+                .catch(error => console.log(error))
+        },
+        [callback]
+    )
+    return section
+}
 
-const AppNav = ({ currentUser, isAuthenticated, onLogout, history }) => {
-    const [categories, setCategories] = useState([])
-    const [newspapers, setNewspapers] = useState([])
+
+const AppNav = ({isAuthenticated, onLogout, history}) => {
+    const {currentUser: user} = useUser()
     const search = useFormInput('')
-
-    useEffect(
-        () => {
-            getCategories()
-                .then(response => {
-                    setCategories(response)
-                })
-                .catch(error => console.log(error))
-        },
-        []
-    )
-    useEffect(
-        () => {
-            getNewspapers()
-                .then(response => {
-                    setNewspapers(response)
-                })
-                .catch(error => console.log(error))
-        },
-        []
-    )
+    const categories = useSection(getCategories);
+    const newspapers = useSection(getNewspapers);
 
     if (!isAuthenticated) {
         return <></>
@@ -63,7 +59,7 @@ const AppNav = ({ currentUser, isAuthenticated, onLogout, history }) => {
                 <Navbar.Brand as={Link} to={'/'}>
                     NewsFlix
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse>
                     <Nav className="mr-auto">
                         <NavDropdown title="Categorias">
@@ -79,13 +75,13 @@ const AppNav = ({ currentUser, isAuthenticated, onLogout, history }) => {
                     <Nav>
                         <Dropdown as={Nav.Item}>
                             <Dropdown.Toggle as={Nav.Link}>
-                                <FontAwesomeIcon icon={faUser} />
+                                <FontAwesomeIcon icon={faUser}/>
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item disabled>
-                                    {currentUser.firstName} {currentUser.lastName}
+                                    {user.firstName} {user.lastName}
                                 </Dropdown.Item>
-                                <Dropdown.Divider />
+                                <Dropdown.Divider/>
                                 <Dropdown.Item as={Link} to="/profile">Mi perfil</Dropdown.Item>
                                 <Dropdown.Item as={Link} to="/favorites">Mis Favoritos</Dropdown.Item>
                                 <Dropdown.Item onClick={onLogout}>
@@ -96,7 +92,7 @@ const AppNav = ({ currentUser, isAuthenticated, onLogout, history }) => {
                     </Nav>
                     <Form inline onSubmit={handleSearchSubmit}>
                         <FormControl type="text" name='search' placeholder="Buscar" className="mr-sm-2"
-                            {...search} />
+                                     {...search} />
                         <Button type={"submit"} variant="outline-success">Buscar</Button>
                     </Form>
                 </Navbar.Collapse>

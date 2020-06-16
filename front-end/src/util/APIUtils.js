@@ -128,4 +128,15 @@ export function addOrRemoveFavorite(userId, articleId) {
     })
 }
 
+export function addComment(userId, articleId, body) {
+    console.log({userId, articleId, body})
+    return request({
+        url: `${API_BASE_URL}/articles/comments/add`,
+        method: 'post',
+        body: JSON.stringify({userId, articleId, body})
+    })
+}
+
+
+
 

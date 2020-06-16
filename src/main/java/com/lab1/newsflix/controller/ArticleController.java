@@ -45,7 +45,7 @@ public class ArticleController {
     }
 
     @GetMapping("/newspapers/all")
-    Collection<Object> getNewspapers() {
+    Collection<String> getNewspapers() {
         return articleService.getNewspapers();
     }
 
@@ -55,7 +55,7 @@ public class ArticleController {
     }
 
     @GetMapping("/categories/all")
-    Collection<Object> getCategories() {
+    Collection<String> getCategories() {
         return articleService.getCategories();
     }
 
@@ -69,11 +69,11 @@ public class ArticleController {
         return articleService.queryArticles(query);
     }
 
-//    @PostMapping("/comments/add")
-//    ResponseEntity<?> addComment(@Valid @RequestBody CommentRequest commentRequest) {
-//        Article updated = articleService.addComment(commentRequest);
-//        return ResponseEntity.ok().body(updated);
-//
-//    }
+    @PostMapping("/comments/add")
+    ResponseEntity<?> addComment(@Valid @RequestBody CommentRequest commentRequest) {
+        Article updated = articleService.addComment(commentRequest);
+        return ResponseEntity.ok().body(updated);
+
+    }
 
 }

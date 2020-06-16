@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Route, Switch, withRouter} from "react-router-dom";
 import Home from "./pages/Home"
 import Category from "./pages/Category"
@@ -18,13 +18,11 @@ import Profile from "./pages/Profile";
 import './app.css'
 import Favorites from "./pages/Favorites";
 
-export const UserContext = createContext({
-    currentUser: null,
-    updateCurrentUser: () => {
-    }
-})
+const UserContext = createContext({})
 
-const App = ({history}) => {
+export const useUser = () => useContext(UserContext)
+
+function App({history}) {
     const [user, setUser] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
@@ -37,7 +35,7 @@ const App = ({history}) => {
         [] // no sacar
     )
 
-    const loadCurrentUser = async () => {
+    async function loadCurrentUser() {
         setIsLoading(true)
         getCurrentUser()
             .then(user => {
@@ -47,12 +45,13 @@ const App = ({history}) => {
             })
             .catch(error => {
                 console.log(error)
+                console.log('error')
                 handleLogout()
                 setIsLoading(false)
             })
     }
 
-    const handleLogout = (redirectTo = "/") => {
+    function handleLogout(redirectTo = "/") {
         localStorage.removeItem(ACCESS_TOKEN);
 
         setUser(null)
@@ -61,7 +60,7 @@ const App = ({history}) => {
         history.push(redirectTo);
     }
 
-    const handleLogin = (redirectTo = "/") => {
+    function handleLogin(redirectTo = "/") {
         loadCurrentUser()
             .then(() => {
                 history.push(redirectTo);
@@ -76,33 +75,29 @@ const App = ({history}) => {
         <>
             <UserContext.Provider value={{currentUser: user, updateCurrentUser: setUser}}>
 
-                <AppNav
-                    isAuthenticated={isAuthenticated}
-                    currentUser={user}
-                    onLogout={handleLogout}/>
+                <AppNav onLogout={handleLogout} isAuthenticated={isAuthenticated}/>
 
                 <Switch>
-                    <PrivateRoute authenticated={isAuthenticated} currentUser={user} path='/' exact={true}
+                    <PrivateRoute authenticated={isAuthenticated} path='/' exact={true}
                                   component={Home}/>
-                    <PrivateRoute authenticated={isAuthenticated} currentUser={user} path='/search'
+                    <PrivateRoute authenticated={isAuthenticated} path='/search'
                                   exact={true} component={Search}/>
-                    <PrivateRoute authenticated={isAuthenticated} currentUser={user} path='/categories/:name'
-                                  exact={true}
-                                  component={Category}/>
-                    <PrivateRoute authenticated={isAuthenticated} currentUser={user} path='/newspapers/:name'
+                    <PrivateRoute authenticated={isAuthenticated} path='/categories/:name'
+                                  exact={true} component={Category}/>
+                    <PrivateRoute authenticated={isAuthenticated} path='/newspapers/:name'
                                   exact={true}
                                   component={Newspaper}/>
-                    <PrivateRoute authenticated={isAuthenticated} currentUser={user} path='/articles/:id'
+                    <PrivateRoute authenticated={isAuthenticated} path='/articles/:id'
                                   exact={true}
                                   component={ArticleManager}/>
-                    <PrivateRoute authenticated={isAuthenticated} currentUser={user} exact path="/profile"
+                    <PrivateRoute authenticated={isAuthenticated} exact path="/profile"
                                   component={Profile}/><
-                    PrivateRoute authenticated={isAuthenticated} currentUser={user} exact path="/favorites"
+                    PrivateRoute authenticated={isAuthenticated} exact path="/favorites"
                                  component={Favorites}/>
                     <Route exact={true} path='/signup' component={SignUp}/>
                     <Route exact={true} path="/login"
-                           render={props => <LogIn onLogin={handleLogin} {...props} />}/>
-
+                           render={props => <LogIn onLogin={handleLogin} {...props} />}
+                    />
 
                     {/*este va al final*/}
                     <Route component={NotFound}/>
@@ -111,6 +106,6 @@ const App = ({history}) => {
         </>
     )
 
-};
+}
 
 export default withRouter(App);

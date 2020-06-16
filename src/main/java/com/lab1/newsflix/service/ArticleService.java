@@ -42,7 +42,7 @@ public class ArticleService {
         return articleRepository.findByNewspaper(newspaper);
     }
 
-    public Collection<Object> getNewspapers() {
+    public Collection<String> getNewspapers() {
         return articleRepository.getNewspapers();
     }
 
@@ -50,7 +50,7 @@ public class ArticleService {
         return articleRepository.findByCategory(category);
     }
 
-    public Collection<Object> getCategories() {
+    public Collection<String> getCategories() {
         return articleRepository.getCategories();
     }
 

@@ -1,12 +1,12 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Button, Container, Row} from "react-bootstrap";
 import {getAvatarColor} from "../util/Colors";
-import {UserContext} from "../App";
+import {useUser} from "../App";
 
 
 const Profile = () => {
 
-    const {currentUser: {firstName, lastName, email}} = useContext(UserContext)
+    const {currentUser: {firstName, lastName, email}} = useUser()
 
     return (
         <Container>

@@ -18,10 +18,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Collection<Article> findByCategory(String category);
 
     @Query(value = "select distinct category from article ", nativeQuery = true)
-    List<Object> getCategories();
+    List<String> getCategories();
 
     @Query(value = "select distinct newspaper from article ", nativeQuery = true)
-    List<Object> getNewspapers();
+    List<String> getNewspapers();
 
     Boolean existsByUrl(String url);
 

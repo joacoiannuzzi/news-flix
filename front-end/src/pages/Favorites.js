@@ -1,15 +1,14 @@
-import React, {useContext} from "react";
-import {UserContext} from "../App";
+import React from "react";
+import {useUser} from "../App";
 import ArticleCardColumns from "../components/ArticleCardColumns";
 import {Container} from "react-bootstrap";
 
 
 const Favorites = () => {
-    const {currentUser: {favorites}} = useContext(UserContext)
+    const {currentUser: {favorites}} = useUser()
 
     return (
         <Container>
-
             <div id='favorites' style={{
                 marginBottom: '5rem'
             }}>
