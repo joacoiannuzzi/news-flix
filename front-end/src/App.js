@@ -14,6 +14,7 @@ import AppNav from "./components/AppNav";
 import LoadingIndicator from "./components/LoadingIndicator";
 import Search from "./pages/Search";
 import Profile from "./pages/Profile";
+import Favorites from "./pages/Favorites";
 
 import './app.css'
 
@@ -106,6 +107,8 @@ class App extends Component {
                                       component={ArticleManager}/>
                         <PrivateRoute authenticated={isAuthenticated} currentUser={currentUser} exact path="/profile"
                                       component={Profile}/>
+                        <PrivateRoute authenticated={isAuthenticated} currentUser={currentUser} exact path="/favorites"
+                                      component={Favorites}/>
                         <Route exact={true} path='/signup' component={SignUp}/>
                         <Route exact={true} path="/login"
                                render={props => <Login onLogin={this.handleLogin} {...props} />}/>

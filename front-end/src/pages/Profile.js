@@ -52,28 +52,9 @@ const Profile = props => {
                             marginBottom: '5rem',
                         }}>
                             <Button variant={"warning"} onClick={() => alert('TODO')}>
-                                Cambiar contrasena
+                                Cambiar contraseña
                             </Button>
                         </div>
-                    </div>
-                    <div id='favorites' style={{
-                        marginBottom: '5rem'
-                    }}>
-                        <h2 style={{
-                            fontSize: '5rem',
-                            marginBottom: '4rem'
-                        }}>
-                            Mis favoritos
-                        </h2>
-                        {
-                            favorites.length ?
-                                <ArticleCardColumns articles={favorites}/> :
-                                <p style={{
-                                    fontSize: '2rem'
-                                }}>
-                                    Actualmente no tienes favoritos
-                                </p>
-                        }
                     </div>
                 </div>
 

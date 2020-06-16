@@ -68,56 +68,56 @@ export function getCategories() {
     return request({
         url: `${API_BASE_URL}/articles/categories/all`,
         method: 'get'
-    })
+    });
 }
 
 export function getCategory(name) {
     return request({
         url: `${API_BASE_URL}/articles/categories/${name}`,
         method: 'get'
-    })
+    });
 }
 
 export function getNewspapers() {
     return request({
         url: `${API_BASE_URL}/articles/newspapers/all`,
         method: 'get'
-    })
+    });
 }
 
 export function getNewspaper(name) {
     return request({
         url: `${API_BASE_URL}/articles/newspapers/${name}`,
         method: 'get'
-    })
+    });
 }
 
 export function getArticle(id) {
     return request({
         url: `${API_BASE_URL}/articles/${id}`,
         method: 'get'
-    })
+    });
 }
 
 export function getSimilarArticles(id) {
     return request({
         url: `${API_BASE_URL}/articles/similar/${id}`,
         method: 'get'
-    })
+    });
 }
 
 export function getLatestArticles() {
     return request({
         url: `${API_BASE_URL}/articles/latest`,
         method: 'get'
-    })
+    });
 }
 
 export function getFilteredArticles(query) {
     return request({
         url: `${API_BASE_URL}/articles/query?query=${query}`,
         method: 'get'
-    })
+    });
 }
 
 export function addFavorite(userId, articleId) {
@@ -125,7 +125,6 @@ export function addFavorite(userId, articleId) {
         url: `${API_BASE_URL}/users/addFavorite`,
         method: 'post',
         body: JSON.stringify({userId, articleId})
-    })
+    });
 }
-
 

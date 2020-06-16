@@ -26,7 +26,7 @@ public class InitDB implements CommandLineRunner {
         roleRepository.save(new Role(RoleName.ROLE_USER));
         roleRepository.save(new Role(RoleName.ROLE_ADMIN));
 
-        userRepository.save(new User("Aiden", "Pearson", "aiden.pearson@example.com", "123456"));
+        userRepository.save(new User("Aiden", "Pearson", "test@test.com", "123456"));
 
     }
 }
