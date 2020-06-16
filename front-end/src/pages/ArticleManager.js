@@ -1,97 +1,68 @@
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {getArticle, getSimilarArticles} from "../util/APIUtils";
 import {Container, Row} from "react-bootstrap";
 import MoreArticles from "../components/MoreArticles";
 import Article from "../components/Article";
+import {useParams} from 'react-router-dom'
 
 
-class ArticleManager extends Component {
+const ArticleManager = props => {
+    const [isLoading, setIsLoading] = useState(true)
+    const [article, setArticle] = useState({})
+    const [similarArticles, setSimilarArticles] = useState([])
+    const [compareArticle, setCompareArticle] = useState(null)
+    const {id} = useParams()
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            article: {},
-            similarArticles: [],
-            ArticleCompare: null
-        }
+    useEffect(
+        () => {
 
+            setIsLoading(true)
+            getArticle(id)
+                .then(response => {
+                    setArticle(response)
+                })
+                .catch(error => console.log(error))
+
+            getSimilarArticles(id)
+                .then(response => {
+                    setSimilarArticles(response)
+                    setIsLoading(false)
+                })
+                .catch(error => console.log(error))
+
+        },
+        [id]
+    )
+
+    const handleStopCompare = () => {
+        setCompareArticle(null)
     }
 
-    componentDidMount() {
-        this.fetchArticles();
-    }
+    if (isLoading)
+        return <LoadingIndicator/>;
 
-    fetchArticles = () => {
-        const {id} = this.props.match.params
-
-        getArticle(id)
-            .then(response => {
-                this.setState({article: response})
-            }).catch(error => console.log(error))
-
-        getSimilarArticles(id)
-            .then(response => {
-                this.setState({
-                    similarArticles: response,
-                    isLoading: false
-                });
-            }).catch(error => console.log(error))
-    };
-
-    componentDidUpdate(prevProps) {
-        const {id: newId} = this.props.match.params
-        const {id: prevId} = prevProps.match.params
-
-        if (newId !== prevId) {
-            this.setState({
-                compareArticle: null
-            })
-            this.fetchArticles()
-        }
-    }
-
-    handleCompare = article => {
-        this.setState({
-            compareArticle: article
-        })
-    }
-
-    handleStopCompare = () => {
-        this.setState({
-            compareArticle: null
-        })
-    }
-
-    render() {
-
-        const {isLoading, article, similarArticles, compareArticle} = this.state;
-
-        if (isLoading)
-            return <LoadingIndicator/>;
-
-        return (
-            <>
-                <Container>
-                    <Row>
-                        {!compareArticle ?
-                            <>
-                                <Article {...article} xs={8}/>
-                                <MoreArticles articles={similarArticles} xs={{span: 3, offset: 1}}
-                                              onClick={this.handleCompare}
-                                />
-                            </> :
-                            <>
-                                <Article {...article}/>
-                                <Article {...compareArticle} handleStopCompare={this.handleStopCompare}/>
-                            </>
-                        }
-                    </Row>
-                </Container>
-            </>
-        )
-    }
-
+    return (
+        <>
+            <Container>
+                <Row>
+                    {!compareArticle ?
+                        <>
+                            <Article {...article} xs={8}/>
+                            <MoreArticles articles={similarArticles} xs={{span: 3, offset: 1}}
+                                          onClick={setCompareArticle}
+                            />
+                        </> :
+                        <>
+                            <Article {...article}/>
+                            <Article {...compareArticle} handleStopCompare={handleStopCompare}/>
+                        </>
+                    }
+                </Row>
+            </Container>
+        </>
+    )
 }
+
 
 export default ArticleManager

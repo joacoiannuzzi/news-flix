@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public UserProfile getCurrentUser(@CurrentUser UserPrincipal currentUser) {
         return new UserProfile(currentUser);
     }
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/addFavorite")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public UserProfile addFavorite(@Valid @RequestBody FavoriteRequest favoriteRequest) {
         Long articleId = favoriteRequest.getArticleId();
         Article article = articleService.findById(articleId).orElseThrow(() -> new ResourceNotFoundException("Article", "id", articleId));

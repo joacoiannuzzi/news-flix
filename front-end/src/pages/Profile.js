@@ -1,13 +1,12 @@
 import React, {useContext} from 'react';
 import {Button, Container, Row} from "react-bootstrap";
 import {getAvatarColor} from "../util/Colors";
-import ArticleCardColumns from "../components/ArticleCardColumns";
 import {UserContext} from "../App";
 
 
-const Profile = props => {
+const Profile = () => {
 
-    const {currentUser: {firstName, lastName, email, favorites}} = useContext(UserContext)
+    const {currentUser: {firstName, lastName, email}} = useContext(UserContext)
 
     return (
         <Container>
@@ -20,13 +19,13 @@ const Profile = props => {
                     justifyContent: "center",
                     alignItems: "center"
                 }}>
-                    <div style={{
-                        width: '200px',
-                        height: '200px',
+                    <div id={'circle'} style={{
+                        width: '100px',
+                        height: '100px',
                         margin: "30px",
                         borderRadius: '50%',
                         backgroundColor: getAvatarColor(firstName),
-                        fontSize: '7rem',
+                        fontSize: '3rem',
                         fontWeight: "normal",
                         display: 'flex',
                         justifyContent: "center",
@@ -36,13 +35,13 @@ const Profile = props => {
                     </div>
                     <div className="user-summary">
                         <div className="user-name" style={{
-                            fontSize: "4rem",
-                            marginBottom: '3rem',
+                            fontSize: "2rem",
+                            marginBottom: '2rem',
                         }}>
                             {firstName} {lastName}
                         </div>
                         <div style={{
-                            fontSize: "2rem",
+                            fontSize: "1.6rem",
                             marginBottom: '1rem'
                         }}>
                             Correo electronico: {email}
@@ -55,25 +54,6 @@ const Profile = props => {
                                 Cambiar contrasena
                             </Button>
                         </div>
-                    </div>
-                    <div id='favorites' style={{
-                        marginBottom: '5rem'
-                    }}>
-                        <h2 style={{
-                            fontSize: '5rem',
-                            marginBottom: '4rem'
-                        }}>
-                            Mis favoritos
-                        </h2>
-                        {
-                            favorites.length ?
-                                <ArticleCardColumns articles={favorites}/> :
-                                <p style={{
-                                    fontSize: '2rem'
-                                }}>
-                                    Actualmente no tienes favoritos
-                                </p>
-                        }
                     </div>
                 </div>
 

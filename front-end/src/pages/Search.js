@@ -1,64 +1,28 @@
-import React, {Component} from "react";
+import React from "react";
 import ArticleCardColumns from "../components/ArticleCardColumns";
 import {Container} from "react-bootstrap";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {getFilteredArticles} from "../util/APIUtils";
+import useGetArticles from "../components/hooks/useGetArticles";
 
-class Search extends Component {
+const getQuery = search => new URLSearchParams(search).get('query');
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            search: this.getQueryParams(props),
-            isLoading: true,
-            articles: [],
-        }
-    }
+const Search = ({location: {search}}) => {
+    const query = getQuery(search)
+    const {isLoading, articles} = useGetArticles(getFilteredArticles, query);
 
-    componentDidMount() {
-        this.fetchArticles();
-    }
+    if (isLoading)
+        return <LoadingIndicator/>
 
-    fetchArticles = () => {
-        const query = this.getQueryParams(this.props);
-        getFilteredArticles(query)
-            .then(response => {
-                this.setState({
-                    search: query,
-                    articles: response,
-                    isLoading: false
-                });
-            }).catch(error => console.log(error))
-    }
+    return (
+        <>
+            <Container>
+                <h1>Resultado para: {query}</h1>
+                <ArticleCardColumns articles={articles}/>
+            </Container>
+        </>
+    );
 
-    getQueryParams = props => new URLSearchParams(props.location.search).get('query');
-
-    componentDidUpdate(prevProps) {
-        const currentQuery = this.getQueryParams(this.props)
-        const prevQuery = this.getQueryParams(prevProps)
-        if (currentQuery !== prevQuery) {
-            this.setState({
-                isLoading: true
-            });
-            this.fetchArticles()
-        }
-    }
-
-    render() {
-        const {isLoading, articles, search} = this.state;
-
-        if (isLoading)
-            return <LoadingIndicator/>
-
-        return (
-            <>
-                <Container>
-                    <h1>Resultado para: {search}</h1>
-                    <ArticleCardColumns articles={articles}/>
-                </Container>
-            </>
-        );
-    }
 }
 
 export default Search

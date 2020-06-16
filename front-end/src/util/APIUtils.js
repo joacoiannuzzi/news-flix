@@ -120,7 +120,7 @@ export function getFilteredArticles(query) {
     })
 }
 
-export function addFavorite(userId, articleId) {
+export function addOrRemoveFavorite(userId, articleId) {
     return request({
         url: `${API_BASE_URL}/users/addFavorite`,
         method: 'post',

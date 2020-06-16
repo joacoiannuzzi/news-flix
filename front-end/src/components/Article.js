@@ -3,26 +3,25 @@ import React, {useContext} from "react";
 import {UserContext} from "../App";
 import {faHeart, faHeartBroken} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {addFavorite} from "../util/APIUtils";
+import {addOrRemoveFavorite} from "../util/APIUtils";
 
 
-const Article = (props) => {
+const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare}) => {
 
     const {currentUser: {favorites, id: userId}, updateCurrentUser} = useContext(UserContext)
-    const {id, title, date, body, image, xs, handleStopCompare} = props
 
-    const handleFavorite = async (userId, articleId) => {
-        const newVar = await addFavorite(userId, articleId)
-        updateCurrentUser(newVar)
+    const handleFavorite = () => {
+        addOrRemoveFavorite(userId, articleId)
+            .then(updateCurrentUser)
     }
 
     return (
         <Col xs={xs}>
-            <button onClick={() => handleFavorite(userId, id)} style={{
+            <button onClick={handleFavorite} style={{
                 background: 'none',
                 border: 'none',
             }}>
-                <FontAwesomeIcon icon={favorites.some(favorite => favorite.id === id) ? faHeart : faHeartBroken}
+                <FontAwesomeIcon icon={favorites.some(favorite => favorite.id === articleId) ? faHeart : faHeartBroken}
                                  style={{
                                      color: 'pink',
                                      fontSize: '30px'
@@ -33,8 +32,7 @@ const Article = (props) => {
                 <Button onClick={handleStopCompare} variant='danger'>
                     Dejar de comparar
                 </Button>
-            )
-            }
+            )}
             <h1 className="">
                 {title}
             </h1>

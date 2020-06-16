@@ -1,29 +1,28 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import ArticleCardColumns from "../components/ArticleCardColumns";
 import {getNewspaper} from "../util/APIUtils";
+import {useParams} from 'react-router-dom'
+import LoadingIndicator from "../components/LoadingIndicator";
+import {Container} from "react-bootstrap";
+import useGetArticles from "../components/hooks/useGetArticles";
 
-function Newspaper({match}) {
+const Newspaper = () => {
+    const {name: newspaper} = useParams()
+    const {isLoading, articles} = useGetArticles(getNewspaper, newspaper);
 
-    const newspaper = match.params.name;
-    useEffect(() => fetchItems());
-
-    const [items, setItems] = useState([]);
-
-    const fetchItems = () => {
-        getNewspaper(newspaper)
-            .then(response => {
-                setItems(response)
-            }).catch(error => console.log(error))
-    };
+    if (isLoading)
+        return <LoadingIndicator/>
 
     return (
         <>
-            <h1>{newspaper}</h1>
-            <ArticleCardColumns articles={items}/>
+            <Container>
 
+                <h1>{newspaper}</h1>
+                <ArticleCardColumns articles={articles}/>
+            </Container>
         </>
     );
 
-}
+};
 
 export default Newspaper

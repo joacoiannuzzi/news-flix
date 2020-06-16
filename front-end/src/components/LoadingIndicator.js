@@ -3,23 +3,21 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from '@fortawesome/free-solid-svg-icons'
 
 
-export default function LoadingIndicator(props) {
+const LoadingIndicator = () => (
+    <div style={{
+        height: '100vh',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    }}>
+        <FontAwesomeIcon
+            icon={faSpinner}
+            style={{
+                fontSize: 100
+            }}
+            spin
+        />
+    </div>
+)
 
-    return (
-        <div style={{
-            height: '100vh',
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-        }}
-        >
-            <FontAwesomeIcon
-                icon={faSpinner}
-                style={{
-                    fontSize: 100
-                }}
-                spin
-            />
-        </div>
-    )
-}
+export default LoadingIndicator
