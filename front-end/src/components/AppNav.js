@@ -1,121 +1,111 @@
-import React, {Component} from 'react';
-import {Button, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import {Button, Form, FormControl, Nav, Navbar, NavDropdown, NavLink} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
-import {getCategories, getNewspapers} from "../util/APIUtils";
-import {Link, withRouter} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUser} from '@fortawesome/free-solid-svg-icons'
+import { getCategories, getNewspapers } from "../util/APIUtils";
+import { Link, withRouter } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import useFormInput from './hooks/useFormInput';
 
-class AppNav extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: true,
-            categories: [],
-            newspapers: [],
-            search: ''
-        }
+const makeDropdownMenu = (list, name) => (
+    list.map(item =>
+        (
+            <NavDropdown.Item as={Link} to={`/${name}/${item}`} key={item}>
+                {item}
+            </NavDropdown.Item>
+        )
+    )
+)
+
+
+const AppNav = ({ currentUser, isAuthenticated, onLogout, history }) => {
+    const [categories, setCategories] = useState([])
+    const [newspapers, setNewspapers] = useState([])
+    const search = useFormInput('')
+
+    useEffect(
+        () => {
+            getCategories()
+                .then(response => {
+                    setCategories(response)
+                })
+                .catch(error => console.log(error))
+        },
+        []
+    )
+    useEffect(
+        () => {
+            getNewspapers()
+                .then(response => {
+                    setNewspapers(response)
+                })
+                .catch(error => console.log(error))
+        },
+        []
+    )
+
+    if (!isAuthenticated) {
+        return <></>
     }
 
-    handleLogout = () => {
-        this.props.onLogout()
-    };
-
-    handleSearchSubmit = event => {
-        event.preventDefault();
-        const {search} = this.state;
-        this.props.history.push(`/search?query=${search}`)
-    };
-
-    handleSearchChange = event => {
-        const {name, value} = event.target;
-        this.setState({
-            [name]: value
-        })
-    };
-
-    componentDidMount() {
-        getCategories()
-            .then(response => {
-                this.setState({
-                    categories: response
-                })
-            }).catch(error => console.log(error));
-
-        getNewspapers()
-            .then(response => {
-                this.setState({
-                    newspapers: response
-                })
-            }).catch(error => console.log(error))
+    const handleSearchSubmit = event => {
+        event.preventDefault()
+        history.push(`/search?query=${search.value}`)
     }
 
-    makeDropdownMenu = (list, name) => (
-        list.map(item =>
-            (
-                <NavDropdown.Item as={Link} to={`/${name}/${item}`} key={item}>
-                    {item}
-                </NavDropdown.Item>
-            ))
+    const newspapersSection = makeDropdownMenu(newspapers, 'newspapers')
+    const categoriesSection = makeDropdownMenu(categories, 'categories')
+
+    return (
+        <>
+            <Navbar bg="dark" variant="dark" expand="md">
+                <Navbar.Brand as={Link} to={'/'}>
+                    NewsFlix
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse>
+                    <Nav className="mr-auto">
+                        <NavDropdown title="Categorias">
+                            {categoriesSection}
+                        </NavDropdown>
+                        <NavDropdown title="Diarios">
+                            {newspapersSection}
+                        </NavDropdown>
+                        <NavLink as={Link} to={'/favorites'}>
+                            Mis Favoritos
+                        </NavLink>
+                    </Nav>
+                    <Nav>
+                        <Dropdown as={Nav.Item}>
+                            <Dropdown.Toggle as={Nav.Link}>
+                                <FontAwesomeIcon icon={faUser} />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item disabled>
+                                    {currentUser.firstName} {currentUser.lastName}
+                                </Dropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Item as={Link} to="/profile">Mi perfil</Dropdown.Item>
+                                <Dropdown.Item as={Link} to="/favorites">Mis Favoritos</Dropdown.Item>
+                                <Dropdown.Item onClick={onLogout}>
+                                    Cerrar sesion
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Nav>
+                    <Form inline onSubmit={handleSearchSubmit}>
+                        <FormControl type="text" name='search' placeholder="Buscar" className="mr-sm-2"
+                            {...search} />
+                        <Button type={"submit"} variant="outline-success">Buscar</Button>
+                    </Form>
+                </Navbar.Collapse>
+            </Navbar>
+        </>
     );
 
-    render() {
-
-        if (!this.props.isAuthenticated) {
-            return <></>
-        }
-
-        const {categories, newspapers} = this.state;
-
-        const newspapersSection = this.makeDropdownMenu(newspapers, 'newspapers');
-        const categoriesSection = this.makeDropdownMenu(categories, 'categories');
-
-        return (
-            <div>
-                <Navbar bg="dark" variant="dark" expand="md">
-                    <Navbar.Brand as={Link} to={'/'}>
-                        NewsFlix
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                    <Navbar.Collapse>
-                        <Nav className="mr-auto">
-                            <NavDropdown title="Categorias" id = "categorias">
-                                {categoriesSection}
-                            </NavDropdown>
-                            <NavDropdown title="Diarios" id = "titles">
-                                {newspapersSection}
-                            </NavDropdown>
-                        </Nav>
-                        <Nav>
-                            <Dropdown as={Nav.Item}>
-                                <Dropdown.Toggle as={Nav.Link}>
-                                    <FontAwesomeIcon icon={faUser}/>
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item disabled>
-                                        {this.props.currentUser.firstName} {this.props.currentUser.lastName}
-                                    </Dropdown.Item>
-                                    <Dropdown.Divider/>
-                                    <Dropdown.Item as={Link} to="/profile">Mi perfil</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/favorites">Mis Favoritos</Dropdown.Item>
-                                    <Dropdown.Item onClick={this.handleLogout}>
-                                        Cerrar sesion
-                                    </Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </Nav>
-                        <Form inline onSubmit={this.handleSearchSubmit}>
-                            <FormControl type="text" name='search' placeholder="Buscar" className="mr-sm-2"
-                                         onChange={this.handleSearchChange}/>
-                            <Button type={"submit"} variant="outline-success">Buscar</Button>
-                        </Form>
-                    </Navbar.Collapse>
-                </Navbar>
-
-            </div>
-        );
-    }
 }
 
+
 export default withRouter(AppNav);
+

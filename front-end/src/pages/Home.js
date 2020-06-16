@@ -1,41 +1,25 @@
-import React, {Component} from "react";
+import React from "react";
 import ArticleCardColumns from "../components/ArticleCardColumns";
 import {Container} from "react-bootstrap";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {getLatestArticles} from "../util/APIUtils";
+import useGetArticles from "../components/hooks/useGetArticles";
 
-class Home extends Component {
+const Home = () => {
+    const {isLoading, articles} = useGetArticles(getLatestArticles);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: true,
-            articles: [],
-        }
-    }
+    if (isLoading)
+        return <LoadingIndicator/>
 
-    componentDidMount() {
-        getLatestArticles()
-            .then(response => {
-                this.setState({articles: response, isLoading: false});
-            }).catch(error => console.log(error))
-    }
+    return (
+        <>
+            <Container>
+                <h1>Lo ultimo</h1>
+                <ArticleCardColumns articles={articles}/>
+            </Container>
+        </>
+    );
 
-    render() {
-        const {isLoading, articles} = this.state;
-
-        if (isLoading)
-            return (<LoadingIndicator/>);
-
-        return (
-            <>
-                <Container>
-                    <h1>Lo ultimo</h1>
-                    <ArticleCardColumns articles={articles}/>
-                </Container>
-            </>
-        );
-    }
 }
 
 export default Home

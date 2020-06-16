@@ -4,20 +4,20 @@ import {Link} from "react-router-dom";
 import {UserContext} from "../App";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart, faHeartBroken} from "@fortawesome/free-solid-svg-icons";
-import {addFavorite} from "../util/APIUtils";
+import {addOrRemoveFavorite} from "../util/APIUtils";
 
-function ArticleCards({articles, ...props}) {
+const ArticleCards = ({articles, className}) => {
 
     const {currentUser: {favorites, id: userId}, updateCurrentUser} = useContext(UserContext)
 
-    const handleFavorite = async (userId, articleId) => {
-        const newVar = await addFavorite(userId, articleId)
-        updateCurrentUser(newVar)
+    const handleFavorite = (articleId) => {
+        addOrRemoveFavorite(userId, articleId)
+            .then(updateCurrentUser)
     }
 
     return (
         articles.map(article => (
-            <Card className={props.className} key={article.id}>
+            <Card className={className} key={article.id}>
                 {article.image != null && article.image !== "" && article.image !== undefined ?
                     <Card.Img top={"true"} width="100%" src={article.image}/> :
                     <></>
@@ -35,7 +35,7 @@ function ArticleCards({articles, ...props}) {
                         <p className="text-muted mt-1 mb-n2">
                             {article.newspaper}
                         </p>
-                        <button onClick={() => handleFavorite(userId, article.id)} style={{
+                        <button onClick={() => handleFavorite(article.id)} style={{
                             background: 'none',
                             border: 'none',
                         }}>
@@ -50,6 +50,6 @@ function ArticleCards({articles, ...props}) {
             </Card>
         ))
     )
-}
+};
 
 export default ArticleCards

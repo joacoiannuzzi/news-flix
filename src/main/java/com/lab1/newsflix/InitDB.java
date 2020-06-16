@@ -8,11 +8,13 @@ import com.lab1.newsflix.repository.UserRepository;
 import com.lab1.newsflix.scraper.ScraperManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 
 @Service
 public class InitDB implements CommandLineRunner {
-
 
 
     @Autowired
@@ -21,12 +23,23 @@ public class InitDB implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) { // este metodo se llama automaticamente cuando se inicia la aplicacion porque implenta CommandLineRunner
-        roleRepository.save(new Role(RoleName.ROLE_USER));
-        roleRepository.save(new Role(RoleName.ROLE_ADMIN));
 
-        userRepository.save(new User("Aiden", "Pearson", "test@test.com", "123456"));
+        Role adminRole = new Role(RoleName.ROLE_ADMIN);
+        Role userRole = new Role(RoleName.ROLE_USER);
+
+        roleRepository.save(adminRole);
+        roleRepository.save(userRole);
+
+
+        User admin = new User("Admin", "", "admin@admin.com", passwordEncoder.encode("admin"));
+
+        admin.setRoles(Collections.singleton(adminRole));
+        userRepository.save(admin);
 
     }
 }
