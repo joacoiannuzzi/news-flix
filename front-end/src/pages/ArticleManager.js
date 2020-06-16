@@ -8,36 +8,36 @@ import {useParams} from 'react-router-dom'
 
 
 const ArticleManager = props => {
-    const [isLoading, setIsLoading] = useState(true)
-    const [article, setArticle] = useState({})
-    const [similarArticles, setSimilarArticles] = useState([])
-    const [compareArticle, setCompareArticle] = useState(null)
-    const {id} = useParams()
+    const [isLoading, setIsLoading] = useState(true);
+    const [article, setArticle] = useState({});
+    const [similarArticles, setSimilarArticles] = useState([]);
+    const [compareArticle, setCompareArticle] = useState(null);
+    const {id} = useParams();
 
     useEffect(
         () => {
 
-            setIsLoading(true)
+            setIsLoading(true);
             getArticle(id)
                 .then(response => {
                     setArticle(response)
                 })
-                .catch(error => console.log(error))
+                .catch(error => console.log(error));
 
             getSimilarArticles(id)
                 .then(response => {
-                    setSimilarArticles(response)
+                    setSimilarArticles(response);
                     setIsLoading(false)
                 })
                 .catch(error => console.log(error))
 
         },
         [id]
-    )
+    );
 
     const handleStopCompare = () => {
         setCompareArticle(null)
-    }
+    };
 
     if (isLoading)
         return <LoadingIndicator/>;
@@ -62,7 +62,7 @@ const ArticleManager = props => {
             </Container>
         </>
     )
-}
+};
 
 
 export default ArticleManager

@@ -9,7 +9,7 @@ const Home = () => {
     const {isLoading, articles} = useGetArticles(getLatestArticles);
 
     if (isLoading)
-        return <LoadingIndicator/>
+        return <LoadingIndicator/>;
 
     return (
         <>
@@ -20,6 +20,6 @@ const Home = () => {
         </>
     );
 
-}
+};
 
 export default Home

@@ -5,7 +5,7 @@ import {Container} from "react-bootstrap";
 
 
 const Favorites = () => {
-    const {currentUser: {favorites}} = useContext(UserContext)
+    const {currentUser: {favorites}} = useContext(UserContext);
 
     return (
         <Container>
@@ -32,6 +32,6 @@ const Favorites = () => {
         </Container>
     )
 
-}
+};
 
 export default Favorites

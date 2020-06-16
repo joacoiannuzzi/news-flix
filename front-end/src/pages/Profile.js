@@ -6,7 +6,7 @@ import {UserContext} from "../App";
 
 const Profile = () => {
 
-    const {currentUser: {firstName, lastName, email}} = useContext(UserContext)
+    const {currentUser: {firstName, lastName, email}} = useContext(UserContext);
 
     return (
         <Container>
@@ -60,7 +60,7 @@ const Profile = () => {
             </Row>
         </Container>
     )
-}
+};
 
 export default Profile
 

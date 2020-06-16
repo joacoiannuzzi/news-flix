@@ -20,27 +20,27 @@ const removeFocus = ({target}) => {
     if (value === "") {
         parent.classList.remove("focus");
     }
-}
+};
 
 const LogIn = ({onLogin}) => {
-    const email = useFormInput('')
-    const password = useFormInput('')
+    const email = useFormInput('');
+    const password = useFormInput('');
 
     const handleSubmit = event => {
         event.preventDefault();
         const logInRequest = {
             email: email.value,
             password: password.value
-        }
+        };
         login(logInRequest)
             .then(response => {
                 localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                 onLogin();
             }).catch(error => {
-            alert('Invalid')
+            alert('Invalid');
             console.log(error)
         })
-    }
+    };
 
     return (
         <>
@@ -83,8 +83,8 @@ const LogIn = ({onLogin}) => {
                         <Link to='/signup'>Registrarse</Link>
                     </form>
                     <button onClick={(event => {
-                        email.value = 'admin@admin.com'
-                        password.value = 'admin'
+                        email.value = 'admin@admin.com';
+                        password.value = 'admin';
                         handleSubmit(event)
                     })}
                     style={{

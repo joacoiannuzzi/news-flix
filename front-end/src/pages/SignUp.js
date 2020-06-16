@@ -6,10 +6,10 @@ import {Link} from "react-router-dom";
 import useFormInput from "../components/hooks/useFormInput";
 
 const SignUp = ({history}) => {
-    const firstName = useFormInput('')
-    const lastName = useFormInput('')
-    const email = useFormInput('')
-    const password = useFormInput('')
+    const firstName = useFormInput('');
+    const lastName = useFormInput('');
+    const email = useFormInput('');
+    const password = useFormInput('');
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -18,15 +18,15 @@ const SignUp = ({history}) => {
             lastName: lastName.value,
             email: email.value,
             password: password.value
-        }
+        };
 
         signup(signUpRequest)
             .then(response => history.push("/login"))
             .catch(error => {
-                alert('Invalid')
+                alert('Invalid Request');
                 console.log(error);
             })
-    }
+    };
 
     return <>
         <h1 className="display-4 text-center">Registrate</h1>
@@ -75,6 +75,6 @@ const SignUp = ({history}) => {
         </Container>
     </>
 
-}
+};
 
 export default SignUp

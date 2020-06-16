@@ -8,11 +8,11 @@ import useGetArticles from "../components/hooks/useGetArticles";
 const getQuery = search => new URLSearchParams(search).get('query');
 
 const Search = ({location: {search}}) => {
-    const query = getQuery(search)
+    const query = getQuery(search);
     const {isLoading, articles} = useGetArticles(getFilteredArticles, query);
 
     if (isLoading)
-        return <LoadingIndicator/>
+        return <LoadingIndicator/>;
 
     return (
         <>
@@ -23,6 +23,6 @@ const Search = ({location: {search}}) => {
         </>
     );
 
-}
+};
 
 export default Search

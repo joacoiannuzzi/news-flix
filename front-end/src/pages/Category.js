@@ -7,11 +7,11 @@ import {Container} from "react-bootstrap";
 import useGetArticles from "../components/hooks/useGetArticles";
 
 const Category = () => {
-    const {name: category} = useParams()
-    const {isLoading, articles} = useGetArticles(getCategory, category)
+    const {name: category} = useParams();
+    const {isLoading, articles} = useGetArticles(getCategory, category);
 
     if (isLoading)
-        return <LoadingIndicator/>
+        return <LoadingIndicator/>;
 
     return (
         <>
