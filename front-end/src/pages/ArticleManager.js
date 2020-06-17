@@ -54,6 +54,7 @@ const ArticleManager = () => {
     if (isLoading)
         return <LoadingIndicator/>;
 
+
     const comments = article.comments.map(({id, body, date}) => (
         <p key={id} style={{display: 'block'}}>
             {body}

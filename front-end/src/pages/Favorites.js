@@ -19,13 +19,15 @@ const Favorites = () => {
                     Mis favoritos
                 </h2>
                 {
-                    favorites.length ?
-                        <ArticleCardColumns articles={favorites}/> :
-                        <p style={{
-                            fontSize: '2rem'
-                        }}>
-                            Actualmente no tienes favoritos
-                        </p>
+                    favorites.length
+                        ? <ArticleCardColumns articles={favorites}/>
+                        : (
+                            <p style={{
+                                fontSize: '2rem'
+                            }}>
+                                Actualmente no tienes favoritos
+                            </p>
+                        )
                 }
             </div>
         </Container>
