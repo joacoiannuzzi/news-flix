@@ -76,7 +76,7 @@ public class ClarinScraper extends AbstractScraper {
 
                         for (Element bodyelems : bodytags) {
 
-                            body = body.concat(bodyelems.text() + "\n\n");
+                            body = body.concat(bodyelems.text() + SEPARATION);
 
                         }
                         try {

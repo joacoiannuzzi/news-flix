@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.google.common.base.Predicates.in;
+import static com.lab1.newsflix.scraper.AbstractScraper.SEPARATION;
 import static org.simmetrics.builders.StringMetricBuilder.with;
 
 
@@ -57,6 +58,9 @@ public class ArticleMatcher {
                         .simplify(Simplifiers.toLowerCase())
                         .simplify(Simplifiers.removeNonWord())
                         .simplify(Simplifiers.removeDiacritics())
+
+                        .simplify(Simplifiers.replaceAll(SEPARATION, " "))
+
                         .tokenize(Tokenizers.whitespace())
                         .filter(Predicates.not(in(commonWords)))
                         .tokenize(Tokenizers.qGram(3))

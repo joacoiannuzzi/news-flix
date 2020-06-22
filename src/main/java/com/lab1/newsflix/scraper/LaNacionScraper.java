@@ -90,7 +90,7 @@ public class LaNacionScraper extends AbstractScraper {
 
                                 for (HtmlElement bodyelems : bodytags) {
 
-                                    body = body.concat(bodyelems.asText() + "\n\n");
+                                    body = body.concat(bodyelems.asText() + SEPARATION);
 
                                 }
                                 try {

@@ -69,7 +69,7 @@ public class InfobaeScraper extends AbstractScraper {
 
                     for (HtmlElement bodyelems : bodytags) {
 
-                        body = body.concat(bodyelems.asText() + "\n\n");
+                        body = body.concat(bodyelems.asText() + SEPARATION);
 
                     }
 

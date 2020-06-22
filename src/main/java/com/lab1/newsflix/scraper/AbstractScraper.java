@@ -10,6 +10,8 @@ import java.util.Calendar;
 @Component
 public abstract class AbstractScraper {
 
+    public static String SEPARATION = "\\{\\{\\{SPLIT\\}\\}\\}";
+
     @Autowired
     ArticleService articleService;
 

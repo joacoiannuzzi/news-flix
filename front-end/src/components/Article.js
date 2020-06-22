@@ -16,6 +16,8 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
             .then(updateCurrentUser)
     }
 
+    const split = body.split('\\{\\{\\{SPLIT\\}\\}\\}');
+
     return (
         <Col xs={xs}>
             <button onClick={handleFavorite} style={{
@@ -42,7 +44,9 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
             </h4>
             <Image fluid src={image}/>
             <p className="text-justify mt-4">
-                {body}
+                {split.map((paragraph) => (
+                    <p>{paragraph}</p>
+                ))}
             </p>
         </Col>
 
