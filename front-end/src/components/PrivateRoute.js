@@ -17,6 +17,6 @@ const PrivateRoute = ({component: Component, authenticated, ...rest}) => {
 
     return <Route {...rest} render={props => <Component {...rest} {...props} />}/>
 
-}
+};
 
 export default PrivateRoute

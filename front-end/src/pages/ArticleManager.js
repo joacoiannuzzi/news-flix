@@ -56,11 +56,15 @@ const ArticleManager = () => {
 
 
     const comments = article.comments.map(({id, body, date}) => (
-        <p key={id} style={{display: 'block'}}>
+        <p key={id} style={{
+            display: 'block',
+            marginRight: '70px',
+            padding: '8px',
+            borderTop: '2px solid #000'}}>
             {body}
             <span style={{
                 marginLeft: '4em',
-                color: 'gray'
+                color: 'gray',
             }}>
                 {formatDateTime(date)}
             </span>
@@ -94,13 +98,18 @@ const ArticleManager = () => {
                 <Row>
                     <Form inline onSubmit={handleCommentSubmit}>
                         <FormControl as={"textarea"}
-                                     name='search' placeholder="Agregar comentario"
+                                     name='commentBox' placeholder="Agregar comentario"
                                      style={{
-                                         width: '30em'
+                                         width: '30em',
+                                         marginTop: '0px',
+                                         marginBottom: '0px',
+                                         height: '70px'
                                      }}
+                                     required
                                      {...addCommentInput}
                         />
-                        <Button type={"submit"} variant="outline-success">Agregar</Button>
+                        <p></p>
+                        <Button type={"submit"} style={{margin:'50px'}} variant="outline-success">Agregar</Button>
                     </Form>
                 </Row>
                 <Row>
@@ -108,7 +117,9 @@ const ArticleManager = () => {
                         {
                             comments.length
                                 ? comments
-                                : "No hay comentarios"
+
+                                :
+                                <p> Todavia no hay comentarios! </p>
 
                         }
                     </div>

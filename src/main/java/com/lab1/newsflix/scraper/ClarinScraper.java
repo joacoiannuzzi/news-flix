@@ -70,7 +70,7 @@ public class ClarinScraper extends AbstractScraper {
                         Document articleDocument = Jsoup.connect(url).get();
 
                         Element bodyText = articleDocument.select("div.body-nota").first();
-                        Elements bodytags = bodyText.select("p");
+                        Elements bodytags = bodyText.select(" > p");
 
                         String body = "";
 

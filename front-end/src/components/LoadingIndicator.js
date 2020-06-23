@@ -18,6 +18,6 @@ const LoadingIndicator = () => (
             spin
         />
     </div>
-)
+);
 
 export default LoadingIndicator

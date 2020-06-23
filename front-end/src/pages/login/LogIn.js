@@ -100,6 +100,6 @@ const LogIn = ({onLogin}) => {
         </>
     )
 
-}
+};
 
 export default LogIn

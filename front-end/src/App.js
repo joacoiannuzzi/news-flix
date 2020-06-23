@@ -17,6 +17,7 @@ import Profile from "./pages/Profile";
 
 import './app.css'
 import Favorites from "./pages/Favorites";
+import ChangePassword from "./pages/ChangePassword";
 
 const UserContext = createContext({})
 
@@ -91,9 +92,11 @@ function App({history}) {
                                   exact={true}
                                   component={ArticleManager}/>
                     <PrivateRoute authenticated={isAuthenticated} exact path="/profile"
-                                  component={Profile}/><
-                    PrivateRoute authenticated={isAuthenticated} exact path="/favorites"
+                                  component={Profile}/>
+                    <PrivateRoute authenticated={isAuthenticated} exact path="/favorites"
                                  component={Favorites}/>
+                    <PrivateRoute authenticated={isAuthenticated} exact path="/profile/changepassword"
+                                  component={ChangePassword}/>
                     <Route exact={true} path='/signup' component={SignUp}/>
                     <Route exact={true} path="/login"
                            render={props => <LogIn onLogin={handleLogin} {...props} />}
