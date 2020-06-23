@@ -56,9 +56,15 @@ public class Article {
     }
 
     public void addComment(User user, String body) {
+
         Comment comment = new Comment(user, this, body);
+        if (!comments.contains(comment))
+        {
         comments.add(comment);
-        user.addComment(comment);
+        //user.addComment(comment);
+        }else{
+            throw new IllegalArgumentException("Spam filtered");
+        }
     }
 
     public void removeComment(Long id, User user) {

@@ -69,7 +69,10 @@ public class User {
     }
 
     public void addComment(Comment comment) {
-        comments.add(comment);
+        if (!comments.contains(comment)){
+            comments.add(comment);
+        }
+
     }
 
     public Long getId() {
