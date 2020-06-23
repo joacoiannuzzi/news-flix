@@ -35,6 +35,7 @@ public class AppErrorController implements ErrorController {
      * ExceptionController
      *
      * @param errorAttributes
+     * attributes of error.
      */
     @Autowired
     public AppErrorController(ErrorAttributes errorAttributes) {
@@ -88,7 +89,7 @@ public class AppErrorController implements ErrorController {
      * @param produces the media type produced (or {@code MediaType.ALL})
      * @return if the stacktrace attribute should be included
      */
-    protected boolean isIncludeStackTrace(HttpServletRequest request,
+    boolean isIncludeStackTrace(HttpServletRequest request,
                                           MediaType produces) {
         ErrorProperties.IncludeStacktrace include = this.serverProperties.getError().getIncludeStacktrace();
         if (include == ErrorProperties.IncludeStacktrace.ALWAYS) {

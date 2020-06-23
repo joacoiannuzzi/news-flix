@@ -68,8 +68,8 @@ public class User {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void addComment(Comment comment) {
+        comments.add(comment);
     }
 
     public Long getId() {

@@ -31,7 +31,7 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(User user, Article article, String body) {
+    Comment(User user, Article article, String body) {
         this.user = user;
         this.article = article;
         this.body = body;

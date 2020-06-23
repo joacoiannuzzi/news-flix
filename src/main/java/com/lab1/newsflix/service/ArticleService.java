@@ -97,17 +97,14 @@ public class ArticleService {
     }
 
     public Article addComment(CommentRequest commentRequest) {
-        Long articleId = commentRequest.getArticleId();
-        Article article = findById(articleId).orElseThrow(() -> new ResourceNotFoundException("Article", "id", articleId));
 
-        Long userId = commentRequest.getUserId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        Article article = findById(commentRequest.getArticleId()).orElseThrow(() -> new ResourceNotFoundException("Article", "id", commentRequest.getArticleId()));
+        User user = userRepository.findById(commentRequest.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", commentRequest.getUserId()));
 
-        String body = commentRequest.getBody();
+        article.addComment(user, commentRequest.getBody());
 
-        article.addComment(user, body);
-        return save(article);
+        articleRepository.save(article);
+        return article;
     }
-
 
 }

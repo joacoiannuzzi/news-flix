@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import LoadingIndicator from "../components/LoadingIndicator";
-import {addComment, getArticle, getSimilarArticles} from "../util/APIUtils";
+import {addComment, getArticle, getSimilarArticles, getUserProfile} from "../util/APIUtils";
 import {Button, Container, Form, FormControl, Row} from "react-bootstrap";
 import MoreArticles from "../components/MoreArticles";
 import Article from "../components/Article";
@@ -11,45 +11,45 @@ import {formatDateTime} from "../util/Helpers";
 
 
 const ArticleManager = () => {
-    const [isLoading, setIsLoading] = useState(true)
-    const [article, setArticle] = useState({})
-    const [similarArticles, setSimilarArticles] = useState([])
-    const [compareArticle, setCompareArticle] = useState(null)
-    const addCommentInput = useFormInput('')
+    const [isLoading, setIsLoading] = useState(true);
+    const [article, setArticle] = useState({});
+    const [similarArticles, setSimilarArticles] = useState([]);
+    const [compareArticle, setCompareArticle] = useState(null);
+    const addCommentInput = useFormInput('');
 
-    const {id} = useParams()
-    const {currentUser: {id: userId}} = useUser()
+    const {id} = useParams();
+    const {currentUser: {id: userId}} = useUser();
 
     useEffect(
         () => {
-            setIsLoading(true)
+            setIsLoading(true);
             getArticle(id)
                 .then(response => {
                     setArticle(response)
                 })
-                .catch(error => console.log(error))
+                .catch(error => console.log(error));
 
             getSimilarArticles(id)
                 .then(response => {
-                    setSimilarArticles(response)
+                    setSimilarArticles(response);
                     setIsLoading(false)
                 })
                 .catch(error => console.log(error))
 
         },
         [id]
-    )
+    );
 
     const handleCommentSubmit = event => {
-        event.preventDefault()
+        event.preventDefault();
         addComment(userId, id, addCommentInput.value)
             .then(setArticle)
             .catch(console.log)
-    }
+    };
 
     const handleStopCompare = () => {
         setCompareArticle(null)
-    }
+    };
 
     if (isLoading)
         return <LoadingIndicator/>;
@@ -59,17 +59,19 @@ const ArticleManager = () => {
         <p key={id} style={{
             display: 'block',
             marginRight: '70px',
+            width: '784px',
             padding: '8px',
-            borderTop: '2px solid #000'}}>
+            borderTop: '2px solid gray'}}>
             {body}
             <span style={{
                 marginLeft: '4em',
-                color: 'gray',
+                width: '85.33%',
+                color: 'gray'
             }}>
                 {formatDateTime(date)}
             </span>
         </p>
-    ))
+    ));
 
     return (
         <>
@@ -91,25 +93,31 @@ const ArticleManager = () => {
 
                 <br/>
                 <br/>
+                <h3 className="line"
+                     style={{
+                         width: '100%',
+                         height: '47px',
+                         borderBottom: '1px solid #000'
+                     }}>
 
-                <Row>
-                    <h3>Comentarios</h3>
-                </Row>
+                         Comentarios
+                </h3>
+
+
                 <Row>
                     <Form inline onSubmit={handleCommentSubmit}>
                         <FormControl as={"textarea"}
                                      name='commentBox' placeholder="Agregar comentario"
                                      style={{
                                          width: '30em',
-                                         marginTop: '0px',
-                                         marginBottom: '0px',
                                          height: '70px'
                                      }}
                                      required
                                      {...addCommentInput}
                         />
                         <p></p>
-                        <Button type={"submit"} style={{margin:'50px'}} variant="outline-success">Agregar</Button>
+                        <Button type={"submit"} style={{
+                            margin:'50px'}} variant="outline-success">Agregar</Button>
                     </Form>
                 </Row>
                 <Row>
@@ -117,7 +125,6 @@ const ArticleManager = () => {
                         {
                             comments.length
                                 ? comments
-
                                 :
                                 <p> Todavia no hay comentarios! </p>
 
@@ -129,7 +136,7 @@ const ArticleManager = () => {
             </Container>
         </>
     )
-}
+};
 
 
 export default ArticleManager

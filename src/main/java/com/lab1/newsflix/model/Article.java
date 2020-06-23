@@ -58,7 +58,7 @@ public class Article {
     public void addComment(User user, String body) {
         Comment comment = new Comment(user, this, body);
         comments.add(comment);
-        user.getComments().add(comment);
+        user.addComment(comment);
     }
 
     public void removeComment(Long id, User user) {

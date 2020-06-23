@@ -3,7 +3,7 @@ import {API_BASE_URL, ACCESS_TOKEN} from '../constants';
 const request = options => {
     const headers = new Headers({
         'Content-Type': 'application/json',
-    })
+    });
 
     if (localStorage.getItem(ACCESS_TOKEN)) {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
@@ -28,6 +28,14 @@ export function login(loginRequest) {
         url: `${API_BASE_URL}/auth/login`,
         method: 'POST',
         body: JSON.stringify(loginRequest)
+    })
+}
+
+export function changePassword(password){
+    return request({
+        url: `${API_BASE_URL}/auth/changepassword`,
+        method: 'POST',
+        body: JSON.stringify(password)
     })
 }
 
@@ -67,74 +75,75 @@ export function getUserProfile(id) {
 export function getCategories() {
     return request({
         url: `${API_BASE_URL}/articles/categories/all`,
-        method: 'get'
+        method: 'GET'
     })
 }
 
 export function getCategory(name) {
     return request({
         url: `${API_BASE_URL}/articles/categories/${name}`,
-        method: 'get'
+        method: 'GET'
     })
 }
 
 export function getNewspapers() {
     return request({
         url: `${API_BASE_URL}/articles/newspapers/all`,
-        method: 'get'
+        method: 'GET'
     })
 }
 
 export function getNewspaper(name) {
     return request({
         url: `${API_BASE_URL}/articles/newspapers/${name}`,
-        method: 'get'
+        method: 'GET'
     })
 }
 
 export function getArticle(id) {
     return request({
         url: `${API_BASE_URL}/articles/${id}`,
-        method: 'get'
+        method: 'GET'
     })
 }
 
 export function getSimilarArticles(id) {
     return request({
         url: `${API_BASE_URL}/articles/similar/${id}`,
-        method: 'get'
+        method: 'GET'
     })
 }
 
 export function getLatestArticles() {
     return request({
         url: `${API_BASE_URL}/articles/latest`,
-        method: 'get'
+        method: 'GET'
     })
 }
 
 export function getFilteredArticles(query) {
     return request({
         url: `${API_BASE_URL}/articles/query?query=${query}`,
-        method: 'get'
+        method: 'GET'
     })
 }
 
 export function addOrRemoveFavorite(userId, articleId) {
     return request({
         url: `${API_BASE_URL}/users/addFavorite`,
-        method: 'post',
+        method: 'POST',
         body: JSON.stringify({userId, articleId})
     })
 }
 
 export function addComment(userId, articleId, body) {
-    console.log({userId, articleId, body})
+    console.log({userId, articleId, body});
     return request({
         url: `${API_BASE_URL}/articles/comments/add`,
-        method: 'post',
+        method: 'POST',
         body: JSON.stringify({userId, articleId, body})
     })
+
 }
 
 

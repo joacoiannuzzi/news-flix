@@ -37,6 +37,7 @@ public class ArticleMatcher {
                 double score1 = similarity(articleToCompare.getTitle(), article.getTitle());
                 double score2 = similarity(articleToCompare.getBody(), article.getBody());
                 double score = ((score1 * 0.60) + (score2 * 0.40)) / 2;
+                //if (articleToCompare.getCategory().equals(article.getCategory())) score += 0.3;
                 if (score > max) {
                     max = score;
                     articleMax = article;
