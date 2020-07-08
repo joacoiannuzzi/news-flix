@@ -5,11 +5,13 @@ import com.lab1.newsflix.matcher.ArticleMatcher;
 import com.lab1.newsflix.model.Article;
 import com.lab1.newsflix.model.User;
 import com.lab1.newsflix.payload.CommentRequest;
+import com.lab1.newsflix.payload.SearchRequest;
 import com.lab1.newsflix.repository.ArticleRepository;
 import com.lab1.newsflix.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -92,7 +94,60 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
+    public Collection<Article> queryArticlesbyFilter(SearchRequest searchRequest) {
+
+        String query = searchRequest.getQuery();
+        if (query == null) return Collections.emptyList();
+        System.out.println(searchRequest);
+
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        String newspaperquery = "";
+        String category = "";
+
+        String[] queries = query.toLowerCase().replaceAll("[^-a-zA-Z0-9\\s]", "").trim().split(" ");
+
+
+
+        try{
+
+        newspaperquery = searchRequest.getNewspaper();
+        category = searchRequest.getCategory();
+
+        cal1.setTime(searchRequest.getDateFrom());
+        cal2.setTime(searchRequest.getDateTo());
+
+        cal1.set(Calendar.HOUR_OF_DAY, 0); //This is so it includes 00:00:00
+        cal1.set(Calendar.MINUTE, 0);
+        cal1.set(Calendar.SECOND, 0);
+        cal2.set(Calendar.HOUR_OF_DAY, 23); //This is so it includes 00:00:00
+        cal2.set(Calendar.MINUTE, 59);
+        cal2.set(Calendar.SECOND, 59);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Invalid arguments");
+        }
+
+        final String newspaperfinalquery = newspaperquery; //Super Hack
+        final String categoryfinalquery = category;        //Super Hack x2
+
+
+        return articleRepository.getArticlesByDateBetween(cal1,cal2).stream()
+                .filter(article ->  article.getNewspaper().equals(newspaperfinalquery))
+                .filter(article -> article.getCategory().equals(categoryfinalquery))
+                .filter(article -> stringContainsItemFromList(article.getTitle() + " " + article.getBody(), queries))
+                .collect(Collectors.toList());
+
+    }
+
+
     private boolean stringContainsItemFromList(String inputStr, String[] items) {
+        return Arrays.stream(items).parallel().allMatch(inputStr.toLowerCase()::contains);
+    }
+
+    private boolean validDate(String inputStr, String[] items) {
         return Arrays.stream(items).parallel().allMatch(inputStr.toLowerCase()::contains);
     }
 

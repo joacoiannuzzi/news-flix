@@ -3,8 +3,10 @@ package com.lab1.newsflix.repository;
 import com.lab1.newsflix.model.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,6 +24,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(value = "select distinct newspaper from article ", nativeQuery = true)
     List<String> getNewspapers();
+
+    @Query(value = "SELECT art FROM Article art WHERE art.date BETWEEN :dateFrom AND :dateTo ")
+    Collection<Article> getArticlesByDateBetween(@Param("dateFrom") Calendar dateFrom, @Param("dateTo") Calendar dateTo);
 
     Boolean existsByUrl(String url);
 

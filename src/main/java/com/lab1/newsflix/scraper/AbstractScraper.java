@@ -29,4 +29,4 @@ public abstract class AbstractScraper {
         Article article = new Article(url, title, fixCategory(category), image, body, date, newspaper);
         articleService.save(article);
     }
-}
+            }

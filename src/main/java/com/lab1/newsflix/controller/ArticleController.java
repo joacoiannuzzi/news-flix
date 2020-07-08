@@ -3,14 +3,17 @@ package com.lab1.newsflix.controller;
 
 import com.lab1.newsflix.model.Article;
 import com.lab1.newsflix.payload.CommentRequest;
+import com.lab1.newsflix.payload.SearchRequest;
 import com.lab1.newsflix.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -67,6 +70,11 @@ public class ArticleController {
     @GetMapping("/query")
     Collection<Article> queryArticles(@RequestParam String query) {
         return articleService.queryArticles(query);
+    }
+
+    @GetMapping("/queryByFilter")
+    Collection<Article> queryArticlesByFilter(@RequestParam("dateFrom") @DateTimeFormat(pattern = "dd-MM-yyyy") Date from, @RequestParam("dateTo") @DateTimeFormat(pattern = "dd-MM-yyyy") Date to, @RequestParam("category") String category, @RequestParam("newspaper") String newspaper, @RequestParam("query") String query ) {
+        return articleService.queryArticlesbyFilter(new SearchRequest(from,to,newspaper,category,query));
     }
 
     @PostMapping("/comments/add")
