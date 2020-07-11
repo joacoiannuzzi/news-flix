@@ -5,7 +5,7 @@ import {faHeart, faHeartBroken} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {addOrRemoveFavorite} from "../util/APIUtils";
 import {formatDateTime} from "../util/Helpers";
-import {FacebookIcon, FacebookShareButton,EmailIcon,EmailShareButton,RedditIcon,RedditShareButton,RedditShareCount, FacebookShareCount,WhatsappShareButton,WhatsappIcon,TwitterIcon,TwitterShareButton} from "react-share";
+import {FacebookIcon, FacebookShareButton,EmailIcon,EmailShareButton, FacebookShareCount,WhatsappShareButton,WhatsappIcon,TwitterIcon,TwitterShareButton} from "react-share";
 
 
 const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare}) => {
