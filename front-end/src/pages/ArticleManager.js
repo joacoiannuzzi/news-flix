@@ -8,13 +8,7 @@ import {useParams} from 'react-router-dom'
 import useFormInput from "../components/hooks/useFormInput";
 import {useUser} from "../App";
 import {formatDateTime} from "../util/Helpers";
-import {
-    EmailShareButton,
-    FacebookIcon,
-    FacebookShareCount,
-    FacebookShareButton,
-    WhatsappShareButton
-} from "react-share";
+
 
 
 const ArticleManager = () => {
