@@ -26,6 +26,26 @@ export function formatDateTime(dateTimeString) {
 
   const monthIndex = date.getMonth();
   const year = date.getFullYear();
+  let minutes = date.getMinutes();
+  let result = '';
 
-  return date.getDate() + ' ' + monthNames[monthIndex] + ' ' + year + ' - ' + date.getHours() + ':' + date.getMinutes();
+  if (minutes < 10) {
+      minutes = '0' +  minutes;
+  }
+
+
+  let hours = date.getHours();
+
+    if (hours < 10) {
+        hours = '0' +  hours;
+    }
+
+  if (hours === '00' && minutes === '00') {
+      result = date.getDate() + ' ' + monthNames[monthIndex] + ' ' + year;
+  }else{
+      result = date.getDate() + ' ' + monthNames[monthIndex] + ' ' + year + ' - ' + hours + ':' + minutes;
+  }
+
+  return result;
+
 }  

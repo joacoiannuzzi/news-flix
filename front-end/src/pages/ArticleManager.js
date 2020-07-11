@@ -8,6 +8,13 @@ import {useParams} from 'react-router-dom'
 import useFormInput from "../components/hooks/useFormInput";
 import {useUser} from "../App";
 import {formatDateTime} from "../util/Helpers";
+import {
+    EmailShareButton,
+    FacebookIcon,
+    FacebookShareCount,
+    FacebookShareButton,
+    WhatsappShareButton
+} from "react-share";
 
 
 const ArticleManager = () => {
@@ -17,8 +24,11 @@ const ArticleManager = () => {
     const [compareArticle, setCompareArticle] = useState(null);
     const addCommentInput = useFormInput('');
 
+
     const {id} = useParams();
     const {currentUser: {id: userId}} = useUser();
+
+
 
     useEffect(
         () => {
@@ -61,7 +71,8 @@ const ArticleManager = () => {
             marginRight: '70px',
             width: '784px',
             padding: '8px',
-            borderTop: '2px solid gray'}}>
+            borderTop: '2px solid gray'
+        }}>
             {body}
             <span style={{
                 marginLeft: '4em',
@@ -69,7 +80,10 @@ const ArticleManager = () => {
                 color: 'gray'
             }}>
                 {formatDateTime(date)}
+
+
             </span>
+
         </p>
     ));
 
@@ -94,13 +108,13 @@ const ArticleManager = () => {
                 <br/>
                 <br/>
                 <h3 className="line"
-                     style={{
-                         width: '100%',
-                         height: '47px',
-                         borderBottom: '1px solid #000'
-                     }}>
+                    style={{
+                        width: '100%',
+                        height: '47px',
+                        borderBottom: '1px solid #000'
+                    }}>
 
-                         Comentarios
+                    Comentarios
                 </h3>
 
 
@@ -117,7 +131,8 @@ const ArticleManager = () => {
                         />
                         <p></p>
                         <Button type={"submit"} style={{
-                            margin:'50px'}} variant="outline-success">Agregar</Button>
+                            margin: '50px'
+                        }} variant="outline-success">Agregar</Button>
                     </Form>
                 </Row>
                 <Row>
