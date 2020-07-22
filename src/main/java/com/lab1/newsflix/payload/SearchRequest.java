@@ -20,12 +20,12 @@ public class SearchRequest {
     @NotBlank
     private String query;
 
-    public SearchRequest(Date dateFrom,Date dateTo,String newspaper, String category,String query){
-        this.category=category;
-        this.newspaper=newspaper;
-        this.dateFrom=dateFrom;
-        this.dateTo=dateTo;
-        this.query=query;
+    public SearchRequest(Date dateFrom, Date dateTo, String newspaper, String category, String query) {
+        this.category = category;
+        this.newspaper = newspaper;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.query = query;
     }
 
     public Date getDateFrom() {
@@ -46,7 +46,7 @@ public class SearchRequest {
         return newspaper;
     }
 
-    public String getQuery(){
+    public String getQuery() {
         return query;
     }
 

@@ -1,17 +1,18 @@
 import React from "react";
 import {Container, Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {changePassword, getCurrentUser} from "../util/APIUtils";
+import {changePassword} from "../util/APIUtils";
 import useFormInput from "../components/hooks/useFormInput";
+import {useUser} from "../App";
 
 const ChangePassword = ({history}) => {
-    const user = getCurrentUser();
+    const {currentUser: user} = useUser();
     const password = useFormInput('');
 
     const handleSubmit = event => {
         event.preventDefault();
         const changePasswordRequest = {
-            user: user.value,
+            user,
             password: password.value
         };
 
@@ -30,8 +31,6 @@ const ChangePassword = ({history}) => {
 
         <Container>
             <Form onSubmit={handleSubmit}>
-
-
 
                 <Form.Group controlId="password">
                     <Form.Label>Contraseña</Form.Label>

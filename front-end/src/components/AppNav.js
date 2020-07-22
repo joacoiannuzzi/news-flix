@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {Button, Form, FormControl, Nav, Navbar, NavDropdown, NavLink} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import {getCategories, getNewspapers} from "../util/APIUtils";
@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from '@fortawesome/free-solid-svg-icons'
 import useFormInput from './hooks/useFormInput';
 import {useUser} from "../App";
+import useSection from "./hooks/useSection";
 
 
 const makeDropdownMenu = (list, name) => (
@@ -19,25 +20,8 @@ const makeDropdownMenu = (list, name) => (
     )
 )
 
-const useSection = callback => {
-    const [section, setSection] = useState([])
-    useEffect(
-        () => {
-            callback()
-                .then(response => {
-                    setSection(response)
-                })
-                .catch(error => console.log(error))
-        },
-        [callback]
-    )
-    return section
-}
-
-
 const AppNav = ({isAuthenticated, onLogout, history}) => {
     const {currentUser: user} = useUser()
-    const search = useFormInput('')
     const categories = useSection(getCategories);
     const newspapers = useSection(getNewspapers);
 
@@ -47,7 +31,7 @@ const AppNav = ({isAuthenticated, onLogout, history}) => {
 
     const handleSearchSubmit = event => {
         event.preventDefault()
-        history.push(`/search?query=${search.value}`)
+        history.push(`/search`)
     }
 
     const newspapersSection = makeDropdownMenu(newspapers, 'newspapers')
@@ -91,8 +75,6 @@ const AppNav = ({isAuthenticated, onLogout, history}) => {
                         </Dropdown>
                     </Nav>
                     <Form inline onSubmit={handleSearchSubmit}>
-                        <FormControl type="text" name='search' placeholder="Buscar" className="mr-sm-2"
-                                     {...search} />
                         <Button type={"submit"} variant="outline-success">Buscar</Button>
                     </Form>
                 </Navbar.Collapse>

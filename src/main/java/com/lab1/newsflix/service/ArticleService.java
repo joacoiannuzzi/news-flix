@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,7 +74,7 @@ public class ArticleService {
                     // agarra todos los articulos de la base de datos y los filtra segun la fecha --> todo habria que ver como directamente pedirlos filtrados
                     Collection<List<Article>> values = findAll().stream()
                             .filter(article -> Duration.between(articleToCompare.getDate().toInstant(), article.getDate().toInstant()).toDays() < 3
-                                            && !article.getNewspaper().equals(articleToCompare.getNewspaper())
+                                    && !article.getNewspaper().equals(articleToCompare.getNewspaper())
                             )
                             .collect(Collectors.groupingBy(Article::getNewspaper)) // los separa segun newsapaper en un map
                             .values(); // devuelve solo los articulos
@@ -107,25 +108,23 @@ public class ArticleService {
 
         String[] queries = query.toLowerCase().replaceAll("[^-a-zA-Z0-9\\s]", "").trim().split(" ");
 
+        try {
 
+            newspaperquery = searchRequest.getNewspaper();
+            category = searchRequest.getCategory();
 
-        try{
+            cal1.setTime(searchRequest.getDateFrom());
+            cal2.setTime(searchRequest.getDateTo());
 
-        newspaperquery = searchRequest.getNewspaper();
-        category = searchRequest.getCategory();
+            cal1.set(Calendar.HOUR_OF_DAY, 0); //This is so it includes 00:00:00
+            cal1.set(Calendar.MINUTE, 0);
+            cal1.set(Calendar.SECOND, 0);
 
-        cal1.setTime(searchRequest.getDateFrom());
-        cal2.setTime(searchRequest.getDateTo());
+            cal2.set(Calendar.HOUR_OF_DAY, 23); //This is so it includes 00:00:00
+            cal2.set(Calendar.MINUTE, 59);
+            cal2.set(Calendar.SECOND, 59);
 
-        cal1.set(Calendar.HOUR_OF_DAY, 0); //This is so it includes 00:00:00
-        cal1.set(Calendar.MINUTE, 0);
-        cal1.set(Calendar.SECOND, 0);
-        cal2.set(Calendar.HOUR_OF_DAY, 23); //This is so it includes 00:00:00
-        cal2.set(Calendar.MINUTE, 59);
-        cal2.set(Calendar.SECOND, 59);
-
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Invalid arguments");
         }
@@ -133,15 +132,17 @@ public class ArticleService {
         final String newspaperfinalquery = newspaperquery; //Super Hack
         final String categoryfinalquery = category;        //Super Hack x2
 
+        Predicate<Article> matchNewspaper = article -> article.getNewspaper().equals(newspaperfinalquery);
+        Predicate<Article> matchCategory = article -> article.getCategory().equals(categoryfinalquery);
+        Predicate<Article> matchQuery = article -> stringContainsItemFromList(article.getTitle() + " " + article.getBody(), queries);
 
-        return articleRepository.getArticlesByDateBetween(cal1,cal2).stream()
-                .filter(article ->  article.getNewspaper().equals(newspaperfinalquery))
-                .filter(article -> article.getCategory().equals(categoryfinalquery))
-                .filter(article -> stringContainsItemFromList(article.getTitle() + " " + article.getBody(), queries))
+        Predicate<Article> filterCondition = matchNewspaper.and(matchCategory).and(matchQuery);
+
+        return articleRepository.getArticlesByDateBetween(cal1, cal2).stream()
+                .filter(filterCondition)
                 .collect(Collectors.toList());
 
     }
-
 
     private boolean stringContainsItemFromList(String inputStr, String[] items) {
         return Arrays.stream(items).parallel().allMatch(inputStr.toLowerCase()::contains);
