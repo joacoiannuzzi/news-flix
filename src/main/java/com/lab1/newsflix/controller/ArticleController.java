@@ -73,8 +73,12 @@ public class ArticleController {
     }
 
     @GetMapping("/queryByFilter")
-    Collection<Article> queryArticlesByFilter(@RequestParam("dateFrom") @DateTimeFormat(pattern = "dd-MM-yyyy") Date from, @RequestParam("dateTo") @DateTimeFormat(pattern = "dd-MM-yyyy") Date to, @RequestParam("category") String category, @RequestParam("newspaper") String newspaper, @RequestParam("query") String query ) {
-        return articleService.queryArticlesbyFilter(new SearchRequest(from,to,newspaper,category,query));
+    Collection<Article> queryArticlesByFilter(@RequestParam("dateFrom") /*@DateTimeFormat(pattern = "dd-MM-yyyy")*/ Date from,
+                                              @RequestParam("dateTo") /*@DateTimeFormat(pattern = "dd-MM-yyyy")*/ Date to,
+                                              @RequestParam("category") String category,
+                                              @RequestParam("newspaper") String newspaper,
+                                              @RequestParam("query") String query) {
+        return articleService.queryArticlesbyFilter(new SearchRequest(from, to, newspaper, category, query));
     }
 
     @PostMapping("/comments/add")

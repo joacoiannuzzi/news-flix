@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import LoadingIndicator from "../components/LoadingIndicator";
-import {addComment, getArticle, getSimilarArticles, getUserProfile} from "../util/APIUtils";
+import {addComment, getArticle, getSimilarArticles} from "../util/APIUtils";
 import {Button, Container, Form, FormControl, Row} from "react-bootstrap";
 import MoreArticles from "../components/MoreArticles";
 import Article from "../components/Article";

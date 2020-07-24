@@ -48,7 +48,6 @@ public class InitDB implements CommandLineRunner {
 
 
         User admin = new User("Admin", "", "admin@admin.com", passwordEncoder.encode("admin"));
-
         admin.setRoles(Collections.singleton(adminRole));
         userRepository.save(admin);
 

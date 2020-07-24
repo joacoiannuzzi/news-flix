@@ -28,15 +28,14 @@ function App({history}) {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
-    useEffect(
-        () => {
+    useEffect(() => {
             loadCurrentUser()
         },
         // eslint-disable-next-line
         [] // no sacar
     )
 
-    async function loadCurrentUser() {
+    function loadCurrentUser() {
         setIsLoading(true)
         getCurrentUser()
             .then(user => {
@@ -94,7 +93,7 @@ function App({history}) {
                     <PrivateRoute authenticated={isAuthenticated} exact path="/profile"
                                   component={Profile}/>
                     <PrivateRoute authenticated={isAuthenticated} exact path="/favorites"
-                                 component={Favorites}/>
+                                  component={Favorites}/>
                     <PrivateRoute authenticated={isAuthenticated} exact path="/profile/changepassword"
                                   component={ChangePassword}/>
                     <Route exact={true} path='/signup' component={SignUp}/>

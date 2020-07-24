@@ -1,24 +1,127 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ArticleCardColumns from "../components/ArticleCardColumns";
-import {Container} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 import LoadingIndicator from "../components/LoadingIndicator";
-import {getFilteredArticles} from "../util/APIUtils";
-import useGetArticles from "../components/hooks/useGetArticles";
+import {getCategories, getFilteredArticles2, getNewspapers} from "../util/APIUtils";
+import useFormInput from "../components/hooks/useFormInput";
+import useSection from "../components/hooks/useSection";
+import DatePicker from "react-datepicker";
 
-const getQuery = search => new URLSearchParams(search).get('query');
+import "react-datepicker/dist/react-datepicker.css";
+
+const makeDropdownMenu = (list) => (
+    list.map(item => (
+            <option key={item}>
+                {item}
+            </option>
+        )
+    )
+)
 
 const Search = ({location: {search}}) => {
-    const query = getQuery(search);
-    const {isLoading, articles} = useGetArticles(getFilteredArticles, query);
+    const categories = useSection(getCategories);
+    const newspapers = useSection(getNewspapers);
+
+    // const urlSearchParams = new URLSearchParams(search);
+
+    const searchInput = useFormInput(/*urlSearchParams.get('query') ?? */'')
+    const categoryInput = useFormInput(/*urlSearchParams.get('category') ?? */'--')
+    const newspaperInput = useFormInput(/*urlSearchParams.get('newspaper') ?? */'--')
+    const [dateFromInput, setDateFromInput] = useState(/*urlSearchParams.get('dateFrom') ??*/ new Date())
+    const [dateToInput, setDateToInput] = useState(/*urlSearchParams.get('dateTo') ??*/ new Date())
+
+
+    const [counter, setCounter] = useState(0)
+
+    const [articles, setArticles] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+            setIsLoading(true);
+            
+            // console.log(dateFromInput.toLocaleDateString().replace(/\//g, '-'))
+            const request = {
+                dateFrom: dateFromInput,
+                dateTo: dateToInput,
+                category: categoryInput.value,
+                newspaper: newspaperInput.value,
+                query: searchInput.value
+            }
+
+            getFilteredArticles2(request)
+                .then(articles => {
+                    console.log({articles})
+                    setArticles(articles);
+                })
+                .catch(err => {
+                    console.log({err})
+                })
+                .finally(() => setIsLoading(false))
+
+        },
+        [counter]
+    )
 
     if (isLoading)
         return <LoadingIndicator/>;
 
+    const handleSearchSubmit = event => {
+        event.preventDefault()
+        setCounter(c => c + 1)
+    }
+
+    const newspapersSection = makeDropdownMenu(newspapers)
+    const categoriesSection = makeDropdownMenu(categories)
+
     return (
         <>
             <Container>
-                <h1>Resultado para: {query}</h1>
-                <ArticleCardColumns articles={articles}/>
+                <Form onSubmit={handleSearchSubmit}>
+                    <Form.Group controlId="Categorias">
+                        <Form.Label>Categorias</Form.Label>
+                        <Form.Control as="select" {...categoryInput}>
+                            <option>--</option>
+                            {categoriesSection}
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="Diarios">
+                        <Form.Label>Diarios</Form.Label>
+                        <Form.Control as="select" {...newspaperInput}>
+                            <option>--</option>
+                            {newspapersSection}
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="desde">
+                        <Form.Label>Desde</Form.Label>
+                        <DatePicker
+                            selected={dateFromInput}
+                            onChange={setDateFromInput}
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="hasta">
+                        <Form.Label>Hasta</Form.Label>
+                        <DatePicker
+                            selected={dateToInput}
+                            onChange={setDateToInput}
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Control type="text" placeholder="Buscar" {...searchInput}/>
+                    </Form.Group>
+
+                    <Button variant="primary" type="submit">
+                        Submit
+                    </Button>
+
+                </Form>
+                {articles.length === 0
+                    ? <h2>No hay resultados</h2>
+                    : <ArticleCardColumns articles={articles}/>
+                }
             </Container>
         </>
     );

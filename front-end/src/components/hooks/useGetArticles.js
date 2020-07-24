@@ -4,8 +4,7 @@ const useGetArticles = (callback, dep) => {
     const [articles, setArticles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(
-        () => {
+    useEffect(() => {
             setIsLoading(true);
             callback(dep)
                 .then(articles => {

@@ -5,7 +5,20 @@ import {faHeart, faHeartBroken} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {addOrRemoveFavorite} from "../util/APIUtils";
 import {formatDateTime} from "../util/Helpers";
-import {FacebookIcon, FacebookShareButton,EmailIcon,EmailShareButton, FacebookShareCount,WhatsappShareButton,WhatsappIcon,TwitterIcon,TwitterShareButton} from "react-share";
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    EmailIcon,
+    EmailShareButton,
+    // RedditIcon,
+    // RedditShareButton,
+    // RedditShareCount,
+    FacebookShareCount,
+    WhatsappShareButton,
+    WhatsappIcon,
+    TwitterIcon,
+    TwitterShareButton
+} from "react-share";
 
 
 const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare}) => {
@@ -30,7 +43,7 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
             }}>
                 <FontAwesomeIcon icon={favorites.some(favorite => favorite.id === articleId) ? faHeart : faHeartBroken}
                                  style={{
-                                     color: 'pink',
+                                     color: 'red',
                                      fontSize: '30px'
                                  }}
                 />
@@ -61,14 +74,14 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
                         separator=":: "
                         className="Demo__some-network__share-button"
                     >
-                        <WhatsappIcon size={32} round />
+                        <WhatsappIcon size={32} round/>
                     </WhatsappShareButton>
                     <TwitterShareButton
                         url={shareUrl}
                         title={title}
                         className="Demo__some-network__share-button"
                     >
-                        <TwitterIcon size={32} round />
+                        <TwitterIcon size={32} round/>
                     </TwitterShareButton>
 
                     <EmailShareButton
@@ -77,7 +90,7 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
                         body="body"
                         className="Demo__some-network__share-button"
                     >
-                        <EmailIcon size={32} round />
+                        <EmailIcon size={32} round/>
                     </EmailShareButton>
 
 
@@ -89,11 +102,11 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
                 </div>
             </h4>
             <Image fluid src={image}/>
-            <p className="text-justify mt-4">
-                {split.map((paragraph) => (
-                    <p>{paragraph}</p>
+            <div className="text-justify mt-4">
+                {split.map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
                 ))}
-            </p>
+            </div>
         </Col>
 
     )

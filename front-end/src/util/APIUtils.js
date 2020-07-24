@@ -9,16 +9,12 @@ const request = options => {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
 
-    const defaults = {headers: headers};
-    options = Object.assign({}, defaults, options);
+    options = {headers, ...options}
 
     return fetch(options.url, options)
         .then(response =>
             response.json().then(json => {
-                if (!response.ok) {
-                    return Promise.reject(json);
-                }
-                return json;
+                return !response.ok ? Promise.reject(json) : json;
             })
         )
 };
@@ -31,7 +27,7 @@ export function login(loginRequest) {
     })
 }
 
-export function changePassword(password){
+export function changePassword(password) {
     return request({
         url: `${API_BASE_URL}/auth/changepassword`,
         method: 'POST',
@@ -124,6 +120,13 @@ export function getLatestArticles() {
 export function getFilteredArticles(query) {
     return request({
         url: `${API_BASE_URL}/articles/query?query=${query}`,
+        method: 'GET'
+    })
+}
+
+export function getFilteredArticles2({dateFrom, dateTo, category, newspaper, query}) {
+    return request({
+        url: `${API_BASE_URL}/articles/queryByFilter?dateFrom=${dateFrom}&dateTo=${dateTo}&category=${category}&newspaper=${newspaper}&query=${query}`,
         method: 'GET'
     })
 }
