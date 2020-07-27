@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(value = "SELECT art FROM Article art WHERE art.date BETWEEN :dateFrom AND :dateTo ")
     Collection<Article> getArticlesByDateBetween(@Param("dateFrom") Calendar dateFrom, @Param("dateTo") Calendar dateTo);
+
+//    Collection<Article> getAllByDateBetweenAndNewspaperEqualsAndCategoryEqualsAndBodyContains(Calendar date, Calendar date2, String newspaper, String category, @Size(max = 50000) String body);
+
+//    Collection<Article> getAllByDateBetweenAndNewspaperEqualsAndCategoryEqualsAndBodyMatches(Calendar date, Calendar date2, String newspaper, String category, @Size(max = 50000) String body);
+
 
     Boolean existsByUrl(String url);
 

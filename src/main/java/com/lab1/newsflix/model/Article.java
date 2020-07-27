@@ -42,6 +42,10 @@ public class Article {
     )
     private Set<Comment> comments = new HashSet<>();
 
+    private int shares = 0;
+
+    private int favorites = 0;
+
     public Article() {
     }
 
@@ -58,11 +62,10 @@ public class Article {
     public void addComment(User user, String body) {
 
         Comment comment = new Comment(user, this, body);
-        if (!comments.contains(comment))
-        {
-        comments.add(comment);
-        //user.addComment(comment);
-        }else{
+        if (!comments.contains(comment)) {
+            comments.add(comment);
+            //user.addComment(comment);
+        } else {
             throw new IllegalArgumentException("Spam filtered");
         }
     }
@@ -73,6 +76,22 @@ public class Article {
         comments.remove(comment);
         user.getComments().remove(comment);
         comment.setId(null);
+    }
+
+    public int getShares() {
+        return shares;
+    }
+
+    public void addShare() {
+        shares++;
+    }
+
+    public int getFavorites() {
+        return favorites;
+    }
+
+    public void addFavorite() {
+        favorites++;
     }
 
     public Set<Comment> getComments() {

@@ -9,11 +9,12 @@ const request = options => {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
 
-    options = {headers, ...options}
+    const opts = {headers, ...options}
 
-    return fetch(options.url, options)
+    return fetch(opts.url, opts)
         .then(response =>
-            response.json().then(json => {
+            response.json()
+                .then(json => {
                 return !response.ok ? Promise.reject(json) : json;
             })
         )
@@ -136,6 +137,14 @@ export function addOrRemoveFavorite(userId, articleId) {
         url: `${API_BASE_URL}/users/addFavorite`,
         method: 'POST',
         body: JSON.stringify({userId, articleId})
+    })
+}
+
+export function shareArticle(req) {
+    return request({
+        url: `${API_BASE_URL}/articles/share`,
+        method: 'POST',
+        body: JSON.stringify(req)
     })
 }
 

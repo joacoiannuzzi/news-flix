@@ -42,7 +42,7 @@ const ArticleCards = ({articles, className}) => {
                             <FontAwesomeIcon
                                 icon={favorites.some(favorite => favorite.id === article.id) ? faHeart : faHeartBroken}
                                 style={{
-                                    color: 'pink',
+                                    color: 'red',
                                 }}/>
                         </button>
                     </Card.Subtitle>

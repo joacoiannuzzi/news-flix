@@ -3,16 +3,15 @@ import React from "react";
 import {useUser} from "../App";
 import {faHeart, faHeartBroken} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {addOrRemoveFavorite} from "../util/APIUtils";
+import {addOrRemoveFavorite, shareArticle} from "../util/APIUtils";
 import {formatDateTime} from "../util/Helpers";
+import {useLocation} from 'react-router-dom'
+
 import {
     FacebookIcon,
     FacebookShareButton,
     EmailIcon,
     EmailShareButton,
-    // RedditIcon,
-    // RedditShareButton,
-    // RedditShareCount,
     FacebookShareCount,
     WhatsappShareButton,
     WhatsappIcon,
@@ -21,19 +20,30 @@ import {
 } from "react-share";
 
 
-const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare}) => {
+const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare, share}) => {
 
     const {currentUser: {favorites, id: userId}, updateCurrentUser} = useUser();
+
+    const location = useLocation()
+    console.log(location)
 
     const handleFavorite = () => {
         addOrRemoveFavorite(userId, articleId)
             .then(updateCurrentUser)
     };
 
-    const shareUrl = 'http://www.news-flix.com/articles/' + articleId;
-
+    const shareUrl = 'http://www.news-flix.com' + location.pathname + location.search;
+    const compareId = new URLSearchParams(location.search).get('compare')
 
     const split = body.split('\\{\\{\\{SPLIT\\}\\}\\}');
+
+    const handleShare = (a) => {
+        console.log(a)
+        shareArticle({
+            articleId1: articleId,
+            articleId2: compareId
+        })
+    }
 
     return (
         <Col xs={xs}>
@@ -59,49 +69,61 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
             <h4 className="mt-4">
                 {formatDateTime(date)}
 
-                <div className="fbrender">
-                    <FacebookShareButton
-                        url={shareUrl}
-                        quote={title}
-                        className="fbrender__share-button"
-                    >
-                        <FacebookIcon size={32} round/>
-                    </FacebookShareButton>
+                {
+                    share &&
+                    <div className="fbrender">
+                        <FacebookShareButton
+                            url={shareUrl}
+                            quote={title}
+                            className="fbrender__share-button"
+                            onClick={handleShare}
+                        >
+                            <FacebookIcon size={32} round/>
+                        </FacebookShareButton>
 
-                    <WhatsappShareButton
-                        url={shareUrl}
-                        title={title}
-                        separator=":: "
-                        className="Demo__some-network__share-button"
-                    >
-                        <WhatsappIcon size={32} round/>
-                    </WhatsappShareButton>
-                    <TwitterShareButton
-                        url={shareUrl}
-                        title={title}
-                        className="Demo__some-network__share-button"
-                    >
-                        <TwitterIcon size={32} round/>
-                    </TwitterShareButton>
+                        <WhatsappShareButton
+                            url={shareUrl}
+                            title={title}
+                            separator=":: "
+                            className="Demo__some-network__share-button"
+                            onClick={handleShare}
 
-                    <EmailShareButton
-                        url={shareUrl}
-                        subject={title}
-                        body="body"
-                        className="Demo__some-network__share-button"
-                    >
-                        <EmailIcon size={32} round/>
-                    </EmailShareButton>
+                        >
+                            <WhatsappIcon size={32} round/>
+                        </WhatsappShareButton>
+                        <TwitterShareButton
+                            url={shareUrl}
+                            title={title}
+                            className="Demo__some-network__share-button"
+                            onClick={handleShare}
+
+                        >
+                            <TwitterIcon size={32} round/>
+                        </TwitterShareButton>
+
+                        <EmailShareButton
+                            url={shareUrl}
+                            subject={title}
+                            body={title}
+                            className="Demo__some-network__share-button"
+                            beforeOnClick={handleShare}
+
+                        >
+                            <EmailIcon size={32} round/>
+                        </EmailShareButton>
 
 
-                    <div>
-                        <FacebookShareCount url={shareUrl} className="fbrender_share-count">
-                            {count => count}
-                        </FacebookShareCount>
+                        <div>
+                            <FacebookShareCount url={shareUrl} className="fbrender_share-count" onClick={handleShare}>
+                                {count => count}
+                            </FacebookShareCount>
+                        </div>
                     </div>
-                </div>
+                }
             </h4>
+
             <Image fluid src={image}/>
+
             <div className="text-justify mt-4">
                 {split.map((paragraph, index) => (
                     <p key={index}>{paragraph}</p>
