@@ -78,13 +78,12 @@ public class InfobaeScraper extends AbstractScraper {
 
                         String img = articleDocument.select("article picture img").attr("src");
 
-                        Element bodyText = articleDocument.select("p").first();
+                        Elements bodyText = articleDocument.select("p");
 
-                        Elements bodytags = bodyText.select(" > b");
 
                         String body = "";
 
-                        for (Element bodyelems : bodytags) {
+                        for (Element bodyelems : bodyText) {
 
                             body = body.concat(bodyelems.text() + SEPARATION);
 
