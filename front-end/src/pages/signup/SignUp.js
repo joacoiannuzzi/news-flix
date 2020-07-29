@@ -39,7 +39,7 @@ const SignUp = ({history}) => {
         signup(signUpRequest)
             .then(response => history.push("/login"))
             .catch(error => {
-                alert('Invalid Request');
+                alert('Este usuario ya existe');
                 console.log(error);
             })
     };
@@ -117,7 +117,7 @@ const SignUp = ({history}) => {
                         </div>
 
                         <Link to="#" className='a' onClick={() => alert("Mala Suerte")}>¿Olvidaste tu contraseña?</Link>
-                        <input type="submit" className={classes.button} value={'Entrar'}/>
+                        <input type="submit" className={classes.button} value={'Crear'}/>
                         <Link to='/login'>Iniciar sesion</Link>
                     </form>
 
