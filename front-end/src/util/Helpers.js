@@ -1,51 +1,28 @@
-
-export function formatDate(dateString) {
-    const date = new Date(dateString);
+export function formatDateTime(dateTimeString) {
+    const date = new Date(dateTimeString);
 
     const monthNames = [
-      "January", "February", "March",
-      "April", "May", "June", "July",
-      "August", "September", "October",
-      "November", "December"
+        "Enero", "Febrero", "Marzo", "Abril",
+        "Mayo", "Junio", "Julio", "Agosto",
+        "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ];
-  
+
     const monthIndex = date.getMonth();
     const year = date.getFullYear();
-  
-    return monthNames[monthIndex] + ' ' + year;
-}
-  
-export function formatDateTime(dateTimeString) {
-  const date = new Date(dateTimeString);
+    const minutes = date.getMinutes();
+    const hours = date.getHours();
 
-  const monthNames = [
-    "Jan", "Feb", "Mar", "Apr",
-    "May", "Jun", "Jul", "Aug", 
-    "Sep", "Oct", "Nov", "Dec"
-  ];
-
-  const monthIndex = date.getMonth();
-  const year = date.getFullYear();
-  let minutes = date.getMinutes();
-  let result = '';
-
-  if (minutes < 10) {
-      minutes = '0' +  minutes;
-  }
+    const finalMin = minutes < 10
+        ? '0' + minutes.toString()
+        : minutes.toString()
 
 
-  let hours = date.getHours();
+    const finalHours = hours < 10
+        ? '0' + hours.toString()
+        : hours.toString()
 
-    if (hours < 10) {
-        hours = '0' +  hours;
-    }
-
-  if (hours === '00' && minutes === '00') {
-      result = date.getDate() + ' ' + monthNames[monthIndex] + ' ' + year;
-  }else{
-      result = date.getDate() + ' ' + monthNames[monthIndex] + ' ' + year + ' - ' + hours + ':' + minutes;
-  }
-
-  return result;
+    return finalHours === '00' && finalMin === '00'
+        ? date.getDate() + ' ' + monthNames[monthIndex] + ' ' + year
+        : date.getDate() + ' ' + monthNames[monthIndex] + ' ' + year + ' - ' + finalHours + ':' + finalMin;
 
 }  

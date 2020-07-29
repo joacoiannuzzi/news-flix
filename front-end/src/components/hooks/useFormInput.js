@@ -13,7 +13,7 @@ const useFormInput = initialValue => {
 
     return {
         value,
-        onChange
+        onChange,
     }
 }
 

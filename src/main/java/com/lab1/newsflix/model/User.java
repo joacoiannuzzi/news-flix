@@ -69,9 +69,7 @@ public class User {
     }
 
     public void addComment(Comment comment) {
-        if (!comments.contains(comment)){
-            comments.add(comment);
-        }
+        comments.add(comment);
 
     }
 

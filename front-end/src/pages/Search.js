@@ -18,7 +18,7 @@ const makeDropdownMenu = (list) => (
     )
 )
 
-const Search = ({location: {search}}) => {
+const Search = () => {
     const categories = useSection(getCategories);
     const newspapers = useSection(getNewspapers);
 
@@ -31,14 +31,15 @@ const Search = ({location: {search}}) => {
     const [dateToInput, setDateToInput] = useState(/*urlSearchParams.get('dateTo') ??*/ new Date())
 
 
-    const [counter, setCounter] = useState(0)
+    const [updater, update] = useState(0)
 
     const [articles, setArticles] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+            if (updater === 0) return
             setIsLoading(true);
-            
+
             // console.log(dateFromInput.toLocaleDateString().replace(/\//g, '-'))
             const request = {
                 dateFrom: dateFromInput,
@@ -59,7 +60,8 @@ const Search = ({location: {search}}) => {
                 .finally(() => setIsLoading(false))
 
         },
-        [counter]
+        // eslint-disable-next-line
+        [updater]
     )
 
     if (isLoading)
@@ -67,7 +69,7 @@ const Search = ({location: {search}}) => {
 
     const handleSearchSubmit = event => {
         event.preventDefault()
-        setCounter(c => c + 1)
+        update(c => c + 1)
     }
 
     const newspapersSection = makeDropdownMenu(newspapers)

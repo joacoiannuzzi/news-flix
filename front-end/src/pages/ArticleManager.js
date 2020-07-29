@@ -4,28 +4,23 @@ import {addComment, getArticle, getSimilarArticles} from "../util/APIUtils";
 import {Button, Container, Form, FormControl, Row} from "react-bootstrap";
 import MoreArticles from "../components/MoreArticles";
 import Article from "../components/Article";
-import {useParams} from 'react-router-dom'
-import useFormInput from "../components/hooks/useFormInput";
+import {useParams, useLocation, useHistory} from 'react-router-dom'
 import {useUser} from "../App";
 import {formatDateTime} from "../util/Helpers";
-
 
 
 const ArticleManager = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [article, setArticle] = useState({});
     const [similarArticles, setSimilarArticles] = useState([]);
-    const [compareArticle, setCompareArticle] = useState(null);
-    const addCommentInput = useFormInput('');
-
+    const [addCommentInput, setAddCommentInput] = useState('');
 
     const {id} = useParams();
+    const location = useLocation()
+    const history = useHistory()
     const {currentUser: {id: userId}} = useUser();
 
-
-
-    useEffect(
-        () => {
+    useEffect(() => {
             setIsLoading(true);
             getArticle(id)
                 .then(response => {
@@ -44,63 +39,82 @@ const ArticleManager = () => {
         [id]
     );
 
-    const handleCommentSubmit = event => {
-        event.preventDefault();
-        addComment(userId, id, addCommentInput.value)
-            .then(setArticle)
-            .catch(console.log)
-    };
-
-    const handleStopCompare = () => {
-        setCompareArticle(null)
-    };
 
     if (isLoading)
         return <LoadingIndicator/>;
 
+    const compareId = new URLSearchParams(location.search).get('compare')
+    const compareArticle = similarArticles.find(({id}) => id === +compareId)
+    console.log({compareArticle})
+    console.log({compareId})
+    console.log(similarArticles)
 
-    const comments = article.comments.map(({id, body, date}) => (
-        <p key={id} style={{
-            display: 'block',
-            marginRight: '70px',
-            width: '784px',
-            padding: '8px',
-            borderTop: '2px solid gray'
-        }}>
-            {body}
-            <span style={{
-                marginLeft: '4em',
-                width: '85.33%',
-                color: 'gray'
-            }}>
+    const handleCommentSubmit = event => {
+        event.preventDefault();
+        addComment(userId, id, addCommentInput)
+            .then(setArticle)
+            .catch(console.log)
+        setAddCommentInput('')
+    };
+
+    const handleStopCompare = () => {
+        history.push(`/articles/${id}`)
+    };
+
+    const handleStartCompare = (id) => {
+        history.push(location.pathname + `?compare=${id}`)
+    };
+
+    const comments = article.comments
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .map(({id, body, date}) => (
+            <p key={id}
+               style={{
+                   display: 'block',
+                   marginRight: '70px',
+                   width: '784px',
+                   padding: '8px',
+                   borderTop: '2px solid gray'
+               }}
+            >
+                {body}
+                <span style={{
+                    marginLeft: '4em',
+                    width: '85.33%',
+                    color: 'gray'
+                }}>
                 {formatDateTime(date)}
-
 
             </span>
 
-        </p>
-    ));
+            </p>
+        ));
 
     return (
         <>
             <Container>
                 <Row>
-                    {!compareArticle ?
-                        <>
-                            <Article {...article} xs={8}/>
-                            <MoreArticles articles={similarArticles} xs={{span: 3, offset: 1}}
-                                          onClick={setCompareArticle}
-                            />
-                        </> :
-                        <>
-                            <Article {...article}/>
-                            <Article {...compareArticle} handleStopCompare={handleStopCompare}/>
-                        </>
+                    {!compareArticle
+                        ? (
+                            <>
+                                <Article {...article} xs={8} share={true}/>
+                                <MoreArticles articles={similarArticles} xs={{span: 3, offset: 1}}
+                                              onClick={handleStartCompare}
+                                />
+                            </>
+                        )
+                        : (
+                            <>
+                                <Article {...article} share={true}/>
+                                <Article {...compareArticle} handleStopCompare={handleStopCompare}/>
+                            </>
+                        )
                     }
                 </Row>
 
                 <br/>
                 <br/>
+
                 <h3 className="line"
                     style={{
                         width: '100%',
@@ -117,13 +131,14 @@ const ArticleManager = () => {
                         <FormControl as={"textarea"}
                                      name='commentBox' placeholder="Agregar comentario"
                                      style={{
-                                         width: '30em',
-                                         height: '70px'
+                                         width: '50em',
+                                         height: '100px'
                                      }}
                                      required
-                                     {...addCommentInput}
+                                     value={addCommentInput}
+                                     onChange={({target}) => setAddCommentInput(target.value)}
                         />
-                        <p></p>
+                        <br/>
                         <Button type={"submit"} style={{
                             margin: '50px'
                         }} variant="outline-success">Agregar</Button>
@@ -134,9 +149,7 @@ const ArticleManager = () => {
                         {
                             comments.length
                                 ? comments
-                                :
-                                <p> Todavia no hay comentarios! </p>
-
+                                : <p> Todavia no hay comentarios! </p>
                         }
                     </div>
                 </Row>

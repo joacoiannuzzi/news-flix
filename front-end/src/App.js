@@ -35,7 +35,7 @@ function App({history}) {
         [] // no sacar
     )
 
-    function loadCurrentUser() {
+    async function loadCurrentUser() {
         setIsLoading(true)
         getCurrentUser()
             .then(user => {
@@ -65,6 +65,7 @@ function App({history}) {
             .then(() => {
                 history.push(redirectTo);
             })
+            .catch(error => console.log({error}))
     }
 
 

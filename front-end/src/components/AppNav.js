@@ -1,11 +1,10 @@
 import React from 'react';
-import {Button, Form, FormControl, Nav, Navbar, NavDropdown, NavLink} from "react-bootstrap";
+import {Button, Form, Nav, Navbar, NavDropdown, NavLink} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import {getCategories, getNewspapers} from "../util/APIUtils";
 import {Link, withRouter} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from '@fortawesome/free-solid-svg-icons'
-import useFormInput from './hooks/useFormInput';
 import {useUser} from "../App";
 import useSection from "./hooks/useSection";
 

@@ -5,20 +5,19 @@ import java.util.Date;
 
 public class SearchRequest {
 
-    @NotBlank
     private Date dateFrom;
 
-    @NotBlank
     private Date dateTo;
 
-    @NotBlank
     private String category;
 
-    @NotBlank
     private String newspaper;
 
-    @NotBlank
     private String query;
+
+    private boolean moreFavorited;
+
+    private boolean moreShared;
 
     public SearchRequest(Date dateFrom, Date dateTo, String newspaper, String category, String query) {
         this.category = category;
@@ -50,4 +49,11 @@ public class SearchRequest {
         return query;
     }
 
+    public boolean isMoreFavorited() {
+        return moreFavorited;
+    }
+
+    public boolean isMoreShared() {
+        return moreShared;
+    }
 }

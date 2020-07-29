@@ -26,9 +26,9 @@ const Rect = ({articles, onClick, className}) =>
                     justifyContent: 'space-evenly'
                 }}>
                     <Link to={`/articles/${(article.id)}`}>
-                        <Button variant="outline-primary" onClick={() => onClick(null)}>Ver</Button>
+                        <Button variant="outline-primary" >Ver</Button>
                     </Link>
-                    <Button variant="outline-info" onClick={() => onClick(article)}>Comparar</Button>
+                    <Button variant="outline-info" onClick={() => onClick(article.id)}>Comparar</Button>
                 </div>
             </Card.Body>
         </Card>

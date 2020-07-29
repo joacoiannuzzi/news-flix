@@ -58,14 +58,15 @@ public class UserController {
     public UserProfile addFavorite(@Valid @RequestBody FavoriteRequest favoriteRequest) {
         Long articleId = favoriteRequest.getArticleId();
         Article article = articleService.findById(articleId).orElseThrow(() -> new ResourceNotFoundException("Article", "id", articleId));
+        article.addFavorite();
         Long userId = favoriteRequest.getUserId();
         User updatedUser = userRepository.findById(userId).map(user -> {
             user.addOrRemoveFavorite(article);
             return userRepository.save(user);
         }).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        articleService.save(article);
         return new UserProfile(updatedUser);
     }
-
 
 
 }

@@ -34,11 +34,13 @@ const LogIn = ({onLogin}) => {
         };
         login(logInRequest)
             .then(response => {
+                console.log({response})
                 localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                 onLogin();
-            }).catch(error => {
-            alert('Invalid');
-            console.log(error)
+            })
+            .catch(error => {
+            console.log({error})
+            alert('Invalido');
         })
     };
 
@@ -82,16 +84,18 @@ const LogIn = ({onLogin}) => {
                         <input type="submit" className="button" value={'Entrar'}/>
                         <Link to='/signup'>Registrarse</Link>
                     </form>
+
+
                     <button onClick={(event => {
                         email.value = 'admin@admin.com';
                         password.value = 'admin';
                         handleSubmit(event)
                     })}
-                    style={{
-                        position: 'fixed',
-                        bottom: '0',
-                        right: '0'
-                    }}
+                            style={{
+                                position: 'fixed',
+                                bottom: '0',
+                                right: '0'
+                            }}
                     >
                         admin
                     </button>
