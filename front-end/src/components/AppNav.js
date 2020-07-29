@@ -17,10 +17,10 @@ const makeDropdownMenu = (list, name) => (
             </NavDropdown.Item>
         )
     )
-)
+);
 
 const AppNav = ({isAuthenticated, onLogout, history}) => {
-    const {currentUser: user} = useUser()
+    const {currentUser: user} = useUser();
     const categories = useSection(getCategories);
     const newspapers = useSection(getNewspapers);
 
@@ -29,12 +29,12 @@ const AppNav = ({isAuthenticated, onLogout, history}) => {
     }
 
     const handleSearchSubmit = event => {
-        event.preventDefault()
+        event.preventDefault();
         history.push(`/search`)
-    }
+    };
 
-    const newspapersSection = makeDropdownMenu(newspapers, 'newspapers')
-    const categoriesSection = makeDropdownMenu(categories, 'categories')
+    const newspapersSection = makeDropdownMenu(newspapers, 'newspapers');
+    const categoriesSection = makeDropdownMenu(categories, 'categories');
 
     return (
         <>
@@ -45,10 +45,10 @@ const AppNav = ({isAuthenticated, onLogout, history}) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse>
                     <Nav className="mr-auto">
-                        <NavDropdown title="Categorias">
+                        <NavDropdown title="Categorias" id={categories}>
                             {categoriesSection}
                         </NavDropdown>
-                        <NavDropdown title="Diarios">
+                        <NavDropdown title="Diarios" id={newspapers}>
                             {newspapersSection}
                         </NavDropdown>
                         <NavLink as={Link} to={'/favorites'}>

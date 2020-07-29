@@ -26,6 +26,7 @@ public class ClarinScraper extends AbstractScraper {
 
     @Override
     public void scrap() {
+        System.out.println("Starting ClarinScrapper");
 
         try {
             // Connect to the web site
@@ -59,7 +60,7 @@ public class ClarinScraper extends AbstractScraper {
                         // 15 Apr 2020 10:24:14
                         Calendar cal = Calendar.getInstance();
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy hh:mm:ss", new Locale("en", "EN"));
+                        SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy hh:mm:ss ", new Locale("en", "EN"));
                         try {
 
                             cal.setTime(sdf.parse(date));

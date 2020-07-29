@@ -28,7 +28,7 @@ public class Article {
 
     private String image;
 
-    @Size(max = 50000)
+    @Column(length = 50000)
     private String body;
 
     private Calendar date;

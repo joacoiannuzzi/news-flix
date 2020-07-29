@@ -2,94 +2,113 @@ package com.lab1.newsflix.scraper;
 
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
+import com.gargoylesoftware.htmlunit.xml.XmlPage;
+import org.apache.commons.text.StringEscapeUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 
 @Component
 public class InfobaeScraper extends AbstractScraper {
+//public class InfobaeScraper {
 
-    private final static String baseUrl = "https://www.infobae.com";
+    private final static String baseUrl = "https://www.infobae.com/";
+    private final static String searchURL = "https://www.infobae.com/feeds/rss/";
+
 
     @Override
     public void scrap() {
+    //public static void scrap() {
 
-        WebClient webClient = new WebClient(BrowserVersion.CHROME);
-        webClient.getOptions().setJavaScriptEnabled(false);
-        webClient.getOptions().setCssEnabled(false);
-        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+        System.out.println("Starting InfobaeScraper");
 
         try {
-            HtmlPage page = webClient.getPage(baseUrl);
+            // Connect to the web site
+            WebClient webClient = new WebClient(BrowserVersion.CHROME);
+            webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+            webClient.getOptions().setThrowExceptionOnScriptError(false);
+            try {
+                XmlPage page = webClient.getPage(searchURL);
+                Document doc = Jsoup.parse(page.getWebResponse().getContentAsString(), "", Parser.xmlParser());
+                Elements elements = doc.select("item");
 
-            final List<HtmlDivision> htmlArticles = page.getByXPath("//div[@class='no-skin flex-item flex-stack text-align-left equalize-height-target' and (div[@class='headline huge normal-style '] or div[@class='headline normal normal-style '] or div[@class='headline xx-huge normal-style '])] | //div[@class='no-skin flex-item flex-stack text-align-center equalize-height-target' and (div[@class='headline huge normal-style '] or div[@class='headline normal normal-style '] or div[@class='headline xx-huge normal-style '])]");
-            for (HtmlDivision htmlArticle : htmlArticles) {
-
-                final HtmlAnchor anchor = htmlArticle.getFirstByXPath("div[@class='headline huge normal-style ']/a | div[@class='headline normal normal-style ']/a | div[@class='headline xx-huge normal-style ']/a");
-                final HtmlImage htmlImage = htmlArticle.getFirstByXPath("div[@class='art art-low art-normal art-full-width text-align-left no-art-separator']//img | div[@class='art art-below-headline art-normal art-full-width text-align-left no-art-separator']//img");
-
-                String url = anchor.getHrefAttribute();
-
-                if (url.charAt(0) == 'h')
-                    url = url.substring(23, url.length() - 1); //todas deberian empezar con /, si no es asi empieza con https://infobae.com/ es un hack feo pero funciona
-                String title = anchor.asText();
-                String image = htmlImage == null ? "" : htmlImage.getAttribute("data-original");
-                String category = url.substring(1, url.substring(1).indexOf("/") + 1);
-
-                try {
-                    HtmlPage art = webClient.getPage(baseUrl + url);
-
-                    final HtmlElement date = art.getFirstByXPath("//span[@class='byline-date']");
-
-                    //13 de abril de 2020
-
-                    Calendar cal = Calendar.getInstance();
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("d' de 'MMMM' de 'yyyy", new Locale("es", "ES"));
+                for (Element element : elements) {
                     try {
-                        cal.setTime(sdf.parse(date.asText()));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+
+                        String title = element.select("title").first().text();
+                        String url = element.select("link").first().text();
+
+                        String s = url.replaceFirst("https://www.infobae.com/", "");
+                        String category = s.substring(0, s.indexOf("/"));
+
+                        String date = element.select("pubDate").first().text();
+
+
+                        Calendar cal = Calendar.getInstance();
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy hh:mm:ss Z", new Locale("en", "EN"));
+
+                        try {
+
+                            cal.setTime(sdf.parse(date));
+                        } catch (ParseException e) {
+                            System.out.println("Wrong date type");
+                        }
+
+
+                        Document articleDocument = Jsoup.connect(url).get();
+
+                        String img = articleDocument.select("article picture img").attr("src");
+
+                        Element bodyText = articleDocument.select("p").first();
+
+                        Elements bodytags = bodyText.select(" > b");
+
+                        String body = "";
+
+                        for (Element bodyelems : bodytags) {
+
+                            body = body.concat(bodyelems.text() + SEPARATION);
+
+                        }
+                        try {
+                            save(url, title, category, img, body, cal, "Infobae");
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
                     } catch (NullPointerException e) {
-                        System.out.println("Article doesn't have date so it wasn't persisted");
-                        continue;
+                        System.out.println("There was a null pointer with an article so it wasn't persisted");
                     }
-
-                    HtmlElement htmlItem = art.getFirstByXPath("//div[@id='article-content']");
-                    final List<HtmlElement> bodytags = htmlItem.getByXPath("//div[@class='row pb-content-type-text']");
-
-                    String body = "";
-
-                    for (HtmlElement bodyelems : bodytags) {
-
-                        body = body.concat(bodyelems.asText() + SEPARATION);
-
-                    }
-
-                    try {
-                        save(baseUrl + url, title, category, image, body, cal, "Infobae");
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception e) {
-                    System.out.println("some error with infobae article");
                 }
 
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }
+

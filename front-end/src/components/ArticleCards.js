@@ -8,12 +8,12 @@ import {addOrRemoveFavorite} from "../util/APIUtils";
 
 const ArticleCards = ({articles, className}) => {
 
-    const {currentUser: {favorites, id: userId}, updateCurrentUser} = useUser()
+    const {currentUser: {favorites, id: userId}, updateCurrentUser} = useUser();
 
     const handleFavorite = (articleId) => {
         addOrRemoveFavorite(userId, articleId)
             .then(updateCurrentUser)
-    }
+    };
 
     return (
         articles.map(article => (

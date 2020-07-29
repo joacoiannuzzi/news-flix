@@ -16,7 +16,7 @@ const makeDropdownMenu = (list) => (
             </option>
         )
     )
-)
+);
 
 const Search = () => {
     const categories = useSection(getCategories);
@@ -24,21 +24,22 @@ const Search = () => {
 
     // const urlSearchParams = new URLSearchParams(search);
 
-    const searchInput = useFormInput(/*urlSearchParams.get('query') ?? */'')
-    const categoryInput = useFormInput(/*urlSearchParams.get('category') ?? */'--')
-    const newspaperInput = useFormInput(/*urlSearchParams.get('newspaper') ?? */'--')
-    const [dateFromInput, setDateFromInput] = useState(/*urlSearchParams.get('dateFrom') ??*/ new Date())
-    const [dateToInput, setDateToInput] = useState(/*urlSearchParams.get('dateTo') ??*/ new Date())
+    const searchInput = useFormInput(/*urlSearchParams.get('query') ?? */'');
+    const categoryInput = useFormInput(/*urlSearchParams.get('category') ?? */'Todas');
+    const newspaperInput = useFormInput(/*urlSearchParams.get('newspaper') ?? */'Todos');
+    const [dateFromInput, setDateFromInput] = useState(/*urlSearchParams.get('dateFrom') ??*/ new Date());
+    const [dateToInput, setDateToInput] = useState(/*urlSearchParams.get('dateTo') ??*/ new Date());
 
 
-    const [updater, update] = useState(0)
+    const [updater, update] = useState(0);
 
     const [articles, setArticles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-            if (updater === 0) return
+            if (updater === 0) return;
             setIsLoading(true);
+
 
             // console.log(dateFromInput.toLocaleDateString().replace(/\//g, '-'))
             const request = {
@@ -47,11 +48,11 @@ const Search = () => {
                 category: categoryInput.value,
                 newspaper: newspaperInput.value,
                 query: searchInput.value
-            }
+            };
 
             getFilteredArticles2(request)
                 .then(articles => {
-                    console.log({articles})
+                    console.log({articles});
                     setArticles(articles);
                 })
                 .catch(err => {
@@ -62,25 +63,25 @@ const Search = () => {
         },
         // eslint-disable-next-line
         [updater]
-    )
+    );
 
     if (isLoading)
         return <LoadingIndicator/>;
 
     const handleSearchSubmit = event => {
-        event.preventDefault()
+        event.preventDefault();
         update(c => c + 1)
-    }
+    };
 
-    const newspapersSection = makeDropdownMenu(newspapers)
-    const categoriesSection = makeDropdownMenu(categories)
+    const newspapersSection = makeDropdownMenu(newspapers);
+    const categoriesSection = makeDropdownMenu(categories);
 
     return (
         <>
             <Container>
                 <Form onSubmit={handleSearchSubmit}>
                     <Form.Group controlId="Categorias">
-                        <Form.Label>Categorias</Form.Label>
+                        <Form.Label column={categories}>Categorias</Form.Label>
                         <Form.Control as="select" {...categoryInput}>
                             <option>--</option>
                             {categoriesSection}
@@ -88,7 +89,7 @@ const Search = () => {
                     </Form.Group>
 
                     <Form.Group controlId="Diarios">
-                        <Form.Label>Diarios</Form.Label>
+                        <Form.Label column={newspapers}>Diarios</Form.Label>
                         <Form.Control as="select" {...newspaperInput}>
                             <option>--</option>
                             {newspapersSection}
@@ -96,7 +97,7 @@ const Search = () => {
                     </Form.Group>
 
                     <Form.Group controlId="desde">
-                        <Form.Label>Desde</Form.Label>
+                        <Form.Label column={dateFromInput}>Desde</Form.Label>
                         <DatePicker
                             selected={dateFromInput}
                             onChange={setDateFromInput}
@@ -104,7 +105,7 @@ const Search = () => {
                     </Form.Group>
 
                     <Form.Group controlId="hasta">
-                        <Form.Label>Hasta</Form.Label>
+                        <Form.Label column={dateToInput}>Hasta</Form.Label>
                         <DatePicker
                             selected={dateToInput}
                             onChange={setDateToInput}

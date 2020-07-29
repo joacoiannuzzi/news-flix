@@ -34,6 +34,8 @@ public class LaNacionScraper extends AbstractScraper {
     @Override
     public void scrap() {
 
+        System.out.println("Starting LaNacionScrapper");
+
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.getOptions().setJavaScriptEnabled(false);
         webClient.getOptions().setCssEnabled(false);
