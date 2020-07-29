@@ -57,10 +57,6 @@ const ArticleManager = () => {
         setAddCommentInput('')
     };
 
-    const handleStopCompare = () => {
-        history.push(`/articles/${id}`)
-    };
-
     const handleStartCompare = (id) => {
         history.push(location.pathname + `?compare=${id}`)
     };
@@ -106,7 +102,7 @@ const ArticleManager = () => {
                         : (
                             <>
                                 <Article {...article} share={true}/>
-                                <Article {...compareArticle} handleStopCompare={handleStopCompare}/>
+                                <Article {...compareArticle}/>
                             </>
                         )
                     }

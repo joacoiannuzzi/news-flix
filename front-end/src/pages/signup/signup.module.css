@@ -1,15 +1,7 @@
 
 
-.wave {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    height: 100%;
-    z-index: -1;
-}
-
 .cont {
-    margin: 100px 0 0 0;
+    margin: 50px 0 0 0;
     box-sizing: border-box;
     width: 100vw;
     height: 100%;
@@ -23,13 +15,13 @@
 
 .img {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
 }
 
-.login-content {
+.loginContent {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
     text-align: center;
 }
@@ -42,18 +34,18 @@
     width: 360px;
 }
 
-.login-content img {
+.loginContent img {
     height: 100px;
 }
 
-.login-content h2 {
+.loginContent h2 {
     margin: 15px 0;
     color: #333;
     text-transform: uppercase;
     font-size: 2.9rem;
 }
 
-.login-content .input-div {
+.loginContent .inputDiv {
     position: relative;
     display: grid;
     grid-template-columns: 7% 93%;
@@ -62,7 +54,7 @@
     border-bottom: 2px solid #d9d9d9;
 }
 
-.login-content .input-div.one {
+.loginContent .inputDiv.one {
     margin-top: 0;
 }
 
@@ -77,12 +69,12 @@
     transition: .3s;
 }
 
-.input-div > div {
+.inputDiv > div {
     position: relative;
     height: 45px;
 }
 
-.input-div > div > h5 {
+.inputDiv > div > h5 {
     position: absolute;
     left: 10px;
     top: 50%;
@@ -92,7 +84,7 @@
     transition: .3s;
 }
 
-.input-div:before, .input-div:after {
+.inputDiv:before, .inputDiv:after {
     content: '';
     position: absolute;
     bottom: -2px;
@@ -102,28 +94,28 @@
     transition: .4s;
 }
 
-.input-div:before {
+.inputDiv:before {
     right: 50%;
 }
 
-.input-div:after {
+.inputDiv:after {
     left: 50%;
 }
 
-.input-div.focus:before, .input-div.focus:after {
+.inputDiv.focus:before, .inputDiv.focus:after {
     width: 50%;
 }
 
-.input-div.focus > div > h5 {
+.inputDiv.focus > div > h5 {
     top: -5px;
     font-size: 15px;
 }
 
-.input-div.focus > .i > svg {
+.inputDiv.focus > .i > svg {
     color: #38d39f;
 }
 
-.input-div > div > input {
+.inputDiv > div > input {
     position: absolute;
     left: 0;
     top: 0;
@@ -138,7 +130,7 @@
     font-family: 'poppins', sans-serif;
 }
 
-.input-div.pass {
+.inputDiv.pass {
     margin-bottom: 4px;
 }
 
@@ -189,7 +181,7 @@
         width: 290px;
     }
 
-    .login-content h2 {
+    .loginContent h2 {
         font-size: 2.4rem;
         margin: 8px 0;
     }
@@ -212,7 +204,7 @@
         display: none;
     }
 
-    .login-content {
+    .loginContent {
         justify-content: center;
     }
 }

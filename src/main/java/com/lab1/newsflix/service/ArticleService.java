@@ -140,7 +140,13 @@ public class ArticleService {
         Predicate<Article> matchCategory = article -> article.getCategory().equals(categoryfinalquery);
         Predicate<Article> matchQuery = article -> stringContainsItemFromList(article.getTitle() + " " + article.getBody(), queries);
 
-        Predicate<Article> filterCondition = matchNewspaper.and(matchCategory).and(matchQuery);
+        Predicate<Article> filterCondition = matchQuery;
+
+        if (!categoryfinalquery.equals("Todas"))
+            filterCondition = filterCondition.and(matchCategory);
+
+        if (!newspaperfinalquery.equals("Todos"))
+            filterCondition = filterCondition.and(matchNewspaper);
 
         return articleRepository.getArticlesByDateBetween(cal1, cal2).stream()
                 .filter(filterCondition)

@@ -1,4 +1,4 @@
-import {Button, Col, Image} from "react-bootstrap";
+import {Col, Image} from "react-bootstrap";
 import React from "react";
 import {useUser} from "../App";
 import {faHeart, faHeartBroken} from "@fortawesome/free-solid-svg-icons";
@@ -20,7 +20,7 @@ import {
 } from "react-share";
 
 
-const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare, share}) => {
+const Article = ({id: articleId, title, date, body, image, xs, share}) => {
 
     const {currentUser: {favorites, id: userId}, updateCurrentUser} = useUser();
 
@@ -47,22 +47,7 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
 
     return (
         <Col xs={xs}>
-            <button onClick={handleFavorite} style={{
-                background: 'none',
-                border: 'none',
-            }}>
-                <FontAwesomeIcon icon={favorites.some(favorite => favorite.id === articleId) ? faHeart : faHeartBroken}
-                                 style={{
-                                     color: 'red',
-                                     fontSize: '30px'
-                                 }}
-                />
-            </button>
-            {handleStopCompare && (
-                <Button onClick={handleStopCompare} variant='danger'>
-                    Dejar de comparar
-                </Button>
-            )}
+
             <h1 className="">
                 {title}
             </h1>
@@ -118,8 +103,25 @@ const Article = ({id: articleId, title, date, body, image, xs, handleStopCompare
                                 {count => count}
                             </FacebookShareCount>
                         </div>
+
                     </div>
+
                 }
+
+                <div>
+                    <button onClick={handleFavorite} style={{
+                        background: 'none',
+                        border: 'none',
+                    }}>
+                        <FontAwesomeIcon
+                            icon={favorites.some(favorite => favorite.id === articleId) ? faHeart : faHeartBroken}
+                            style={{
+                                color: 'red',
+                                fontSize: 30
+                            }}
+                        />
+                    </button>
+                </div>
             </h4>
 
             <Image fluid src={image}/>

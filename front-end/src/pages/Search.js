@@ -83,7 +83,7 @@ const Search = () => {
                     <Form.Group controlId="Categorias">
                         <Form.Label column={categories}>Categorias</Form.Label>
                         <Form.Control as="select" {...categoryInput}>
-                            <option>--</option>
+                            <option>Todas</option>
                             {categoriesSection}
                         </Form.Control>
                     </Form.Group>
@@ -91,7 +91,7 @@ const Search = () => {
                     <Form.Group controlId="Diarios">
                         <Form.Label column={newspapers}>Diarios</Form.Label>
                         <Form.Control as="select" {...newspaperInput}>
-                            <option>--</option>
+                            <option>Todos</option>
                             {newspapersSection}
                         </Form.Control>
                     </Form.Group>
