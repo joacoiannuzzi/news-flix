@@ -11,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -48,7 +47,7 @@ public class PaymentController {
 
     @PostMapping("/create-subscription")
     public @ResponseBody
-    PaymentResponse createSubscription(PaymentRequest paymentRequest) {
+    PaymentResponse createSubscription(@Valid @RequestBody PaymentRequest paymentRequest) {
 
         //validate data
         if (paymentRequest.getTokenId() == null || paymentRequest.getPlan().getActive()) {
@@ -99,7 +98,7 @@ public class PaymentController {
 
     @PostMapping("/create-charge")
     public @ResponseBody
-    PaymentResponse createCharge(PaymentRequest paymentRequest) {
+    PaymentResponse createCharge(@Valid @RequestBody PaymentRequest paymentRequest) {
         //validate data
         if (paymentRequest.getTokenId() == null) {
             return new PaymentResponse(false, "Stripe payment token is missing. Please, try again later.");
