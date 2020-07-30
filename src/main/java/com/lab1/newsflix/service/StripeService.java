@@ -7,10 +7,8 @@ import com.lab1.newsflix.repository.PaymentRepository;
 import com.lab1.newsflix.repository.UserRepository;
 import com.stripe.Stripe;
 import com.stripe.model.Charge;
-import com.stripe.model.Customer;
 import com.stripe.model.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -27,7 +25,7 @@ public class StripeService {
     @Autowired
     UserRepository userRepository;
 
-    public String createCharge(PaymentRequest paymentRequest) {
+    public Charge createCharge(PaymentRequest paymentRequest) {
         String id = null;
         try {
             Stripe.apiKey = API_SECRET_KEY;
@@ -42,15 +40,16 @@ public class StripeService {
             id = charge.getId();
 
             paymentRepository.save(new Payment(userRepository.getOne(paymentRequest.getUserId()),paymentRequest.getTokenId(),paymentRequest.getAmount(),id,paymentRequest.getPlan()));
-
+            return charge;
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            return null;
         }
-        return id;
+
     }
 
-    public String createSubscription(PaymentRequest paymentRequest) {
+    public Subscription createSubscription(PaymentRequest paymentRequest) {
         String id = null;
         try {
             Stripe.apiKey = API_SECRET_KEY;
@@ -68,12 +67,13 @@ public class StripeService {
             id = sub.getId();
 
             paymentRepository.save(new Payment(userRepository.getOne(paymentRequest.getUserId()),paymentRequest.getPlan(),id));
-
+            return sub;
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            return null;
         }
-        return id;
+
     }
 
     public boolean cancelSubscription(String subscriptionId, Long userID) {
