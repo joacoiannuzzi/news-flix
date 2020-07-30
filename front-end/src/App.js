@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import Category from "./pages/Category"
 import Newspaper from "./pages/Newspaper";
 import ArticleManager from "./pages/ArticleManager";
-import SignUp from "./pages/SignUp";
+import SignUp from "./pages/signup/SignUp";
 import LogIn from "./pages/login/LogIn";
 import {getCurrentUser} from "./util/APIUtils";
 import {ACCESS_TOKEN} from "./constants";

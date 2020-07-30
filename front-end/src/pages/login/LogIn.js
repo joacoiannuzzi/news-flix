@@ -46,7 +46,17 @@ const LogIn = ({onLogin}) => {
 
     return (
         <>
-            {/*<img className="wave" src="img/wave.png">*/}
+            <div style={{
+                marginTop: 100,
+                // border: '1px solid black',
+                width: '100%',
+                display: "flex",
+                // alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <h1 className='display-1'>NEWS FLIX</h1>
+            </div>
             <div className="cont">
                 <div className="img">
                     <img src={manReading} alt=''/>
@@ -85,20 +95,6 @@ const LogIn = ({onLogin}) => {
                         <Link to='/signup'>Registrarse</Link>
                     </form>
 
-
-                    <button onClick={(event => {
-                        email.value = 'admin@admin.com';
-                        password.value = 'admin';
-                        handleSubmit(event)
-                    })}
-                            style={{
-                                position: 'fixed',
-                                bottom: '0',
-                                right: '0'
-                            }}
-                    >
-                        admin
-                    </button>
                 </div>
             </div>
         </>
