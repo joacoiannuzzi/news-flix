@@ -6,13 +6,13 @@ import useFormInput from "../components/hooks/useFormInput";
 import {useUser} from "../App";
 
 const ChangePassword = ({history}) => {
-    const {currentUser: user} = useUser();
+    const {currentUser: {id: userId}} = useUser();
     const password = useFormInput('');
 
     const handleSubmit = event => {
         event.preventDefault();
         const changePasswordRequest = {
-            user,
+            userId,
             password: password.value
         };
 

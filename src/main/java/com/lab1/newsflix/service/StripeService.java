@@ -37,7 +37,7 @@ public class StripeService {
             Charge charge = Charge.create(chargeParams);
             id = charge.getId();
 
-            paymentRepository.save(new Payment(user,token,amount));
+            paymentRepository.save(new Payment(user, token, amount));
 
 
         } catch (Exception ex) {
@@ -64,7 +64,7 @@ public class StripeService {
             Subscription sub = Subscription.create(params);
             id = sub.getId();
 
-            paymentRepository.save(new Payment(user,plan));
+            paymentRepository.save(new Payment(user, plan));
 
 
         } catch (Exception ex) {
@@ -86,7 +86,6 @@ public class StripeService {
         }
         return status;
     }
-
 
 
 }

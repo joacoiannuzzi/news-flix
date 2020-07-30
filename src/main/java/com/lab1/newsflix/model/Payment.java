@@ -30,20 +30,22 @@ public class Payment {
     private String plan;
 
 
-    public Payment(User user, String token, int amount){
-        this.user=user;
-        this.token=token;
-        this.amount=amount;
-        this.plan="One time Charge";
-        this.date=new Date();
+    public Payment(User user, String token, int amount) {
+        this.user = user;
+        this.token = token;
+        this.amount = amount;
+        this.plan = "One time Charge";
+        this.date = new Date();
     }
 
-    public Payment(User user, String plan){
-        this.user=user;
-        this.plan=plan;
-        this.date=new Date();
+    public Payment(User user, String plan) {
+        this.user = user;
+        this.plan = plan;
+        this.date = new Date();
     }
-    public Payment(){}
+
+    public Payment() {
+    }
 
     public Long getId() {
         return id;

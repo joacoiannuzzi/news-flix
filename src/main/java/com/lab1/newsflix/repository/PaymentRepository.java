@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PaymentRepository  extends JpaRepository<Payment,Long> {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     @Query(value = "select distinct plans from payment ", nativeQuery = true)
     List<String> getPlans();

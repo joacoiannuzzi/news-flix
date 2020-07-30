@@ -39,12 +39,13 @@ function App({history}) {
         setIsLoading(true)
         getCurrentUser()
             .then(user => {
+                console.log({user})
                 setUser(user)
                 setIsAuthenticated(true)
                 setIsLoading(false)
             })
             .catch(error => {
-                console.log(error)
+                console.log({loadCurrentUser: 'fail', error})
                 console.log('error')
                 handleLogout()
                 setIsLoading(false)
@@ -63,9 +64,10 @@ function App({history}) {
     function handleLogin(redirectTo = "/") {
         loadCurrentUser()
             .then(() => {
+                console.log('redirecting to ' + redirectTo)
                 history.push(redirectTo);
             })
-            .catch(error => console.log({error}))
+            .catch(error => console.log({handleLogin: 'true', error}))
     }
 
 

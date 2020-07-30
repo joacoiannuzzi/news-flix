@@ -27,7 +27,6 @@ public class PaymentController {
     UserRepository userRepository;
 
 
-
     @GetMapping("/subscription")
     public String subscriptionPage(Model model) {
         model.addAttribute("stripePublicKey", API_PUBLIC_KEY);
@@ -72,14 +71,14 @@ public class PaymentController {
 
     @PostMapping("/cancel-subscription")
     public @ResponseBody
-    PaymentResponse cancelSubscription(User user,String subscriptionId) {
+    PaymentResponse cancelSubscription(User user, String subscriptionId) {
         boolean status = stripeService.cancelSubscription(subscriptionId);
         if (!status) {
             return new PaymentResponse(false, "Failed to cancel the subscription. Please, try later.");
         }
         user.setIsActive(false);
         userRepository.save(user);
-        return new PaymentResponse(true, "Subscription cancelled successfully for user:"+user.getId());
+        return new PaymentResponse(true, "Subscription cancelled successfully for user:" + user.getId());
     }
 
 
