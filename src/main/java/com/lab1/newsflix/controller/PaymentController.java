@@ -59,7 +59,7 @@ public class PaymentController {
         try {
            User user = userRepository.getOne(paymentRequest.getUserId());
             //create subscription
-            String subscriptionId = stripeService.createSubscription(paymentRequest);
+            String subscriptionId = stripeService.createSubscription(paymentRequest).getId();
             if (subscriptionId == null) {
                 return new PaymentResponse(false, "An error occurred while trying to create a subscription.");
             }
@@ -109,7 +109,7 @@ public class PaymentController {
 
         User user = userRepository.getOne(paymentRequest.getUserId());
         paymentRequest.setAmount(999); //49.99usd
-        String chargeId = stripeService.createCharge(paymentRequest);
+        String chargeId = stripeService.createCharge(paymentRequest).getId();
         if (chargeId == null) {
             return new PaymentResponse(false, "An error occurred while trying to create a charge.");
         }
