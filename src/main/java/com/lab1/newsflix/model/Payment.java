@@ -2,6 +2,7 @@ package com.lab1.newsflix.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lab1.newsflix.payload.PaymentResponse;
+import com.stripe.model.Plan;
 import com.stripe.model.Subscription;
 
 import javax.persistence.Entity;
@@ -27,29 +28,29 @@ public class Payment {
 
     private Date date;
 
-    private String plan;
+    private Plan plan;
 
     private String subscriptionId;
 
     private String chargeId;
 
 
-    public Payment(User user, String token, int amount,String chargeId){
+    public Payment(User user, String token, int amount,String chargeId,Plan plan){
         this.user=user;
         this.token=token;
         this.amount=amount;
-        this.plan="One time Charge";
+        this.plan = plan;
         this.date=new Date();
     }
 
-    public Payment(User user, String plan,String subscriptionId){
+    public Payment(User user, Plan plan,String subscriptionId){
         this.user=user;
         this.plan=plan;
         this.subscriptionId=subscriptionId;
         this.date=new Date();
     }
 
-    public String getPlan() {
+    public Plan getPlan() {
         return plan;
     }
 

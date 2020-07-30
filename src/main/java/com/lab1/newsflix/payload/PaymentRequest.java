@@ -1,6 +1,8 @@
 package com.lab1.newsflix.payload;
 
 
+import com.stripe.model.Plan;
+
 public class PaymentRequest {
 
     private Long userId;
@@ -9,18 +11,18 @@ public class PaymentRequest {
 
     private int amount;
 
-    private String plan;
+    private Plan plan;
 
 
     public PaymentRequest(){
 
     }
 
-    public String getPlan() {
+    public Plan getPlan() {
         return plan;
     }
 
-    public void setPlan(String plan) {
+    public void setPlan(Plan plan) {
         this.plan = plan;
     }
 

@@ -41,7 +41,7 @@ public class StripeService {
             Charge charge = Charge.create(chargeParams);
             id = charge.getId();
 
-            paymentRepository.save(new Payment(userRepository.getOne(paymentRequest.getUserId()),paymentRequest.getTokenId(),paymentRequest.getAmount(),id));
+            paymentRepository.save(new Payment(userRepository.getOne(paymentRequest.getUserId()),paymentRequest.getTokenId(),paymentRequest.getAmount(),id,paymentRequest.getPlan()));
 
 
         } catch (Exception ex) {

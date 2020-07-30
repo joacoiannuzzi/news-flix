@@ -51,7 +51,7 @@ public class PaymentController {
     PaymentResponse createSubscription(PaymentRequest paymentRequest) {
 
         //validate data
-        if (paymentRequest.getTokenId() == null || paymentRequest.getPlan().isEmpty()) {
+        if (paymentRequest.getTokenId() == null || paymentRequest.getPlan().getActive()) {
             return new PaymentResponse(false, "Stripe payment token is missing. Please, try again later.");
         }
 
