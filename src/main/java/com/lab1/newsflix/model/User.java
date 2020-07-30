@@ -73,11 +73,13 @@ public class User {
 
     }
 
-    public void setActive(){
-        isActive=true;
+    public void setActive() {
+        isActive = true;
     }
 
-    public boolean isActive(){return isActive;}
+    public boolean isActive() {
+        return isActive;
+    }
 
     public Long getId() {
         return id;

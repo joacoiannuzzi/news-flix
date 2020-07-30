@@ -28,11 +28,11 @@ export function login(loginRequest) {
     })
 }
 
-export function changePassword(password) {
+export function changePassword(req) {
     return request({
-        url: `${API_BASE_URL}/auth/changepassword`,
+        url: `${API_BASE_URL}/users/changepassword`,
         method: 'POST',
-        body: JSON.stringify(password)
+        body: JSON.stringify(req)
     })
 }
 

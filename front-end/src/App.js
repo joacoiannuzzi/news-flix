@@ -15,7 +15,6 @@ import LoadingIndicator from "./components/LoadingIndicator";
 import Search from "./pages/Search";
 import Profile from "./pages/Profile";
 
-
 import './app.css'
 import Favorites from "./pages/Favorites";
 import ChangePassword from "./pages/ChangePassword";
@@ -40,17 +39,17 @@ function App({history}) {
         setIsLoading(true);
         getCurrentUser()
             .then(user => {
+                console.log({user});
                 setUser(user);
                 setIsAuthenticated(true);
-                setIsLoading(false);
+                setIsLoading(false)
             })
             .catch(error => {
-                console.log(error);
+                console.log({loadCurrentUser: 'fail', error});
                 console.log('error');
                 handleLogout();
                 setIsLoading(false)
             })
-
     }
 
     function handleLogout(redirectTo = "/") {
@@ -65,9 +64,10 @@ function App({history}) {
     function handleLogin(redirectTo = "/") {
         loadCurrentUser()
             .then(() => {
+                console.log('redirecting to ' + redirectTo)
                 history.push(redirectTo);
             })
-            .catch(error => console.log({error}))
+            .catch(error => console.log({handleLogin: 'true', error}))
     }
 
 
@@ -99,8 +99,6 @@ function App({history}) {
                                   component={Favorites}/>
                     <PrivateRoute authenticated={isAuthenticated} exact path="/profile/changepassword"
                                   component={ChangePassword}/>
-
-
                     <Route exact={true} path='/signup' component={SignUp}/>
                     <Route exact={true} path="/login"
                            render={props => <LogIn onLogin={handleLogin} {...props} />}

@@ -31,6 +31,7 @@ public class PaymentController {
     UserRepository userRepository;
 
 
+
     @GetMapping("/subscription")
     public String subscriptionPage(Model model) {
         model.addAttribute("stripePublicKey", API_PUBLIC_KEY);

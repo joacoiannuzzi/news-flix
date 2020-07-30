@@ -34,7 +34,7 @@ const LogIn = ({onLogin}) => {
         };
         login(logInRequest)
             .then(response => {
-                console.log({response})
+                console.log({login: 'login', response})
                 localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                 onLogin();
             })
