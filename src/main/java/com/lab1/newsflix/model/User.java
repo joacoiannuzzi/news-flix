@@ -54,7 +54,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.isActive = true;
+        this.isActive = false;
     }
 
     public void addOrRemoveFavorite(Article article) {
@@ -72,6 +72,12 @@ public class User {
         comments.add(comment);
 
     }
+
+    public void setActive(){
+        isActive=true;
+    }
+
+    public boolean isActive(){return isActive;}
 
     public Long getId() {
         return id;

@@ -66,6 +66,10 @@ dependencies {
     // https://mvnrepository.com/artifact/javax.validation/validation-api
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 
+    // https://mvnrepository.com/artifact/com.stripe/stripe-java
+    compile group: 'com.stripe', name: 'stripe-java', version: '19.35.0'
+
+    
 }
 
 test {

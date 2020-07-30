@@ -20,36 +20,26 @@ import java.util.Collections;
 public class InitDB implements CommandLineRunner {
 
 
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
     @Override
     public void run(String... args) { // este metodo se llama automaticamente cuando se inicia la aplicacion porque implenta CommandLineRunner
 
-        Role adminRole = new Role(RoleName.ROLE_ADMIN);
-        Role userRole = new Role(RoleName.ROLE_USER);
+        //Role adminRole = new Role(RoleName.ROLE_ADMIN);
+        //Role userRole = new Role(RoleName.ROLE_USER);
 
-        roleRepository.save(adminRole);
-        roleRepository.save(userRole);
+       // roleRepository.save(adminRole);
+       // roleRepository.save(userRole);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH,4);
-        calendar.set(Calendar.DAY_OF_MONTH,4); //MAY 4th
-
-
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.set(Calendar.MONTH,4);
+        //calendar.set(Calendar.DAY_OF_MONTH,4); //MAY 4th
 
 
 
-        User admin = new User("Admin", "", "admin@admin.com", passwordEncoder.encode("admin"));
-        admin.setRoles(Collections.singleton(adminRole));
-        userRepository.save(admin);
+
+
+        //User admin = new User("Admin", "", "admin@admin.com", passwordEncoder.encode("admin"));
+        //admin.setRoles(Collections.singleton(adminRole));
+        //userRepository.save(admin);
 
     }
 }
