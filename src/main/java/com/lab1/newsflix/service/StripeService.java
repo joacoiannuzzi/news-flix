@@ -55,8 +55,7 @@ public class StripeService {
         try {
             Stripe.apiKey = API_SECRET_KEY;
             Map<String, Object> item = new HashMap<>();
-            item.put("plan", paymentRequest.getPlan());
-
+            item.put("plan", paymentRequest.getPlan());  //Plan "1 month"
 
             Map<String, Object> items = new HashMap<>();
             items.put("0", item);
