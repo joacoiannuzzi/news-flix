@@ -1,7 +1,9 @@
 package com.lab1.newsflix.controller;
 
 import com.lab1.newsflix.model.User;
+import com.lab1.newsflix.payload.PaymentRequest;
 import com.lab1.newsflix.payload.PaymentResponse;
+import com.lab1.newsflix.repository.PaymentRepository;
 import com.lab1.newsflix.repository.UserRepository;
 import com.lab1.newsflix.service.StripeService;
 import com.stripe.model.Coupon;
@@ -11,10 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
+@RequestMapping("/api/payment")
 public class PaymentController {
 
 
@@ -25,7 +29,6 @@ public class PaymentController {
 
     @Autowired
     UserRepository userRepository;
-
 
 
     @GetMapping("/subscription")
@@ -44,39 +47,49 @@ public class PaymentController {
 
     @PostMapping("/create-subscription")
     public @ResponseBody
-    PaymentResponse createSubscription(User user, String token, String plan) {
+    PaymentResponse createSubscription(PaymentRequest paymentRequest) {
+
         //validate data
-        if (token == null || plan.isEmpty()) {
+        if (paymentRequest.getTokenId() == null || paymentRequest.getPlan().isEmpty()) {
             return new PaymentResponse(false, "Stripe payment token is missing. Please, try again later.");
         }
 
 
-        if (user == null) {
+        try {
+           User user = userRepository.getOne(paymentRequest.getUserId());
+            //create subscription
+            String subscriptionId = stripeService.createSubscription(paymentRequest);
+            if (subscriptionId == null) {
+                return new PaymentResponse(false, "An error occurred while trying to create a subscription.");
+            }
+
+            user.setIsActive(true);
+            userRepository.save(user);
+
+            return new PaymentResponse(true, "Success! Your subscription id is " + subscriptionId);
+
+        }catch (Exception e){
             return new PaymentResponse(false, "An error occurred while getting user data");
         }
 
-        //create subscription
-        String subscriptionId = stripeService.createSubscription(user, plan);
-        if (subscriptionId == null) {
-            return new PaymentResponse(false, "An error occurred while trying to create a subscription.");
-        }
-
-        // Ideally you should store customerId and subscriptionId along with customer object here.
-        // These values are required to update or cancel the subscription at later stage.
 
 
-        user.setIsActive(true);
-        userRepository.save(user);
-        return new PaymentResponse(true, "Success! Your subscription id is " + subscriptionId);
+
+
+
+
     }
 
     @PostMapping("/cancel-subscription")
     public @ResponseBody
-    PaymentResponse cancelSubscription(User user,String subscriptionId) {
-        boolean status = stripeService.cancelSubscription(subscriptionId);
+    PaymentResponse cancelSubscription(String subscriptionId, Long userID) {
+
+        boolean status = stripeService.cancelSubscription(subscriptionId, userID);
         if (!status) {
             return new PaymentResponse(false, "Failed to cancel the subscription. Please, try later.");
         }
+
+        User user = userRepository.getOne(userID);
         user.setIsActive(false);
         userRepository.save(user);
         return new PaymentResponse(true, "Subscription cancelled successfully for user:"+user.getId());
@@ -85,14 +98,17 @@ public class PaymentController {
 
     @PostMapping("/create-charge")
     public @ResponseBody
-    PaymentResponse createCharge(User user, String token) {
+    PaymentResponse createCharge(PaymentRequest paymentRequest) {
         //validate data
-        if (token == null) {
+        if (paymentRequest.getTokenId() == null) {
             return new PaymentResponse(false, "Stripe payment token is missing. Please, try again later.");
         }
 
         //create charge
-        String chargeId = stripeService.createCharge(user, token, 999); //$9.99 USD
+
+        User user = userRepository.getOne(paymentRequest.getUserId());
+        paymentRequest.setAmount(999); //49.99usd
+        String chargeId = stripeService.createCharge(paymentRequest);
         if (chargeId == null) {
             return new PaymentResponse(false, "An error occurred while trying to create a charge.");
         }

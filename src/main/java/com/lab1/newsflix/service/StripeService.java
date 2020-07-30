@@ -2,6 +2,7 @@ package com.lab1.newsflix.service;
 
 import com.lab1.newsflix.model.Payment;
 import com.lab1.newsflix.model.User;
+import com.lab1.newsflix.payload.PaymentRequest;
 import com.lab1.newsflix.repository.PaymentRepository;
 import com.lab1.newsflix.repository.UserRepository;
 import com.stripe.Stripe;
@@ -23,21 +24,24 @@ public class StripeService {
     @Autowired
     PaymentRepository paymentRepository;
 
-    public String createCharge(User user, String token, int amount) {
+    @Autowired
+    UserRepository userRepository;
+
+    public String createCharge(PaymentRequest paymentRequest) {
         String id = null;
         try {
             Stripe.apiKey = API_SECRET_KEY;
             Map<String, Object> chargeParams = new HashMap<>();
-            chargeParams.put("amount", amount);
+            chargeParams.put("amount", paymentRequest.getAmount());
             chargeParams.put("currency", "usd");
-            chargeParams.put("description", "Charge for " + user.getId());
-            chargeParams.put("source", token); // ^ obtained with Stripe.js
+            chargeParams.put("description", "Charge for " + paymentRequest.getUserId());
+            chargeParams.put("source", paymentRequest.getTokenId()); // ^ obtained with Stripe.js
 
             //create a charge
             Charge charge = Charge.create(chargeParams);
             id = charge.getId();
 
-            paymentRepository.save(new Payment(user,token,amount));
+            paymentRepository.save(new Payment(userRepository.getOne(paymentRequest.getUserId()),paymentRequest.getTokenId(),paymentRequest.getAmount(),id));
 
 
         } catch (Exception ex) {
@@ -46,25 +50,25 @@ public class StripeService {
         return id;
     }
 
-    public String createSubscription(User user, String plan) {
+    public String createSubscription(PaymentRequest paymentRequest) {
         String id = null;
         try {
             Stripe.apiKey = API_SECRET_KEY;
             Map<String, Object> item = new HashMap<>();
-            item.put("plan", plan);
+            item.put("plan", paymentRequest.getPlan());
 
 
             Map<String, Object> items = new HashMap<>();
             items.put("0", item);
 
             Map<String, Object> params = new HashMap<>();
-            params.put("customer", user.getId());
+            params.put("customer", paymentRequest.getUserId());
             params.put("items", items);
 
             Subscription sub = Subscription.create(params);
             id = sub.getId();
 
-            paymentRepository.save(new Payment(user,plan));
+            paymentRepository.save(new Payment(userRepository.getOne(paymentRequest.getUserId()),paymentRequest.getPlan(),id));
 
 
         } catch (Exception ex) {
@@ -73,12 +77,15 @@ public class StripeService {
         return id;
     }
 
-    public boolean cancelSubscription(String subscriptionId) {
+    public boolean cancelSubscription(String subscriptionId, Long userID) {
         boolean status;
         try {
             Stripe.apiKey = API_SECRET_KEY;
             Subscription sub = Subscription.retrieve(subscriptionId);
             sub.cancel();
+            User user = userRepository.getOne(userID);
+            user.setIsActive(false);
+            userRepository.save(user);
             status = true;
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -29,6 +29,7 @@ public class UserController {
     private ArticleService articleService;
 
     @GetMapping("/all")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public Collection<User> getAll() {
         return userRepository.findAll();
     }

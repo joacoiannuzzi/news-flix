@@ -13,22 +13,24 @@ public class UserProfile {
     private String firstName;
     private String lastName;
     private Set<Article> favorites;
+    private boolean isActive;
 
 
-    public UserProfile(Long id, String email, String firstName, String lastName, Set<Article> favorites) {
+    public UserProfile(Long id, String email, String firstName, String lastName, Set<Article> favorites, boolean isActive) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.favorites = favorites;
+        this.isActive = isActive;
     }
 
     public UserProfile(User user) {
-        this(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getFavorites());
+        this(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getFavorites(),user.getIsActive());
     }
 
     public UserProfile(UserPrincipal user) {
-        this(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getFavorites());
+        this(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getFavorites(), user.isActive());
     }
 
     public Long getId() {
@@ -69,5 +71,14 @@ public class UserProfile {
 
     public void setFavorites(Set<Article> favorites) {
         this.favorites = favorites;
+    }
+
+
+    public boolean isActive(){
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

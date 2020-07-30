@@ -144,5 +144,9 @@ public class User {
         this.favorites = favorites;
     }
 
+    public String isActiveToString(){
+        return Boolean.toString(isActive);
+    }
+
 
 }

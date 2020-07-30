@@ -6,7 +6,7 @@ import {useUser} from "../App";
 
 const Profile = () => {
 
-    const {currentUser: {firstName, lastName, email}} = useUser()
+    const {currentUser: {id,firstName, lastName, email, active}} = useUser();
 
     return (
         <Container>
@@ -45,13 +45,21 @@ const Profile = () => {
                             marginBottom: '1rem'
                         }}>
                             Correo electronico: {email}
+
+                        </div>
+
+                        <div style={{
+                            fontSize: "1.6rem",
+                            marginBottom: '1rem'
+                        }}>
+                            Subscriber: {active+""}
                         </div>
                         <div style={{
                             fontSize: "3rem",
                             marginBottom: '5rem',
                         }}>
                             <Button variant={"warning"} onClick={() => alert('TODO')}>
-                                Cambiar contrasena
+                                Cambiar contraseña
                             </Button>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ package com.lab1.newsflix.security;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lab1.newsflix.model.Article;
 import com.lab1.newsflix.model.User;
+import org.apache.xpath.operations.Bool;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +32,9 @@ public class UserPrincipal implements UserDetails {
 
     private Set<Article> favorites;
 
-    public UserPrincipal(Long id, String firstName, String lastName, String email, String password, Collection<? extends GrantedAuthority> authorities, Set<Article> favorites) {
+    private boolean isActive;
+
+    public UserPrincipal(Long id, String firstName, String lastName, String email, String password, Collection<? extends GrantedAuthority> authorities, Set<Article> favorites, boolean isActive) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,6 +42,7 @@ public class UserPrincipal implements UserDetails {
         this.password = password;
         this.authorities = authorities;
         this.favorites = favorites;
+        this.isActive = isActive;
     }
 
     public static UserPrincipal create(User user) {
@@ -53,7 +57,8 @@ public class UserPrincipal implements UserDetails {
                 user.getEmail(),
                 user.getPassword(),
                 authorities,
-                user.getFavorites()
+                user.getFavorites(),
+                user.isActive()
         );
     }
 
@@ -130,4 +135,14 @@ public class UserPrincipal implements UserDetails {
     public void setFavorites(Set<Article> favorites) {
         this.favorites = favorites;
     }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+
 }

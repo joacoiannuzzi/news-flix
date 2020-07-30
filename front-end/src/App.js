@@ -15,47 +15,49 @@ import LoadingIndicator from "./components/LoadingIndicator";
 import Search from "./pages/Search";
 import Profile from "./pages/Profile";
 
+
 import './app.css'
 import Favorites from "./pages/Favorites";
 import ChangePassword from "./pages/ChangePassword";
 
-const UserContext = createContext({})
+const UserContext = createContext({});
 
-export const useUser = () => useContext(UserContext)
+export const useUser = () => useContext(UserContext);
 
 function App({history}) {
-    const [user, setUser] = useState(null)
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
+    const [user, setUser] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
             loadCurrentUser()
         },
         // eslint-disable-next-line
         [] // no sacar
-    )
+    );
 
     async function loadCurrentUser() {
-        setIsLoading(true)
+        setIsLoading(true);
         getCurrentUser()
             .then(user => {
-                setUser(user)
-                setIsAuthenticated(true)
-                setIsLoading(false)
+                setUser(user);
+                setIsAuthenticated(true);
+                setIsLoading(false);
             })
             .catch(error => {
-                console.log(error)
-                console.log('error')
-                handleLogout()
+                console.log(error);
+                console.log('error');
+                handleLogout();
                 setIsLoading(false)
             })
+
     }
 
     function handleLogout(redirectTo = "/") {
         localStorage.removeItem(ACCESS_TOKEN);
 
-        setUser(null)
-        setIsAuthenticated(false)
+        setUser(null);
+        setIsAuthenticated(false);
 
         history.push(redirectTo);
     }
@@ -70,7 +72,7 @@ function App({history}) {
 
 
     if (isLoading)
-        return <LoadingIndicator/>
+        return <LoadingIndicator/>;
 
     return (
         <>
@@ -97,6 +99,8 @@ function App({history}) {
                                   component={Favorites}/>
                     <PrivateRoute authenticated={isAuthenticated} exact path="/profile/changepassword"
                                   component={ChangePassword}/>
+
+
                     <Route exact={true} path='/signup' component={SignUp}/>
                     <Route exact={true} path="/login"
                            render={props => <LogIn onLogin={handleLogin} {...props} />}
