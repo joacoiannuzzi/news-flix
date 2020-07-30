@@ -28,14 +28,14 @@ public class Payment {
 
     private Date date;
 
-    private Plan plan;
+    private String plan;
 
     private String subscriptionId;
 
     private String chargeId;
 
 
-    public Payment(User user, String token, int amount,String chargeId,Plan plan){
+    public Payment(User user, String token, int amount,String chargeId,String plan){
         this.user=user;
         this.token=token;
         this.amount=amount;
@@ -43,14 +43,14 @@ public class Payment {
         this.date=new Date();
     }
 
-    public Payment(User user, Plan plan,String subscriptionId){
+    public Payment(User user, String plan,String subscriptionId){
         this.user=user;
         this.plan=plan;
         this.subscriptionId=subscriptionId;
         this.date=new Date();
     }
 
-    public Plan getPlan() {
+    public String getPlan() {
         return plan;
     }
 
