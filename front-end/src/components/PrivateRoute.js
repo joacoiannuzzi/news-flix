@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 
-const PrivateRoute = ({component: Component, authenticated, ...rest}) => {
+const PrivateRoute = ({component: Component, isActive, authenticated, ...rest}) => {
     if (!authenticated) {
         return (
             <Redirect to={{
@@ -14,6 +14,17 @@ const PrivateRoute = ({component: Component, authenticated, ...rest}) => {
             }}/>
         )
     }
+
+    if (!isActive) {
+        console.log('redirecting to /subscription')
+        return (
+            <Redirect to={{
+                pathname: '/subscription',
+                // state: {from: props.location}
+            }}/>
+        )
+    }
+
 
     return <Route {...rest} render={props => <Component {...rest} {...props} />}/>
 

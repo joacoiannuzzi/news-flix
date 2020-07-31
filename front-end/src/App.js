@@ -75,6 +75,10 @@ function App({history}) {
     if (isLoading)
         return <LoadingIndicator/>;
 
+    const isActive = user?.active ?? false
+
+    console.log({isActive})
+
     return (
         <>
             <UserContext.Provider value={{currentUser: user, updateCurrentUser: setUser}}>
@@ -82,26 +86,27 @@ function App({history}) {
                 <AppNav onLogout={handleLogout} isAuthenticated={isAuthenticated}/>
 
                 <Switch>
-                    <PrivateRoute authenticated={isAuthenticated} path='/' exact={true}
+                    <PrivateRoute isActive={isActive} authenticated={isAuthenticated} path='/' exact={true}
                                   component={Home}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/search'
+                    <PrivateRoute isActive={isActive} authenticated={isAuthenticated} path='/search'
                                   exact={true} component={Search}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/categories/:name'
+                    <PrivateRoute isActive={isActive} authenticated={isAuthenticated} path='/categories/:name'
                                   exact={true} component={Category}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/newspapers/:name'
+                    <PrivateRoute isActive={isActive} authenticated={isAuthenticated} path='/newspapers/:name'
                                   exact={true}
                                   component={Newspaper}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/subscription'
+                    <PrivateRoute isActive={true} authenticated={isAuthenticated} path='/subscription'
                                   exact={true}
                                   component={Subscription}/>
-                    <PrivateRoute authenticated={isAuthenticated} path='/articles/:id'
+                    <PrivateRoute isActive={isActive} authenticated={isAuthenticated} path='/articles/:id'
                                   exact={true}
                                   component={ArticleManager}/>
-                    <PrivateRoute authenticated={isAuthenticated} exact path="/profile"
+                    <PrivateRoute isActive={true} authenticated={isAuthenticated} exact path="/profile"
                                   component={Profile}/>
-                    <PrivateRoute authenticated={isAuthenticated} exact path="/favorites"
+                    <PrivateRoute isActive={isActive} authenticated={isAuthenticated} exact path="/favorites"
                                   component={Favorites}/>
-                    <PrivateRoute authenticated={isAuthenticated} exact path="/profile/changepassword"
+                    <PrivateRoute isActive={true} authenticated={isAuthenticated} exact
+                                  path="/profile/changepassword"
                                   component={ChangePassword}/>
                     <Route exact={true} path='/signup' component={SignUp}/>
                     <Route exact={true} path="/login"

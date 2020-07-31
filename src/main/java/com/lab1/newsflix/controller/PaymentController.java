@@ -57,8 +57,14 @@ public class PaymentController {
         return new PaymentResponse(true, "Success! your subscription id is " + subscriptionId);
     }
 
-    @PostMapping("/cancel-subscription")
-    public @ResponseBody PaymentResponse cancelSubscription(String subscriptionId) {
+    @PostMapping("/cancel-subscription/{userId}")
+    public @ResponseBody PaymentResponse cancelSubscription(@PathVariable Long userId) {
+        // todo cancelar la suscripcion con el user id
+
+        User user = userRepository.findById(userId).orElseThrow();
+
+        // .....
+
 
         boolean subscriptionStatus = stripeService.cancelSubscription(subscriptionId);
 

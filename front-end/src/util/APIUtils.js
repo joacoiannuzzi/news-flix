@@ -148,6 +148,14 @@ export function createSubscription(req) {
     })
 }
 
+export function cancelSubscription(id) {
+    return request({
+        url: `${API_BASE_URL}/payments/cancel-subscription/${id}`,
+        method: 'POST',
+        // body: JSON.stringify(id)
+    })
+}
+
 export function shareArticle(req) {
     return request({
         url: `${API_BASE_URL}/articles/share`,

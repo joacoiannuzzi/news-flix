@@ -3,6 +3,10 @@ import {CardElement, useStripe, useElements, Elements} from '@stripe/react-strip
 import {loadStripe} from "@stripe/stripe-js/pure";
 import {createSubscription} from "../util/APIUtils";
 import {useUser} from "../App";
+import {useHistory} from 'react-router-dom'
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
+
+import './subscription.css'
 
 const CARD_OPTIONS = {
     iconStyle: 'solid',
@@ -28,7 +32,8 @@ const Subscription = () => {
     const stripe = useStripe();
     const elements = useElements();
 
-    const {currentUser: {id: userId}} = useUser()
+    const {currentUser: user, updateCurrentUser} = useUser()
+    const history = useHistory()
 
     const handleSubmit = async (event) => {
         // Block native form submission.
@@ -45,12 +50,6 @@ const Subscription = () => {
         // each type of element.
         const cardElement = elements.getElement(CardElement);
 
-        // Use your card Element with other Stripe.js APIs
-        // const {error, paymentMethod} = await stripe.createPaymentMethod({
-        //     type: 'card',
-        //     card: cardElement,
-        // });
-
         stripe.createToken(cardElement).then(result => {
             if (result.error) {
                 // Inform the user if there was an error.
@@ -58,32 +57,61 @@ const Subscription = () => {
                 errorElement.textContent = result.error.message;
             } else {
                 // Send the tokenId to your server.
+                const userId = user.id
                 const tokenId = result.token.id;
                 const planId = 'price_1HAy5AEoLsnpTFC2pfjKO76T'
                 createSubscription({userId, tokenId, planId})
-                    .then(data => alert(data.details))
+                    .then(data => {
+                        updateCurrentUser({
+                            ...user,
+                            active: true
+                        })
+                        history.push('/')
+                        // alert(data.details)
+                    })
+                    .catch(err => alert('Hubo un error en la transaccion'))
 
             }
 
-            // if (error) {
-            //     console.log('[error]', error);
-            // } else {
-            //     console.log('[PaymentMethod]', paymentMethod);
-            // }
         })
     }
 
+    const {active} = user
+
     return (
-        <form onSubmit={handleSubmit}>
-            <div style={{
-                width: '400px'
-            }}>
-                <CardElement options={CARD_OPTIONS}/>
-            </div>
-            <button type="submit" disabled={!stripe}>
-                Pay
-            </button>
-        </form>
+        <Container>
+            <h1 className='display-1'>
+                {
+                    active
+                        ? 'Ya estas suscrito'
+                        : 'Suscribite'
+                }
+            </h1>
+
+
+            <Row>
+
+
+                <Form onSubmit={handleSubmit}>
+                    <Col>
+                        <label className='label-subs'>
+                            Agregue su tarjeta
+                            <div style={{
+                                width: '400px'
+                            }}>
+                                <CardElement options={CARD_OPTIONS}/>
+                            </div>
+                        </label>
+                    </Col>
+                    <Col>
+
+                        <Button className='button-subs' type="submit" disabled={!stripe || active}>
+                            Suscribir
+                        </Button>
+                    </Col>
+                </Form>
+            </Row>
+        </Container>
     );
 };
 

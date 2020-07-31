@@ -3,18 +3,33 @@ import {Button, Container, Row} from "react-bootstrap";
 import {getAvatarColor} from "../util/Colors";
 import {useUser} from "../App";
 import {useLocation, useHistory} from 'react-router-dom'
+import {cancelSubscription} from "../util/APIUtils";
 
 
 const Profile = () => {
 
-    const {currentUser: {firstName, lastName, email, active}} = useUser();
+    const {currentUser: user, updateCurrentUser} = useUser();
+    const {firstName, lastName, email, active, id} = user
     const location = useLocation();
     const history = useHistory();
 
 
-    const handleStartCompare = () => {
+    const changePassword = () => {
         history.push(location.pathname + `/changepassword`)
-    };
+    }
+
+    const handleCancelSubscription = () => {
+        cancelSubscription(id)
+            .then(res => {
+                updateCurrentUser({
+                    ...user,
+                    active: false
+                })
+            })
+            .catch(err => {
+                alert('No se pudo cancelar la suscripcion')
+            })
+    }
 
 
     return (
@@ -61,14 +76,19 @@ const Profile = () => {
                             fontSize: "1.6rem",
                             marginBottom: '1rem'
                         }}>
-                            Subscriber: {active + ""}
+                            Suscrito: {active ? 'Si' : 'No'}
                         </div>
                         <div style={{
                             fontSize: "3rem",
                             marginBottom: '5rem',
                         }}>
-                            <Button variant="primary" type="submit" onClick={handleStartCompare}>
+                            <Button variant="primary" type="submit" onClick={changePassword}>
                                 Cambiar contraseña
+                            </Button>
+                            <br/>
+
+                            <Button variant="danger" type="submit" onClick={handleCancelSubscription}>
+                                Cancelar suscripcion
                             </Button>
                         </div>
                     </div>
