@@ -1,19 +1,16 @@
 package com.lab1.newsflix.payload;
 
 public class PaymentResponse {
-
     private boolean status;
     private String details;
 
     public PaymentResponse() {
-        this.status = true; //default to true
-    }
-
-    public PaymentResponse(boolean status) {
-        this.status = status;
+        super();
+        this.status = true;
     }
 
     public PaymentResponse(boolean status, String details) {
+        super();
         this.status = status;
         this.details = details;
     }
@@ -36,9 +33,6 @@ public class PaymentResponse {
 
     @Override
     public String toString() {
-        return "Response{" +
-                "status=" + status +
-                ", details='" + details + '\'' +
-                '}';
+        return "Response [status=" + status + ", details=" + details + "]";
     }
 }

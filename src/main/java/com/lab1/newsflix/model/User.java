@@ -25,6 +25,27 @@ public class User {
 
     private boolean isActive;
 
+    private String customerID;
+
+    private String subscriptionID;
+
+    public String getSubscriptionID() {
+        return subscriptionID;
+    }
+
+    public void setSubscriptionID(String subscriptionID) {
+        this.subscriptionID = subscriptionID;
+    }
+
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -145,10 +166,5 @@ public class User {
     public void setFavorites(Set<Article> favorites) {
         this.favorites = favorites;
     }
-
-    public String isActiveToString(){
-        return Boolean.toString(isActive);
-    }
-
 
 }

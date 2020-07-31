@@ -14,6 +14,7 @@ import AppNav from "./components/AppNav";
 import LoadingIndicator from "./components/LoadingIndicator";
 import Search from "./pages/Search";
 import Profile from "./pages/Profile";
+import Subscription from "./pages/subscription"
 
 import './app.css'
 import Favorites from "./pages/Favorites";
@@ -90,6 +91,9 @@ function App({history}) {
                     <PrivateRoute authenticated={isAuthenticated} path='/newspapers/:name'
                                   exact={true}
                                   component={Newspaper}/>
+                    <PrivateRoute authenticated={isAuthenticated} path='/subscription'
+                                  exact={true}
+                                  component={Subscription}/>
                     <PrivateRoute authenticated={isAuthenticated} path='/articles/:id'
                                   exact={true}
                                   component={ArticleManager}/>

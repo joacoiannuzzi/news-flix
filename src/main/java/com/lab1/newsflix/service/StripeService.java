@@ -1,98 +1,124 @@
 package com.lab1.newsflix.service;
 
-import com.lab1.newsflix.model.Payment;
-import com.lab1.newsflix.model.User;
-import com.lab1.newsflix.payload.PaymentRequest;
-import com.lab1.newsflix.repository.PaymentRepository;
-import com.lab1.newsflix.repository.UserRepository;
-import com.stripe.Stripe;
-import com.stripe.model.Charge;
-import com.stripe.model.Subscription;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
+import com.lab1.newsflix.exception.ResourceNotFoundException;
+import com.lab1.newsflix.model.User;
+import com.lab1.newsflix.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.stripe.Stripe;
+import com.stripe.model.Charge;
+import com.stripe.model.Coupon;
+import com.stripe.model.Customer;
+import com.stripe.model.Subscription;
 
 @Service
 public class StripeService {
 
-    private String API_SECRET_KEY = "sk_test_51HALsjEoLsnpTFC2cyk79Sy7YY49Sr7TYMcdADNEprX9P16L6f8VHexNbv8lPYa5MpHqjcleBmDCxU1xluKzHwea00L3BgcxW1";
-
-    @Autowired
-    PaymentRepository paymentRepository;
+    @Value("${stripe.key.secret}")
+    private String API_SECRET_KEY;
 
     @Autowired
     UserRepository userRepository;
 
-    public Charge createCharge(PaymentRequest paymentRequest) {
-        String id = null;
-        try {
-            Stripe.apiKey = API_SECRET_KEY;
-            Map<String, Object> chargeParams = new HashMap<>();
-            chargeParams.put("amount", paymentRequest.getAmount());
-            chargeParams.put("currency", "usd");
-            chargeParams.put("description", "Charge for " + paymentRequest.getUserId());
-            chargeParams.put("source", paymentRequest.getTokenId()); // ^ obtained with Stripe.js
-
-            //create a charge
-            Charge charge = Charge.create(chargeParams);
-            id = charge.getId();
-
-            paymentRepository.save(new Payment(userRepository.getOne(paymentRequest.getUserId()),paymentRequest.getTokenId(),paymentRequest.getAmount(),id,paymentRequest.getPlan().toString()));
-            return charge;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
+    public StripeService() {
 
     }
 
-    public Subscription createSubscription(PaymentRequest paymentRequest) {
+    public String createCustomer(String email, String token) {
+
         String id = null;
+
         try {
             Stripe.apiKey = API_SECRET_KEY;
+            Map<String, Object> customerParams = new HashMap<>();
+            customerParams.put("description", "Customer for " + email);
+            customerParams.put("email", email);
+            // obtained with stripe.js
+            customerParams.put("source", token);
+
+            Customer customer = Customer.create(customerParams);
+            id = customer.getId();
+
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+            user.setCustomerID(id);
+            userRepository.save(user);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public String createSubscription(String customerId, String plan, String coupon) {
+
+        String subscriptionId = null;
+
+        try {
+            Stripe.apiKey = API_SECRET_KEY;
+
             Map<String, Object> item = new HashMap<>();
-            item.put("plan", paymentRequest.getPlan());  //Plan "1 month"
+            item.put("plan", plan);
 
             Map<String, Object> items = new HashMap<>();
             items.put("0", item);
 
             Map<String, Object> params = new HashMap<>();
-            params.put("customer", paymentRequest.getUserId());
+            params.put("customer", customerId);
             params.put("items", items);
 
-            Subscription sub = Subscription.create(params);
-            id = sub.getId();
+            if (!coupon.isEmpty()) {
+                params.put("coupon", coupon);
+            }
 
-            paymentRepository.save(new Payment(userRepository.getOne(paymentRequest.getUserId()),paymentRequest.getPlan().toString(),id));
-            return sub;
+            Subscription subscription = Subscription.create(params);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
+            subscriptionId = subscription.getId();
+
+            User user = userRepository.findByCustomerID(customerId).orElseThrow(() -> new ResourceNotFoundException("User", "customerID", customerId));
+            user.setIsActive(true);
+            user.setSubscriptionID(subscriptionId);
+            userRepository.save(user);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
+        return subscriptionId;
     }
 
-    public boolean cancelSubscription(String subscriptionId, Long userID) {
-        boolean status;
+    public boolean cancelSubscription(String subscriptionId) {
+
+        boolean subscriptionStatus;
+
         try {
-            Stripe.apiKey = API_SECRET_KEY;
-            Subscription sub = Subscription.retrieve(subscriptionId);
-            sub.cancel();
-            User user = userRepository.getOne(userID);
+            Subscription subscription = Subscription.retrieve(subscriptionId);
+            subscription.cancel();
+            User user = userRepository.findBysubscriptionID(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("User", "subscriptionId", subscriptionId));
             user.setIsActive(false);
             userRepository.save(user);
-            status = true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            status = false;
+            subscriptionStatus = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            subscriptionStatus = false;
         }
-        return status;
+        return subscriptionStatus;
     }
 
+    public Coupon retriveCoupon(String code) {
+        try {
+            Stripe.apiKey = API_SECRET_KEY;
+            return Coupon.retrieve(code);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 }

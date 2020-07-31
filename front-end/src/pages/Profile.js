@@ -6,7 +6,7 @@ import {useUser} from "../App";
 
 const Profile = () => {
 
-    const {currentUser: {id,firstName, lastName, email, active}} = useUser();
+    const {currentUser: {firstName, lastName, email, active}} = useUser();
 
     return (
         <Container>
