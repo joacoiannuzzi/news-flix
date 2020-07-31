@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {CardElement, useStripe, useElements, Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from "@stripe/stripe-js/pure";
 import {createSubscription} from "../util/APIUtils";
@@ -7,6 +7,8 @@ import {useHistory} from 'react-router-dom'
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 
 import './subscription.css'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 const CARD_OPTIONS = {
     iconStyle: 'solid',
@@ -35,6 +37,8 @@ const Subscription = () => {
     const {currentUser: user, updateCurrentUser} = useUser()
     const history = useHistory()
 
+    const [processing, setProcessing] = useState(false)
+
     const handleSubmit = async (event) => {
         // Block native form submission.
         event.preventDefault();
@@ -60,6 +64,9 @@ const Subscription = () => {
                 const userId = user.id
                 const tokenId = result.token.id;
                 const planId = 'price_1HAy5AEoLsnpTFC2pfjKO76T'
+
+                setProcessing(true)
+
                 createSubscription({userId, tokenId, planId})
                     .then(data => {
                         updateCurrentUser({
@@ -69,7 +76,8 @@ const Subscription = () => {
                         history.push('/')
                         // alert(data.details)
                     })
-                    .catch(err => alert('Hubo un error en la transaccion'))
+                    .catch(err => alert('No se pudo suscribir'))
+                    .finally(() => setProcessing(false))
 
             }
 
@@ -105,8 +113,8 @@ const Subscription = () => {
                     </Col>
                     <Col>
 
-                        <Button className='button-subs' type="submit" disabled={!stripe || active}>
-                            Suscribir
+                        <Button className='button-subs' type="submit" disabled={!stripe || active || processing}>
+                            {!processing ? 'Suscribir' : <FontAwesomeIcon icon={faSpinner} spin/>}
                         </Button>
                     </Col>
                 </Form>

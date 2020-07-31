@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Container, Row} from "react-bootstrap";
 import {getAvatarColor} from "../util/Colors";
 import {useUser} from "../App";
 import {useLocation, useHistory} from 'react-router-dom'
 import {cancelSubscription} from "../util/APIUtils";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 
 const Profile = () => {
@@ -13,12 +15,15 @@ const Profile = () => {
     const location = useLocation();
     const history = useHistory();
 
+    const [processing, setProcessing] = useState(false)
+
 
     const changePassword = () => {
         history.push(location.pathname + `/changepassword`)
     }
 
     const handleCancelSubscription = () => {
+        setProcessing(true)
         cancelSubscription(id)
             .then(res => {
                 updateCurrentUser({
@@ -29,7 +34,9 @@ const Profile = () => {
             .catch(err => {
                 alert('No se pudo cancelar la suscripcion')
             })
+            .finally(() => setProcessing(false))
     }
+
 
 
     return (
@@ -87,9 +94,19 @@ const Profile = () => {
                             </Button>
                             <br/>
 
-                            <Button variant="danger" type="submit" onClick={handleCancelSubscription}>
-                                Cancelar suscripcion
-                            </Button>
+                            {
+                                active
+                                    ? (
+                                        <Button variant="danger" type="submit" onClick={handleCancelSubscription}>
+                                            {!processing ? 'Cancelar suscripcion' : <FontAwesomeIcon icon={faSpinner} spin/>}
+                                        </Button>
+                                    )
+                                    : (
+                                        <Button variant="secondary" type="submit" onClick={() => history.push('/subscription')}>
+                                            Suscribir
+                                        </Button>
+                                    )
+                            }
                         </div>
                     </div>
                 </div>
