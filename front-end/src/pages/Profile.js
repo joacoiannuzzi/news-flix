@@ -2,11 +2,20 @@ import React from 'react';
 import {Button, Container, Row} from "react-bootstrap";
 import {getAvatarColor} from "../util/Colors";
 import {useUser} from "../App";
+import {useLocation, useHistory} from 'react-router-dom'
 
 
 const Profile = () => {
 
     const {currentUser: {firstName, lastName, email, active}} = useUser();
+    const location = useLocation();
+    const history = useHistory();
+
+
+    const handleStartCompare = () => {
+        history.push(location.pathname + `/changepassword`)
+    };
+
 
     return (
         <Container>
@@ -58,7 +67,7 @@ const Profile = () => {
                             fontSize: "3rem",
                             marginBottom: '5rem',
                         }}>
-                            <Button variant={"warning"} onClick={() => alert('TODO')}>
+                            <Button variant="primary" type="submit" onClick={handleStartCompare}>
                                 Cambiar contraseña
                             </Button>
                         </div>

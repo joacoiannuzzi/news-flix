@@ -30,7 +30,7 @@ export function login(loginRequest) {
 
 export function changePassword(req) {
     return request({
-        url: `${API_BASE_URL}/users/changepassword`,
+        url: `${API_BASE_URL}/users/changePassword`,
         method: 'POST',
         body: JSON.stringify(req)
     })

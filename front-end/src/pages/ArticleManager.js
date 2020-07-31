@@ -16,8 +16,8 @@ const ArticleManager = () => {
     const [addCommentInput, setAddCommentInput] = useState('');
 
     const {id} = useParams();
-    const location = useLocation()
-    const history = useHistory()
+    const location = useLocation();
+    const history = useHistory();
     const {currentUser: {id: userId}} = useUser();
 
     useEffect(() => {

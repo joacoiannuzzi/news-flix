@@ -8,20 +8,29 @@ import {useUser} from "../App";
 const ChangePassword = ({history}) => {
     const {currentUser: {id: userId}} = useUser();
     const password = useFormInput('');
+    const password2 = useFormInput('');
 
     const handleSubmit = event => {
         event.preventDefault();
+        if (password.value===password2.value){
+
         const changePasswordRequest = {
             userId,
             password: password.value
         };
 
         changePassword(changePasswordRequest)
-            .then(response => history.push("/login"))
+            .then(response => {
+                alert("Success please re-log");
+                history.push("/login");
+                })
             .catch(error => {
                 alert('Invalid Request');
                 console.log(error);
             })
+        }else(
+            alert('Put same password')
+        )
     };
 
 
@@ -37,6 +46,14 @@ const ChangePassword = ({history}) => {
                     <Form.Control name="password" type="password"
                                   placeholder="Contraseña" required
                                   {...password}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="passwordCheck">
+                    <Form.Label>Reintroduzca su contraseña</Form.Label>
+                    <Form.Control name="password2" type="password"
+                                  placeholder="Contraseña" required
+                                  {...password2}
                     />
                 </Form.Group>
 
