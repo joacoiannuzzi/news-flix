@@ -12,27 +12,26 @@ const ChangePassword = ({history}) => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        if (password.value===password2.value){
+        if (password.value === password2.value) {
 
-        const changePasswordRequest = {
-            userId,
-            password: password.value
-        };
+            const changePasswordRequest = {
+                userId,
+                password: password.value
+            };
 
-        changePassword(changePasswordRequest)
-            .then(response => {
-                alert("Success please re-log");
-                history.push("/login");
+            changePassword(changePasswordRequest)
+                .then(response => {
+                    alert("Success please re-log");
+                    history.push("/login");
                 })
-            .catch(error => {
-                alert('Invalid Request');
-                console.log(error);
-            })
-        }else(
+                .catch(error => {
+                    alert('Invalid Request');
+                    console.log(error);
+                })
+        } else (
             alert('Put same password')
         )
     };
-
 
 
     return <>

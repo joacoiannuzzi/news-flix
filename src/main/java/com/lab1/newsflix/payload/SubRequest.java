@@ -1,22 +1,20 @@
 package com.lab1.newsflix.payload;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 public class SubRequest {
-    private Long id;
-    private String token;
-    private String plan;
+    private Long userId;
+    private String tokenId;
+    private String planId;
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public String getToken() {
-        return token;
+    public String getTokenId() {
+        return tokenId;
     }
 
-    public String getPlan() {
-        return plan;
+    public String getPlanId() {
+        return planId;
     }
 
 }

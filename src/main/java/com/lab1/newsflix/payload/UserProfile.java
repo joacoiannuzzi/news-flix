@@ -26,7 +26,7 @@ public class UserProfile {
     }
 
     public UserProfile(User user) {
-        this(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getFavorites(),user.getIsActive());
+        this(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getFavorites(), user.getIsActive());
     }
 
     public UserProfile(UserPrincipal user) {
@@ -74,7 +74,7 @@ public class UserProfile {
     }
 
 
-    public boolean isActive(){
+    public boolean isActive() {
         return isActive;
     }
 

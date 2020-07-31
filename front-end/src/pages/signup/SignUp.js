@@ -116,7 +116,6 @@ const SignUp = ({history}) => {
                             </div>
                         </div>
 
-                        <Link to="#" className='a' onClick={() => alert("Mala Suerte")}>¿Olvidaste tu contraseña?</Link>
                         <input type="submit" className={classes.button} value={'Crear'}/>
                         <Link to='/login'>Iniciar sesion</Link>
                     </form>

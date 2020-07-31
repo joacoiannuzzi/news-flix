@@ -89,6 +89,8 @@ const ArticleManager = () => {
     return (
         <>
             <Container>
+                <br/>
+                <br/>
                 <Row>
                     {!compareArticle
                         ? (

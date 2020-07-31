@@ -140,6 +140,14 @@ export function addOrRemoveFavorite(userId, articleId) {
     })
 }
 
+export function createSubscription(req) {
+    return request({
+        url: `${API_BASE_URL}/payments/create-subscription`,
+        method: 'POST',
+        body: JSON.stringify(req)
+    })
+}
+
 export function shareArticle(req) {
     return request({
         url: `${API_BASE_URL}/articles/share`,

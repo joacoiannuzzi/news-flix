@@ -6,14 +6,11 @@ import com.lab1.newsflix.payload.PaymentResponse;
 import com.lab1.newsflix.payload.SubRequest;
 import com.lab1.newsflix.repository.UserRepository;
 import com.lab1.newsflix.service.StripeService;
-import com.stripe.model.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/api/payments")
@@ -39,25 +36,23 @@ public class PaymentController {
     public @ResponseBody
     PaymentResponse createSubscription(@RequestBody SubRequest subRequest) {
 
-        if (subRequest.getToken() == null || subRequest.getPlan().isEmpty()) {
+        if (subRequest.getTokenId() == null || subRequest.getPlanId().isEmpty()) {
             return new PaymentResponse(false, "Stripe payment token is missing. Please try again later.");
         }
 
-        User user = userRepository.findById(subRequest.getId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", subRequest.getId()));
+        User user = userRepository.findById(subRequest.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", subRequest.getUserId()));
 
-        String customerId = stripeService.createCustomer(user.getEmail(), subRequest.getToken());
+        String customerId = stripeService.createCustomer(user.getEmail(), subRequest.getTokenId());
 
         if (customerId == null) {
             return new PaymentResponse(false, "An error accurred while trying to create customer");
         }
 
-        String subscriptionId = stripeService.createSubscription(customerId, subRequest.getPlan());
+        String subscriptionId = stripeService.createSubscription(customerId, subRequest.getPlanId());
 
         if (subscriptionId == null) {
             return new PaymentResponse(false, "An error accurred while trying to create subscription");
         }
-
-
 
         return new PaymentResponse(true, "Success! your subscription id is " + subscriptionId);
     }

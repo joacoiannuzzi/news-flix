@@ -61,7 +61,7 @@ const Profile = () => {
                             fontSize: "1.6rem",
                             marginBottom: '1rem'
                         }}>
-                            Subscriber: {active+""}
+                            Subscriber: {active + ""}
                         </div>
                         <div style={{
                             fontSize: "3rem",
