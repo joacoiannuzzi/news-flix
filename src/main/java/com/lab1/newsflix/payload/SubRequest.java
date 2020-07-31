@@ -3,13 +3,12 @@ package com.lab1.newsflix.payload;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class SubRequest {
-    private String email;
+    private Long id;
     private String token;
     private String plan;
-    private String coupon;
 
-    public String getEmail() {
-        return email;
+    public Long getId() {
+        return id;
     }
 
     public String getToken() {
@@ -20,7 +19,4 @@ public class SubRequest {
         return plan;
     }
 
-    public String getCoupon() {
-        return coupon;
-    }
 }

@@ -56,7 +56,7 @@ public class StripeService {
         return id;
     }
 
-    public String createSubscription(String customerId, String plan, String coupon) {
+    public String createSubscription(String customerId, String plan) {
 
         String subscriptionId = null;
 
@@ -73,9 +73,6 @@ public class StripeService {
             params.put("customer", customerId);
             params.put("items", items);
 
-            if (!coupon.isEmpty()) {
-                params.put("coupon", coupon);
-            }
 
             Subscription subscription = Subscription.create(params);
 
@@ -110,15 +107,6 @@ public class StripeService {
         return subscriptionStatus;
     }
 
-    public Coupon retriveCoupon(String code) {
-        try {
-            Stripe.apiKey = API_SECRET_KEY;
-            return Coupon.retrieve(code);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 
 }

@@ -1,7 +1,10 @@
 package com.lab1.newsflix.controller;
 
+import com.lab1.newsflix.exception.ResourceNotFoundException;
+import com.lab1.newsflix.model.User;
 import com.lab1.newsflix.payload.PaymentResponse;
 import com.lab1.newsflix.payload.SubRequest;
+import com.lab1.newsflix.repository.UserRepository;
 import com.lab1.newsflix.service.StripeService;
 import com.stripe.model.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,8 @@ public class PaymentController {
     @Autowired
     private StripeService stripeService;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/subscription")
     public String subscriptionPage(Model model) {
@@ -38,13 +43,15 @@ public class PaymentController {
             return new PaymentResponse(false, "Stripe payment token is missing. Please try again later.");
         }
 
-        String customerId = stripeService.createCustomer(subRequest.getEmail(), subRequest.getToken());
+        User user = userRepository.findById(subRequest.getId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", subRequest.getId()));
+
+        String customerId = stripeService.createCustomer(user.getEmail(), subRequest.getToken());
 
         if (customerId == null) {
             return new PaymentResponse(false, "An error accurred while trying to create customer");
         }
 
-        String subscriptionId = stripeService.createSubscription(customerId, subRequest.getPlan(), subRequest.getCoupon());
+        String subscriptionId = stripeService.createSubscription(customerId, subRequest.getPlan());
 
         if (subscriptionId == null) {
             return new PaymentResponse(false, "An error accurred while trying to create subscription");
@@ -67,20 +74,6 @@ public class PaymentController {
         return new PaymentResponse(true, "Subscription cancelled successfully");
     }
 
-    @PostMapping("/coupon-validator")
-    public @ResponseBody
-    PaymentResponse couponValidator(@Valid @RequestBody String coup) {
-
-        Coupon coupon = stripeService.retriveCoupon(coup);
-
-        if (coupon != null && coupon.getValid()) {
-            String details = (coupon.getPercentOff() == null ? "$" + (coupon.getAmountOff() / 100)
-                    : coupon.getPercentOff() + "%") + "OFF" + coupon.getDuration();
-            return new PaymentResponse(true, details);
-        }
-        return new PaymentResponse(false, "This coupon code is not available. This may be because it has expired or has "
-                + "already been applied to your account.");
-    }
 
 
 }
