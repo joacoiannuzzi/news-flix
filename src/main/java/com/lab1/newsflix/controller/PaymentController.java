@@ -42,7 +42,7 @@ public class PaymentController {
 
         User user = userRepository.findById(subRequest.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", subRequest.getUserId()));
 
-        String customerId = stripeService.createCustomer(user.getEmail(), subRequest.getTokenId());
+        String customerId = stripeService.createCustomer(user, subRequest.getTokenId());
 
         if (customerId == null) {
             return new PaymentResponse(false, "An error accurred while trying to create customer");
@@ -60,9 +60,9 @@ public class PaymentController {
     @PostMapping("/cancel-subscription/{userId}")
     public @ResponseBody PaymentResponse cancelSubscription(@PathVariable Long userId) {
 
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        boolean subscriptionStatus = stripeService.cancelSubscription(user.getSubscriptionID());
+        boolean subscriptionStatus = stripeService.cancelSubscription(user);
 
         if (!subscriptionStatus) {
             return new PaymentResponse(false, "Faild to cancel subscription. Please try again later");

@@ -31,29 +31,34 @@ public class StripeService {
 
     }
 
-    public String createCustomer(String email, String token) {
+    public String createCustomer(User user, String token) {
 
         String id = null;
+        if (user.getCustomerID().isEmpty()) {
 
-        try {
-            Stripe.apiKey = API_SECRET_KEY;
-            Map<String, Object> customerParams = new HashMap<>();
-            customerParams.put("description", "Customer for " + email);
-            customerParams.put("email", email);
-            // obtained with stripe.js
-            customerParams.put("source", token);
 
-            Customer customer = Customer.create(customerParams);
-            id = customer.getId();
+            try {
+                Stripe.apiKey = API_SECRET_KEY;
+                Map<String, Object> customerParams = new HashMap<>();
+                customerParams.put("description", "Customer for " + user.getEmail());
+                customerParams.put("email", user.getEmail());
+                // obtained with stripe.js
+                customerParams.put("source", token);
 
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
-            user.setCustomerID(id);
-            userRepository.save(user);
+                Customer customer = Customer.create(customerParams);
+                id = customer.getId();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+                user.setCustomerID(id);
+                userRepository.save(user);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return id;
         }
-        return id;
+        return user.getCustomerID(); //No need to create new customerID if it already has.
+
     }
 
     public String createSubscription(String customerId, String plan) {
@@ -89,14 +94,14 @@ public class StripeService {
         return subscriptionId;
     }
 
-    public boolean cancelSubscription(String subscriptionId) {
+    public boolean cancelSubscription(User user) {
 
         boolean subscriptionStatus;
 
         try {
-            Subscription subscription = Subscription.retrieve(subscriptionId);
+
+            Subscription subscription = Subscription.retrieve(user.getSubscriptionID());
             subscription.cancel();
-            User user = userRepository.findBysubscriptionID(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("User", "subscriptionId", subscriptionId));
             user.setIsActive(false);
             userRepository.save(user);
             subscriptionStatus = true;

@@ -65,7 +65,7 @@ function App({history}) {
     function handleLogin(redirectTo = "/") {
         loadCurrentUser()
             .then(() => {
-                console.log('redirecting to ' + redirectTo)
+                console.log('redirecting to ' + redirectTo);
                 history.push(redirectTo);
             })
             .catch(error => console.log({handleLogin: 'true', error}))
@@ -75,9 +75,9 @@ function App({history}) {
     if (isLoading)
         return <LoadingIndicator/>;
 
-    const isActive = user?.active ?? false
+    const isActive = user?.active ?? false;
 
-    console.log({isActive})
+    console.log({isActive});
 
     return (
         <>
