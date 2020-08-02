@@ -33,8 +33,8 @@ public class StripeService {
 
     public String createCustomer(User user, String token) {
 
-        String id = null;
-        if (user.getCustomerID().isEmpty()) {
+        String id = user.getCustomerID();
+        if (id == null || id.isEmpty()) {
 
 
             try {
