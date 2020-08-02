@@ -38,7 +38,8 @@ public class Article {
     @OneToMany(
             mappedBy = "article",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     private Set<Comment> comments = new HashSet<>();
 

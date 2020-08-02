@@ -11,19 +11,19 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 const Profile = () => {
 
     const {currentUser: user, updateCurrentUser} = useUser();
-    const {firstName, lastName, email, active, id} = user
+    const {firstName, lastName, email, active, id} = user;
     const location = useLocation();
     const history = useHistory();
 
-    const [processing, setProcessing] = useState(false)
+    const [processing, setProcessing] = useState(false);
 
 
     const changePassword = () => {
         history.push(location.pathname + `/changepassword`)
-    }
+    };
 
     const handleCancelSubscription = () => {
-        setProcessing(true)
+        setProcessing(true);
         cancelSubscription(id)
             .then(res => {
                 updateCurrentUser({
@@ -35,7 +35,7 @@ const Profile = () => {
                 alert('No se pudo cancelar la suscripcion')
             })
             .finally(() => setProcessing(false))
-    }
+    };
 
 
 

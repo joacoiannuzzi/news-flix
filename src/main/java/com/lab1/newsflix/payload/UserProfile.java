@@ -28,7 +28,6 @@ public class UserProfile {
     public UserProfile(User user) {
         this(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getFavorites(), user.getIsActive());
     }
-
     public UserProfile(UserPrincipal user) {
         this(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getFavorites(), user.isActive());
     }

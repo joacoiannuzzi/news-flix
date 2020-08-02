@@ -9,7 +9,7 @@ const request = options => {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
 
-    const opts = {headers, ...options}
+    const opts = {headers, ...options};
 
     return fetch(opts.url, opts)
         .then(response =>
@@ -17,7 +17,11 @@ const request = options => {
                 .then(json => {
                 return !response.ok ? Promise.reject(json) : json;
             })
+
         )
+        .catch(error => {
+        console.log(error)
+        })
 };
 
 export function login(loginRequest) {

@@ -25,6 +25,7 @@ const UserContext = createContext({});
 export const useUser = () => useContext(UserContext);
 
 function App({history}) {
+
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -45,9 +46,8 @@ function App({history}) {
                 setIsAuthenticated(true);
                 setIsLoading(false)
             })
-            .catch(error => {
+                .catch(error => {
                 console.log({loadCurrentUser: 'fail', error});
-                console.log('error');
                 handleLogout();
                 setIsLoading(false)
             })
@@ -55,10 +55,8 @@ function App({history}) {
 
     function handleLogout(redirectTo = "/") {
         localStorage.removeItem(ACCESS_TOKEN);
-
         setUser(null);
         setIsAuthenticated(false);
-
         history.push(redirectTo);
     }
 
@@ -77,7 +75,6 @@ function App({history}) {
 
     const isActive = user?.active ?? false;
 
-    console.log({isActive});
 
     return (
         <>
