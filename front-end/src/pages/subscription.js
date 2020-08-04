@@ -58,6 +58,7 @@ const Subscription = () => {
             if (result.error) {
                 // Inform the user if there was an error.
                 const errorElement = document.getElementById('card-errors');
+                // console.log({errorElement})
                 errorElement.textContent = result.error.message;
             } else {
                 // Send the tokenId to your server.
@@ -88,7 +89,13 @@ const Subscription = () => {
 
     return (
         <Container>
-            <h1 className='display-1'>
+            <br/>
+            <br/>
+            <h1 className='display-1'
+                style={{
+                    marginBottom: '3rem'
+                }}
+            >
                 {
                     active
                         ? 'Ya estas suscrito'
@@ -109,6 +116,11 @@ const Subscription = () => {
                             }}>
                                 <CardElement options={CARD_OPTIONS}/>
                             </div>
+                            <div id='card-errors'
+                                 style={{
+                                     color: 'red'
+                                 }}
+                            />
                         </label>
                     </Col>
                     <Col>

@@ -16,8 +16,9 @@ const Newspaper = () => {
     return (
         <>
             <Container>
-
-                <h1>{newspaper}</h1>
+                <br/>
+                <br/>
+                <h1 className='display-1'>{newspaper}</h1>
                 <ArticleCardColumns articles={articles}/>
             </Container>
         </>

@@ -37,7 +37,7 @@ const Search = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-            if (updater === 0) return;
+            // if (updater === 0) return;
             setIsLoading(true);
 
 
@@ -79,6 +79,8 @@ const Search = () => {
     return (
         <>
             <Container>
+                <br/>
+                <br/>
                 <Form onSubmit={handleSearchSubmit}>
                     <Form.Group controlId="Categorias">
                         <Form.Label column={categories}>Categorias</Form.Label>
@@ -96,21 +98,31 @@ const Search = () => {
                         </Form.Control>
                     </Form.Group>
 
-                    <Form.Group controlId="desde">
-                        <Form.Label column={dateFromInput}>Desde</Form.Label>
-                        <DatePicker
-                            selected={dateFromInput}
-                            onChange={setDateFromInput}
-                        />
-                    </Form.Group>
+                    <div style={{
+                        display: 'flex',
 
-                    <Form.Group controlId="hasta">
-                        <Form.Label column={dateToInput}>Hasta</Form.Label>
-                        <DatePicker
-                            selected={dateToInput}
-                            onChange={setDateToInput}
-                        />
-                    </Form.Group>
+                    }}>
+                        <Form.Group controlId="desde">
+                            <div style={{display: 'flex'}}>
+
+                                <Form.Label column={dateFromInput}>Desde</Form.Label>
+                                <DatePicker
+                                    selected={dateFromInput}
+                                    onChange={setDateFromInput}
+                                />
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group controlId="hasta">
+                            <div style={{display: 'flex'}}>
+                                <Form.Label column={dateToInput}>Hasta</Form.Label>
+                                <DatePicker
+                                    selected={dateToInput}
+                                    onChange={setDateToInput}
+                                />
+                            </div>
+                        </Form.Group>
+                    </div>
 
                     <Form.Group controlId="formBasicEmail">
                         <Form.Control type="text" placeholder="Buscar" {...searchInput}/>
@@ -121,6 +133,8 @@ const Search = () => {
                     </Button>
 
                 </Form>
+                <br/>
+                <br/>
                 {articles.length === 0
                     ? <h2>No hay resultados</h2>
                     : <ArticleCardColumns articles={articles}/>

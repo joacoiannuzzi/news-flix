@@ -41,6 +41,7 @@ const Profile = () => {
 
     return (
         <Container>
+            <br/>
             <Row>
                 <div style={{
                     textAlign: "center",

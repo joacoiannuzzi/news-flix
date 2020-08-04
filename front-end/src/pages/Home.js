@@ -14,7 +14,9 @@ const Home = () => {
     return (
         <>
             <Container>
-                <h1>Lo ultimo</h1>
+                <br/>
+                <br/>
+                <h1 className='display-1'>Lo ultimo</h1>
                 <ArticleCardColumns articles={articles}/>
             </Container>
         </>

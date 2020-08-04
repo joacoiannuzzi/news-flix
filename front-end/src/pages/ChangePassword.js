@@ -35,9 +35,11 @@ const ChangePassword = ({history}) => {
 
 
     return <>
-        <h1 className="display-4 text-center">Cambia tu Contraseña</h1>
-
         <Container>
+            <br/>
+            <br/>
+            <h1 className="display-4 text-center">Cambia tu Contraseña</h1>
+
             <Form onSubmit={handleSubmit}>
 
                 <Form.Group controlId="password">

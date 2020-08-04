@@ -16,8 +16,10 @@ const Category = () => {
     return (
         <>
             <Container>
+                <br/>
+                <br/>
 
-                <h1>{category}</h1>
+                <h1 className='display-1'>{category}</h1>
                 <ArticleCardColumns articles={articles}/>
             </Container>
         </>

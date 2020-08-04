@@ -9,12 +9,14 @@ const Favorites = () => {
 
     return (
         <Container>
+            <br/>
+            <br/>
             <div id='favorites' style={{
                 marginBottom: '5rem'
             }}>
                 <h2 style={{
                     fontSize: '5rem',
-                    marginBottom: '4rem'
+                    marginBottom: '3rem'
                 }}>
                     Mis favoritos
                 </h2>

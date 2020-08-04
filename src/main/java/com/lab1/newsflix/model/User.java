@@ -2,6 +2,7 @@ package com.lab1.newsflix.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -29,22 +30,6 @@ public class User {
 
     private String subscriptionID;
 
-    public String getSubscriptionID() {
-        return subscriptionID;
-    }
-
-    public void setSubscriptionID(String subscriptionID) {
-        this.subscriptionID = subscriptionID;
-    }
-
-
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
-    }
-
-    public String getCustomerID() {
-        return customerID;
-    }
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
@@ -53,7 +38,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "favorites",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id"))
@@ -63,6 +48,7 @@ public class User {
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
             orphanRemoval = true
     )
     private Set<Comment> comments = new HashSet<>();
@@ -87,6 +73,23 @@ public class User {
 
     public Set<Comment> getComments() {
         return comments;
+    }
+
+    public String getSubscriptionID() {
+        return subscriptionID;
+    }
+
+    public void setSubscriptionID(String subscriptionID) {
+        this.subscriptionID = subscriptionID;
+    }
+
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+
+    public String getCustomerID() {
+        return customerID;
     }
 
     public void addComment(Comment comment) {
