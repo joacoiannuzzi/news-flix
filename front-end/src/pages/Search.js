@@ -76,6 +76,12 @@ const Search = () => {
     const newspapersSection = makeDropdownMenu(newspapers);
     const categoriesSection = makeDropdownMenu(categories);
 
+    const ExampleCustomInput = ({value, onClick}) => (
+        <Button variant={"outline-dark"} onClick={onClick}>
+            {value}
+        </Button>
+    );
+
     return (
         <>
             <Container>
@@ -83,7 +89,7 @@ const Search = () => {
                 <br/>
                 <Form onSubmit={handleSearchSubmit}>
                     <Form.Group controlId="Categorias">
-                        <Form.Label column={categories}>Categorias</Form.Label>
+                        <Form.Label column={categories} style={{fontSize: '1.4em'}}>Categorias</Form.Label>
                         <Form.Control as="select" {...categoryInput}>
                             <option>Todas</option>
                             {categoriesSection}
@@ -91,7 +97,7 @@ const Search = () => {
                     </Form.Group>
 
                     <Form.Group controlId="Diarios">
-                        <Form.Label column={newspapers}>Diarios</Form.Label>
+                        <Form.Label column={newspapers} style={{fontSize: '1.4em'}}>Diarios</Form.Label>
                         <Form.Control as="select" {...newspaperInput}>
                             <option>Todos</option>
                             {newspapersSection}
@@ -105,20 +111,24 @@ const Search = () => {
                         <Form.Group controlId="desde">
                             <div style={{display: 'flex'}}>
 
-                                <Form.Label column={dateFromInput}>Desde</Form.Label>
+                                <Form.Label column={dateFromInput} style={{fontSize: '1.4em'}}>Desde</Form.Label>
                                 <DatePicker
                                     selected={dateFromInput}
                                     onChange={setDateFromInput}
+                                    // locale="es"
+                                    customInput={<ExampleCustomInput/>}
                                 />
                             </div>
                         </Form.Group>
 
                         <Form.Group controlId="hasta">
                             <div style={{display: 'flex'}}>
-                                <Form.Label column={dateToInput}>Hasta</Form.Label>
+                                <Form.Label column={dateToInput} style={{fontSize: '1.4em'}}>Hasta</Form.Label>
                                 <DatePicker
                                     selected={dateToInput}
                                     onChange={setDateToInput}
+                                    // locale="es"
+                                    customInput={<ExampleCustomInput/>}
                                 />
                             </div>
                         </Form.Group>

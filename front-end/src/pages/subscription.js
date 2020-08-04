@@ -103,9 +103,13 @@ const Subscription = () => {
                 }
             </h1>
 
-
+            <div style={{
+                fontSize: '2rem',
+                marginBottom: '2rem'
+            }}>
+                <p>Plan mensual de $200</p>
+            </div>
             <Row>
-
 
                 <Form onSubmit={handleSubmit}>
                     <Col>
